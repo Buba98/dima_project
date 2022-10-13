@@ -30,3 +30,48 @@ flutter:
 
   assets:
     - assets/animations/running_dog/
+
+  fonts:
+    - family: Pacifico
+      fonts:
+        - asset: assets/fonts/Pacifico/Pacifico-Regular.ttf
+
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans/OpenSans-Light.ttf
+          style: normal
+          weight: 300
+        - asset: assets/fonts/OpenSans/OpenSans-Regular.ttf
+          style: normal
+          weight: 400
+        - asset: assets/fonts/OpenSans/OpenSans-Medium.ttf
+          style: normal
+          weight: 500
+        - asset: assets/fonts/OpenSans/OpenSans-SemiBold.ttf
+          style: normal
+          weight: 600
+        - asset: assets/fonts/OpenSans/OpenSans-Bold.ttf
+          style: normal
+          weight: 700
+        - asset: assets/fonts/OpenSans/OpenSans-ExtraBold.ttf
+          style: normal
+          weight: 800
+
+        - asset: assets/fonts/OpenSans/OpenSans-LightItalic.ttf
+          style: italic
+          weight: 300
+        - asset: assets/fonts/OpenSans/OpenSans-Italic.ttf
+          style: italic
+          weight: 400
+        - asset: assets/fonts/OpenSans/OpenSans-MediumItalic.ttf
+          style: italic
+          weight: 500
+        - asset: assets/fonts/OpenSans/OpenSans-SemiBoldItalic.ttf
+          style: italic
+          weight: 600
+        - asset: assets/fonts/OpenSans/OpenSans-BoldItalic.ttf
+          style: italic
+          weight: 700
+        - asset: assets/fonts/OpenSans/OpenSans-ExtraBoldItalic.ttf
+          style: italic
+          weight: 800
