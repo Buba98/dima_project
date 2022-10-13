@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class LoadingScreen extends StatefulWidget {
-  const LoadingScreen({super.key});
+class LoadingWidget extends StatefulWidget {
+  const LoadingWidget({super.key});
 
   @override
-  State<LoadingScreen> createState() => _LoadingScreenState();
+  State<LoadingWidget> createState() => _LoadingWidgetState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen>
+class _LoadingWidgetState extends State<LoadingWidget>
     with TickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController controller;
@@ -48,15 +48,13 @@ class _LoadingScreenState extends State<LoadingScreen>
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: FractionallySizedBox(
-          widthFactor: 2 / 3,
-          heightFactor: 2 / 3,
-          child: images[counter],
-        ),
-      ),
-    );
+    return images[counter];
   }
 }
