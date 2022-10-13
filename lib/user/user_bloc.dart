@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class UserState {}
 
+class InitializationState extends UserState {}
+
 class UnauthenticatedState extends UserState {}
 
 class UnverifiedState extends UserState {}
@@ -48,7 +50,7 @@ class _ReloadEvent extends UserEvent {
 ///
 
 class UserBloc extends Bloc<UserEvent, UserState> {
-  UserBloc() : super(UnauthenticatedState()) {
+  UserBloc() : super(InitializationState()) {
     on<EmailPasswordSignUpEvent>(_onEmailPasswordSignUpEvent);
     on<EmailPasswordSignInEvent>(_onEmailPasswordSignInEvent);
     on<SignOutEvent>((event, emit) => FirebaseAuth.instance.signOut());
