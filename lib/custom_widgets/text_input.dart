@@ -5,19 +5,46 @@ class TextInput extends StatelessWidget {
     super.key,
     required this.textEditingController,
     this.hintText,
+    this.icon,
+    this.obscureText = false,
+    this.errorText,
   });
+
+  const TextInput.email({
+    super.key,
+    required this.textEditingController,
+    bool? error,
+  })  : hintText = 'Enter email',
+        icon = Icons.email_outlined,
+        obscureText = false,
+        errorText = (error ?? false) ? 'Wrong password' : null;
+
+  const TextInput.password({
+    super.key,
+    required this.textEditingController,
+    bool? error,
+  })  : hintText = 'Enter password',
+        icon = Icons.lock_outline,
+        obscureText = true,
+        errorText = (error ?? false) ? 'Wrong password' : null;
 
   final TextEditingController textEditingController;
   final String? hintText;
+  final IconData? icon;
+  final bool obscureText;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: textEditingController,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        errorText: errorText,
+        border: const UnderlineInputBorder(),
         hintText: hintText,
+        icon: icon != null ? Icon(icon) : null,
       ),
+      obscureText: obscureText,
     );
   }
 }

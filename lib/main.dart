@@ -23,8 +23,16 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  Widget home = const LoadingScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -36,21 +44,24 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: const Color(0xFFe5e1d5)),
       home: BlocListener<UserBloc, UserState>(
         listener: (BuildContext context, UserState state) {
+          Navigator.popUntil(context, (route) => route.isFirst);
+
+          Widget home = const LoadingScreen();
+
           if (state is InitializationState) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const LoadingScreen()),
-                (route) => false);
+            home = const LoadingScreen();
           } else if (state is UnauthenticatedState) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const AuthenticationScreen()),
-                (route) => false);
+            home = const AuthenticationScreen();
           } else if (state is UnverifiedState) {
-          } else if (state is AuthenticatedState) {}
+            home = const LoadingScreen();
+          } else if (state is AuthenticatedState) {
+            home = const LoadingScreen();
+          }
+          setState(() {
+            this.home = home;
+          });
         },
-        child: const LoadingScreen(),
+        child: home,
       ),
     );
   }

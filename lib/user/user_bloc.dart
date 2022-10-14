@@ -13,26 +13,6 @@ class AuthenticatedState extends UserState {}
 
 abstract class UserEvent {}
 
-class EmailPasswordSignUpEvent extends UserEvent {
-  final String email;
-  final String password;
-
-  EmailPasswordSignUpEvent({
-    required this.email,
-    required this.password,
-  });
-}
-
-class EmailPasswordSignInEvent extends UserEvent {
-  final String email;
-  final String password;
-
-  EmailPasswordSignInEvent({
-    required this.email,
-    required this.password,
-  });
-}
-
 class SignOutEvent extends UserEvent {}
 
 class _ReloadEvent extends UserEvent {
@@ -51,8 +31,6 @@ class _ReloadEvent extends UserEvent {
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(InitializationState()) {
-    on<EmailPasswordSignUpEvent>(_onEmailPasswordSignUpEvent);
-    on<EmailPasswordSignInEvent>(_onEmailPasswordSignInEvent);
     on<SignOutEvent>((event, emit) => FirebaseAuth.instance.signOut());
     on<_ReloadEvent>(_onReloadEvent);
 
@@ -61,39 +39,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
   }
 
-  _onEmailPasswordSignUpEvent(
-      EmailPasswordSignUpEvent event, Emitter<UserState> emit) async {
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: event.email,
-        password: event.password,
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
 
-  _onEmailPasswordSignInEvent(
-      EmailPasswordSignInEvent event, Emitter<UserState> emit) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: event.email, password: event.password);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
 
   _onReloadEvent(_ReloadEvent event, Emitter<UserState> emit) {
     if (event.user == null) {
@@ -102,7 +48,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       return;
     }
 
-    if (event.user!.emailVerified) {
+    if (!event.user!.emailVerified) {
       print('User in not verified');
       emit(UnverifiedState());
       return;

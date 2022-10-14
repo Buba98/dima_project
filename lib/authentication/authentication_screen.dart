@@ -1,7 +1,8 @@
+import 'package:dima_project/authentication/sign_up/sign_up_screen.dart';
 import 'package:dima_project/custom_widgets/button.dart';
 import 'package:flutter/material.dart';
 
-import 'sign_in_screen.dart';
+import 'sign_in/sign_in_screen.dart';
 
 class AuthenticationScreen extends StatelessWidget {
   const AuthenticationScreen({super.key});
@@ -14,31 +15,38 @@ class AuthenticationScreen extends StatelessWidget {
           width: 300,
           child: Column(
             children: [
-              const Expanded(
-                flex: 3,
-                child: Center(
-                  child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      "Walk the dog",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 110,
-                        fontFamily: 'Pacifico',
+              Expanded(
+                child: Column(
+                  children: const [
+                    Spacer(
+                      flex: 2,
+                    ),
+                    Center(
+                      child: FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(
+                          "Walk the dog",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 110,
+                            fontFamily: 'Pacifico',
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Spacer(),
+                  ],
                 ),
               ),
               Expanded(
-                flex: 2,
                 child: Column(
                   children: [
+                    const Spacer(),
                     Button(
                         onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SignInScreen()),
+                                  builder: (context) => SignInScreen()),
                             ),
                         text: 'Sign in'),
                     const SizedBox(
@@ -47,12 +55,12 @@ class AuthenticationScreen extends StatelessWidget {
                     Button(
                       onPressed: () => Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const SignInScreen()),
+                        MaterialPageRoute(builder: (context) => SignUpScreen()),
                       ),
                       text: 'Sign up',
                       primary: false,
                     ),
+                    const Spacer(),
                   ],
                 ),
               ),
