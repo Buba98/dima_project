@@ -7,8 +7,6 @@ class InitializationState extends UserState {}
 
 class UnauthenticatedState extends UserState {}
 
-class UnverifiedState extends UserState {}
-
 class AuthenticatedState extends UserState {}
 
 abstract class UserEvent {}
@@ -39,22 +37,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
   }
 
-
-
   _onReloadEvent(_ReloadEvent event, Emitter<UserState> emit) {
     if (event.user == null) {
-      print('User is currently signed out!');
       emit(UnauthenticatedState());
       return;
     }
-
-    if (!event.user!.emailVerified) {
-      print('User in not verified');
-      emit(UnverifiedState());
-      return;
-    }
-
-    print('User is signed in!');
     emit(AuthenticatedState());
   }
 }

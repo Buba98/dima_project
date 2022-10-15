@@ -1,4 +1,5 @@
 import 'package:dima_project/authentication/authentication_screen.dart';
+import 'package:dima_project/home/home_screen.dart';
 import 'package:dima_project/user/user_bloc.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -52,10 +53,8 @@ class _MyAppState extends State<MyApp> {
             home = const LoadingScreen();
           } else if (state is UnauthenticatedState) {
             home = const AuthenticationScreen();
-          } else if (state is UnverifiedState) {
-            home = const LoadingScreen();
           } else if (state is AuthenticatedState) {
-            home = const LoadingScreen();
+            home = const HomeScreen();
           }
           setState(() {
             this.home = home;
