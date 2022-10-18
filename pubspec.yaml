@@ -18,6 +18,7 @@ dependencies:
   firebase_auth: ^3.11.2
   flutter_launcher_icons: ^0.10.0
   firebase_storage: ^10.3.11
+  cloud_firestore: ^3.5.1
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +32,7 @@ flutter:
 
   assets:
     - assets/animations/running_dog/
+    - assets/images/
 
   fonts:
     - family: Pacifico

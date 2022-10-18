@@ -1,47 +1,80 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dima_project/user/internal_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+abstract class UserEvent {}
+
+class _ReloadEvent extends UserEvent {
+  final DocumentSnapshot<Map<String, dynamic>> event;
+
+  _ReloadEvent({
+    required this.event,
+  });
+}
+
+class ModifyEvent extends UserEvent {
+  late Map<String, dynamic> firestoreModel;
+
+  ModifyEvent({String? name})
+      : firestoreModel = {
+          'name': name,
+        };
+}
 
 abstract class UserState {}
 
 class InitializationState extends UserState {}
 
-class UnauthenticatedState extends UserState {}
+class NotInitializedState extends UserState {}
 
-class AuthenticatedState extends UserState {}
+class InitializedState extends UserState {
+  final InternalUser internalUser;
 
-abstract class UserEvent {}
-
-class SignOutEvent extends UserEvent {}
-
-class _ReloadEvent extends UserEvent {
-  User? user;
-
-  _ReloadEvent({required this.user});
+  InitializedState({
+    required this.internalUser,
+  });
 }
 
-///
-/// Bloc don't like that a listener add yield a new state without being called
-/// from an event
-/// @see{https://stackoverflow.com/questions/71152302/flutter-bloc-emit-was-called-after-an-event-handler-completed-normally}
-/// so every time a state changing action take place on the user we should add
-/// a new event that will check what is the state of the user
-///
-
 class UserBloc extends Bloc<UserEvent, UserState> {
-  UserBloc() : super(InitializationState()) {
-    on<SignOutEvent>((event, emit) => FirebaseAuth.instance.signOut());
-    on<_ReloadEvent>(_onReloadEvent);
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-    FirebaseAuth.instance.userChanges().listen((User? user) {
-      add(_ReloadEvent(user: user));
+  UserBloc() : super(InitializationState()) {
+    on<_ReloadEvent>(_onReloadEvent);
+    on<ModifyEvent>(_onModifyEvent);
+
+    _firebaseFirestore
+        .collection('users')
+        .doc(_firebaseAuth.currentUser!.uid)
+        .snapshots()
+        .listen((DocumentSnapshot<Map<String, dynamic>> event) {
+      add(_ReloadEvent(event: event));
     });
   }
 
   _onReloadEvent(_ReloadEvent event, Emitter<UserState> emit) {
-    if (event.user == null) {
-      emit(UnauthenticatedState());
+    if (!event.event.exists || event.event.data()!['name'] == null) {
+      emit(NotInitializedState());
       return;
     }
-    emit(AuthenticatedState());
+
+    Map<String, dynamic> data = event.event.data()!;
+
+    InternalUser internalUser = InternalUser(
+      uid: _firebaseAuth.currentUser!.uid,
+      name: data['name'],
+    );
+
+    emit(InitializedState(internalUser: internalUser));
+  }
+
+  _onModifyEvent(ModifyEvent event, Emitter<UserState> emit) {
+    _firebaseFirestore
+        .collection('users')
+        .doc(_firebaseAuth.currentUser!.uid)
+        .set(event.firestoreModel, SetOptions(merge: true));
   }
 }
