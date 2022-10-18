@@ -6,11 +6,13 @@ class Button extends StatelessWidget {
     required this.onPressed,
     required this.text,
     this.primary = true,
+    this.width,
   });
 
   final Function() onPressed;
   final String text;
   final bool primary;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class Button extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.0)),
-          minimumSize: const Size.fromHeight(50),
+          minimumSize: Size(width ?? double.infinity, 50),
         ),
         onPressed: onPressed,
         child: Text(text),
@@ -27,7 +29,7 @@ class Button extends StatelessWidget {
     } else {
       return OutlinedButton(
         style: OutlinedButton.styleFrom(
-          minimumSize: const Size.fromHeight(50),
+          minimumSize: Size(width ?? double.infinity, 50),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(32.0),
           ),

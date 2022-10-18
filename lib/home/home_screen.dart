@@ -56,6 +56,9 @@ class _HomeState extends State<_Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Walk the dog'),
+      ),
       body: bodyList[currentIndex],
       bottomNavigationBar: BottomBar(
         currentIndex: currentIndex,

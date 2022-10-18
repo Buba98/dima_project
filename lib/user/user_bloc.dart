@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dima_project/user/internal_user.dart';
+import 'package:dima_project/model/internal_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +65,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     InternalUser internalUser = InternalUser(
       uid: _firebaseAuth.currentUser!.uid,
-      name: data['name'],
+      name: data['name'], dogs: [],
     );
 
     emit(InitializedState(internalUser: internalUser));

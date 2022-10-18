@@ -10,13 +10,7 @@ class ProfilePicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double size =
-        MediaQuery.of(context).size.width > MediaQuery.of(context).size.height
-            ? MediaQuery.of(context).size.height * 1 / 6
-            : MediaQuery.of(context).size.width * 1 / 6;
-
     return CircleAvatar(
-      radius: size,
       child: FutureBuilder<String>(
         future: profilePictureUrl,
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -26,9 +20,8 @@ class ProfilePicture extends StatelessWidget {
             return Image.network(snapshot.data!);
           }
 
-          return Icon(
+          return const Icon(
             Icons.person,
-            size: size,
           );
         },
       ),
