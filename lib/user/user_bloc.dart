@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dima_project/model/dog.dart';
 import 'package:dima_project/model/internal_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -63,10 +64,34 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     Map<String, dynamic> data = event.event.data()!;
 
+    List<Dog> dogs = [];
+
     InternalUser internalUser = InternalUser(
       uid: _firebaseAuth.currentUser!.uid,
-      name: data['name'], dogs: [],
+      name: data['name'],
+      dogs: dogs,
+      fetched: true,
     );
+
+    for (var doc in data['dogs']) {
+      _firebaseFirestore
+          .collection('dogs')
+          .doc(doc.id)
+          .get()
+          .then((DocumentSnapshot dogDocument) {
+        Map<String, dynamic> dogData =
+            dogDocument.data()! as Map<String, dynamic>;
+        dogs.add(
+          Dog(
+            uid: dogDocument.id,
+            fetched: true,
+            name: dogData['name'],
+            sex: dogData['sex'],
+            owner: internalUser,
+          ),
+        );
+      });
+    }
 
     emit(InitializedState(internalUser: internalUser));
   }

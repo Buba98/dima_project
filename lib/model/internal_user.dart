@@ -7,13 +7,15 @@ import 'dog.dart';
 class InternalUser {
   InternalUser({
     required this.uid,
-    required this.name,
+    this.name,
     required this.dogs,
+    required this.fetched,
   });
 
-  final String name;
+  final String? name;
+  final List<Dog>? dogs;
   final String uid;
-  final List<Dog> dogs;
+  bool fetched;
 
   Reference get _profilePictureRef =>
       FirebaseStorage.instance.ref('$uid/profile.jpeg');

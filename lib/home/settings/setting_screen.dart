@@ -21,7 +21,7 @@ class SettingScreen extends StatelessWidget {
         child: Column(
           children: [
             UserCard(
-              name: internalUser.name,
+              name: internalUser.name!,
               userProfileUrl: internalUser.profilePicture,
             ),
             const Divider(),
@@ -31,11 +31,12 @@ class SettingScreen extends StatelessWidget {
                   ListView.builder(
                     shrinkWrap: true,
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    itemCount: internalUser.dogs.length,
+                    itemCount: internalUser.dogs!.length,
                     itemBuilder: (BuildContext context, int index) {
                       return DogCard(
-                          name: internalUser.dogs[index].name,
-                          sex: internalUser.dogs[index].sex);
+                        name: internalUser.dogs![index].name!,
+                        sex: internalUser.dogs![index].sex!,
+                      );
                     },
                   ),
                   Align(
