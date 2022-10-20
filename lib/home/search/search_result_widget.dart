@@ -2,53 +2,60 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../settings/profile_picture.dart';
+
 class SearchResultWidget extends StatelessWidget {
   final String name;
 
   // double stars;
   // bool favourites;
-  final double price;
-  final double distance;
+  final String price;
+  final String distance;
   final DateTime startingTime;
   final Duration duration;
+  final Future<String> userProfileUrl;
 
-  const SearchResultWidget(
+  SearchResultWidget(
       {required this.name,
       // this.stars = 0.0,
       // this.favourites = false,
-      required this.price,
-      required this.distance,
+      required price,
+      required distance,
       required this.startingTime,
       required this.duration,
-      super.key});
+      required this.userProfileUrl,
+      super.key})
+      : this.price =
+            price.toString().replaceAll(RegExp(r"([.]+0+)(?!.*\d)"), ""),
+        this.distance =
+            distance.toString().replaceAll(RegExp(r"([.]+0+)(?!.*\d)"), "");
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.95,
       child: Card(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            const SizedBox(
+              height: 15,
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                //profile photo, //TODO
-                Container(
-                  padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  decoration: const BoxDecoration(
-                      color: Color(0xFFF5F6F9), shape: BoxShape.circle),
+                Spacer(),
+                ProfilePicture(
+                  profilePictureUrl: userProfileUrl,
+                ),
+                const SizedBox(
+                  width: 15,
                 ),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
                       name,
-                      style: TextStyle(
-                        fontSize: 30.0,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 32.0,
                       ),
                     ),
                     // Row(
@@ -59,32 +66,57 @@ class SearchResultWidget extends StatelessWidget {
                     // ),
                   ],
                 ),
+                const Spacer(
+                  flex: 3,
+                ),
                 Text(
-                  'Price: $price €',
-                  style: TextStyle(
-                    fontSize: 20.0,
+                  '$price €/h',
+                  style: const TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF287762),
                   ),
                 ),
+                const Spacer(),
               ],
+            ),
+            const SizedBox(
+              height: 7,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Spacer(),
+                const Icon(Icons.location_on_outlined),
                 Text(
-                    'At $distance m from you',
-                style: TextStyle(
-                  fontSize: 15,
-                ),),
-                //when as 'Mon 17 Oct from 9:00 to 10:00'
+                  ' $distance m',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black54,
+                  ),
+                ),
+                const Spacer(
+                  flex: 4,
+                ),
+                //'Mon 17 Oct from 9:00 to 10:00'
+                const Icon(Icons.access_time),
                 Text(
-                    '${DateFormat('E').format(startingTime)} ${DateFormat('d MMM').format(startingTime)} '
-                    'from ${DateFormat('H:m').format(startingTime)} '
-                    'to ${DateFormat('H:m').format(startingTime.add(duration))}',
-                style: TextStyle(
-                  fontSize: 15,
-                ),),
+                  ' ${DateFormat('E').format(startingTime)} ${DateFormat('d').format(startingTime)} '
+                  '${DateFormat('H:mm').format(startingTime)} '
+                  '-${DateFormat('H:mm').format(startingTime.add(duration))}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black54,
+                  ),
+                ),
+                Spacer(),
               ],
             ),
+            const SizedBox(
+              height: 15,
+            )
           ],
         ),
       ),
