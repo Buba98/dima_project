@@ -55,8 +55,13 @@ class _SwitchInputState extends State<SwitchInput> {
             ),
             const Spacer(),
             Switch(
-                value: value,
-                onChanged: (bool newValue) => setState(() => value = newValue)),
+              value: value,
+              onChanged: (bool newValue) {
+                setState(() => value = newValue);
+                if (widget.onChanged == null) return;
+                widget.onChanged!(newValue);
+              },
+            ),
           ],
         ),
       ),

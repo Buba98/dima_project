@@ -37,7 +37,6 @@ class TextInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 68,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(
           Radius.circular(20),
@@ -45,15 +44,18 @@ class TextInput extends StatelessWidget {
         color: Colors.black26,
       ),
       padding: const EdgeInsets.all(10),
-      child: TextField(
-        controller: textEditingController,
-        decoration: InputDecoration(
-          errorText: errorText,
-          border: const UnderlineInputBorder(),
-          hintText: hintText,
-          icon: icon != null ? Icon(icon) : null,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 48),
+        child: TextField(
+          controller: textEditingController,
+          decoration: InputDecoration(
+            errorText: errorText,
+            border: const UnderlineInputBorder(),
+            hintText: hintText,
+            icon: icon != null ? Icon(icon) : null,
+          ),
+          obscureText: obscureText,
         ),
-        obscureText: obscureText,
       ),
     );
   }

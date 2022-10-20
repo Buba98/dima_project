@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dima_project/home/settings/profile_picture.dart';
 import 'package:dima_project/input/button.dart';
-import 'package:dima_project/input/switch_input.dart';
 import 'package:dima_project/input/text_input.dart';
 import 'package:dima_project/model/internal_user.dart';
 import 'package:dima_project/user/user_bloc.dart';
@@ -74,10 +73,6 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
                   },
                 ),
               ),
-              const SizedBox(
-                height: 50,
-              ),
-              const SwitchInput(text: 'Sex', leadingIcon: Icons.male),
               const SizedBox(
                 height: 50,
               ),
