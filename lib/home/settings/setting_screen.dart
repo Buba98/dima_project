@@ -1,4 +1,4 @@
-import 'package:dima_project/custom_widgets/button.dart';
+import 'package:dima_project/input/button.dart';
 import 'package:dima_project/home/settings/dog_card.dart';
 import 'package:dima_project/home/settings/user_card.dart';
 import 'package:dima_project/model/internal_user.dart';
@@ -21,8 +21,7 @@ class SettingScreen extends StatelessWidget {
         child: Column(
           children: [
             UserCard(
-              name: internalUser.name!,
-              userProfileUrl: internalUser.profilePicture,
+              internalUser: internalUser,
             ),
             const Divider(),
             Expanded(

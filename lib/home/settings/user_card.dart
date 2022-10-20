@@ -1,16 +1,16 @@
+import 'package:dima_project/home/settings/modify_profile_screen.dart';
 import 'package:dima_project/home/settings/profile_picture.dart';
+import 'package:dima_project/model/internal_user.dart';
 import 'package:flutter/material.dart';
 
-import '../../custom_widgets/button.dart';
+import '../../input/button.dart';
 
 class UserCard extends StatelessWidget {
-  final String name;
-  final Future<String> userProfileUrl;
+  final InternalUser internalUser;
 
   const UserCard({
     super.key,
-    required this.name,
-    required this.userProfileUrl,
+    required this.internalUser,
   });
 
   @override
@@ -51,14 +51,23 @@ class UserCard extends StatelessWidget {
                 children: [
                   const Text('Name:'),
                   Text(
-                    name,
+                    internalUser.name!,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                       color: Colors.black,
                     ),
                   ),
-                  Button(onPressed: () => null, text: 'Modify'),
+                  Button(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ModifyProfileScreen(internalUser: internalUser),
+                      ),
+                    ),
+                    text: 'Modify',
+                  ),
                 ],
               ),
             ),

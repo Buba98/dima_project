@@ -1,16 +1,17 @@
 import 'dart:io';
 
-import 'package:dima_project/custom_widgets/button.dart';
-import 'package:dima_project/custom_widgets/text_input.dart';
 import 'package:dima_project/home/settings/profile_picture.dart';
+import 'package:dima_project/input/button.dart';
+import 'package:dima_project/input/switch_input.dart';
+import 'package:dima_project/input/text_input.dart';
 import 'package:dima_project/model/internal_user.dart';
 import 'package:dima_project/user/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
-class InitializationScreen extends StatefulWidget {
-  const InitializationScreen({
+class ModifyProfileScreen extends StatefulWidget {
+  const ModifyProfileScreen({
     super.key,
     required this.internalUser,
   });
@@ -18,10 +19,10 @@ class InitializationScreen extends StatefulWidget {
   final InternalUser internalUser;
 
   @override
-  State<StatefulWidget> createState() => _InitializationScreenState();
+  State<StatefulWidget> createState() => _ModifyProfileScreenState();
 }
 
-class _InitializationScreenState extends State<InitializationScreen> {
+class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
   final TextEditingController name = TextEditingController();
 
   bool nameError = false;
@@ -73,6 +74,10 @@ class _InitializationScreenState extends State<InitializationScreen> {
                   },
                 ),
               ),
+              const SizedBox(
+                height: 50,
+              ),
+              const SwitchInput(text: 'Sex', leadingIcon: Icons.male),
               const SizedBox(
                 height: 50,
               ),

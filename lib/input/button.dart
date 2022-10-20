@@ -20,8 +20,8 @@ class Button extends StatelessWidget {
       return ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.0)),
-          minimumSize: Size(width ?? double.infinity, 50),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          minimumSize: Size(width ?? double.infinity, 68),
         ),
         onPressed: onPressed,
         child: Text(text),
@@ -29,9 +29,9 @@ class Button extends StatelessWidget {
     } else {
       return OutlinedButton(
         style: OutlinedButton.styleFrom(
-          minimumSize: Size(width ?? double.infinity, 50),
+          minimumSize: Size(width ?? double.infinity, 68),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32.0),
+            borderRadius: BorderRadius.circular(20.0),
           ),
         ),
         onPressed: onPressed,

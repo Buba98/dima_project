@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../custom_widgets/button.dart';
+import '../../input/button.dart';
 
 class DogCard extends StatelessWidget {
   const DogCard({

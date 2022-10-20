@@ -36,15 +36,25 @@ class TextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: textEditingController,
-      decoration: InputDecoration(
-        errorText: errorText,
-        border: const UnderlineInputBorder(),
-        hintText: hintText,
-        icon: icon != null ? Icon(icon) : null,
+    return Container(
+      height: 68,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+        color: Colors.black26,
       ),
-      obscureText: obscureText,
+      padding: const EdgeInsets.all(10),
+      child: TextField(
+        controller: textEditingController,
+        decoration: InputDecoration(
+          errorText: errorText,
+          border: const UnderlineInputBorder(),
+          hintText: hintText,
+          icon: icon != null ? Icon(icon) : null,
+        ),
+        obscureText: obscureText,
+      ),
     );
   }
 }

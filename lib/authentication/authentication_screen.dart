@@ -1,5 +1,5 @@
 import 'package:dima_project/authentication/sign_up/sign_up_screen.dart';
-import 'package:dima_project/custom_widgets/button.dart';
+import 'package:dima_project/input/button.dart';
 import 'package:flutter/material.dart';
 
 import 'sign_in/sign_in_screen.dart';

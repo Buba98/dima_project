@@ -1,4 +1,4 @@
-import 'package:dima_project/home/initialization/initialization_screen.dart';
+import 'package:dima_project/home/settings/modify_profile_screen.dart';
 import 'package:dima_project/home/search/search_screen.dart';
 import 'package:dima_project/home/settings/setting_screen.dart';
 import 'package:dima_project/loading/loading_screen.dart';
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Widget home = const LoadingScreen();
 
         if (state is NotInitializedState) {
-          home = InitializationScreen(
+          home = ModifyProfileScreen(
             internalUser: state.internalUser,
           );
         } else if (state is CompleteState) {
