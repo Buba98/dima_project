@@ -27,8 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
         Widget home = const LoadingScreen();
 
         if (state is NotInitializedState) {
-          home = InitializationScreen();
-        } else if (state is InitializedState) {
+          home = InitializationScreen(
+            internalUser: state.internalUser,
+          );
+        } else if (state is CompleteState) {
           home = _Home();
         }
 

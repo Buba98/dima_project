@@ -27,10 +27,17 @@ class UserCard extends StatelessWidget {
           children: [
             Expanded(
               flex: 10,
-              child: FittedBox(
-                child: ProfilePicture(
-                  profilePictureUrl: userProfileUrl,
-                ),
+              child: FutureBuilder<String>(
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  return ProfilePicture(
+                    backgroundImage:
+                        snapshot.connectionState == ConnectionState.done &&
+                                snapshot.hasData
+                            ? NetworkImage(snapshot.data!)
+                            : null,
+                  );
+                },
               ),
             ),
             const Spacer(

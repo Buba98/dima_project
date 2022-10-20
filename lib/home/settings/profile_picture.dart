@@ -3,28 +3,45 @@ import 'package:flutter/material.dart';
 class ProfilePicture extends StatelessWidget {
   const ProfilePicture({
     super.key,
-    required this.profilePictureUrl,
-  });
+    this.modify = false,
+    ImageProvider? backgroundImage,
+  }) : backgroundImage =
+            backgroundImage ?? const AssetImage('assets/images/profile.png');
 
-  final Future<String> profilePictureUrl;
+  final bool modify;
+  final ImageProvider backgroundImage;
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      child: FutureBuilder<String>(
-        future: profilePictureUrl,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData &&
-              !snapshot.hasError) {
-            return Image.network(snapshot.data!);
-          }
-
-          return const Icon(
-            Icons.person,
-          );
-        },
-      ),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        FittedBox(
+          child: CircleAvatar(
+            radius: MediaQuery.of(context).size.width,
+            backgroundImage: backgroundImage,
+          ),
+        ),
+        if (modify)
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(
+                    100,
+                  ),
+                ),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(20),
+                child: Icon(Icons.mode),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

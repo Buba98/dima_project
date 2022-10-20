@@ -2,6 +2,7 @@ import 'package:dima_project/authentication/authentication_screen.dart';
 import 'package:dima_project/home/home_screen.dart';
 import 'package:dima_project/user/authentication_bloc.dart';
 import 'package:dima_project/user/user_bloc.dart' as user_bloc;
+import 'package:dima_project/utils/scroll_behavior.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,12 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (context, child) {
+        return ScrollConfiguration(
+          behavior: NoGlowScrollBehavior(),
+          child: child ?? const LoadingScreen(),
+        );
+      },
       title: 'Walk the dog',
       theme: ThemeData(
           fontFamily: 'OpenSans',

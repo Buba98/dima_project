@@ -8,7 +8,7 @@ class InternalUser {
   InternalUser({
     required this.uid,
     this.name,
-    required this.dogs,
+    this.dogs,
     required this.fetched,
   });
 
@@ -18,7 +18,7 @@ class InternalUser {
   bool fetched;
 
   Reference get _profilePictureRef =>
-      FirebaseStorage.instance.ref('$uid/profile.jpeg');
+      FirebaseStorage.instance.ref(uid).child('profile.jpg');
 
   set uploadProfilePicture(Uint8List image) =>
       _profilePictureRef.putData(image);
