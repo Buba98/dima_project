@@ -1,6 +1,7 @@
-import 'package:dima_project/input/button.dart';
+import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/home/settings/dog_card.dart';
 import 'package:dima_project/home/settings/user_card.dart';
+import 'package:dima_project/input/button.dart';
 import 'package:dima_project/model/internal_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,17 +16,19 @@ class SettingScreen extends StatelessWidget {
     InternalUser internalUser =
         (context.read<UserBloc>().state as InitializedState).internalUser;
 
-    return Center(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 12 / 13,
-        child: Column(
-          children: [
-            UserCard(
-              internalUser: internalUser,
-            ),
-            const Divider(),
-            Expanded(
-              child: Stack(
+    return Scaffold(
+      appBar: const KAppBar(text: 'Profile',),
+      body: Center(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 12 / 13,
+          child: ListView(
+            children: [
+              UserCard(
+                internalUser: internalUser,
+              ),
+              const Divider(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ListView.builder(
                     shrinkWrap: true,
@@ -47,8 +50,8 @@ class SettingScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

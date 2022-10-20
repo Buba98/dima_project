@@ -56,5 +56,5 @@ class BottomBarState extends State<BottomBar> {
     );
   }
 
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kBottomNavigationBarHeight);
 }

@@ -13,35 +13,10 @@ class ProfilePicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        FittedBox(
-          child: CircleAvatar(
-            radius: MediaQuery.of(context).size.width,
-            backgroundImage: backgroundImage,
-          ),
-        ),
-        if (modify)
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(
-                    100,
-                  ),
-                ),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(20),
-                child: Icon(Icons.mode),
-              ),
-            ),
-          ),
-      ],
+    return FittedBox(
+      child: CircleAvatar(
+        backgroundImage: backgroundImage,
+      ),
     );
   }
 }

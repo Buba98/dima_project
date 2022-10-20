@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/home/settings/profile_picture.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/text_input.dart';
@@ -35,46 +36,66 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const KAppBar(
+        text: 'Modify profile',
+      ),
       body: Center(
         child: SizedBox(
-          width: 300,
+          width: MediaQuery.of(context).size.width * 12 / 13,
           child: ListView(
             children: [
-              const SizedBox(
-                height: 50,
-              ),
-              GestureDetector(
-                onTap: () async {
-                  final XFile? image =
-                      await ImagePicker().pickImage(source: ImageSource.camera);
+              Stack(
+                children: [
+                  Align(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: GestureDetector(
+                        onTap: () async {
+                          final XFile? image = await ImagePicker()
+                              .pickImage(source: ImageSource.camera);
 
-                  if (image != null) {
-                    setState(() => this.image = File(image.path));
-                  }
-                },
-                child: FutureBuilder<String>(
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (image != null) {
-                      return ProfilePicture(
-                        modify: true,
-                        backgroundImage: FileImage(image!),
-                      );
-                    }
+                          if (image != null) {
+                            setState(() => this.image = File(image.path));
+                          }
+                        },
+                        child: FutureBuilder<String>(
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String> snapshot) {
+                            if (image != null) {
+                              return ProfilePicture(
+                                modify: true,
+                                backgroundImage: FileImage(image!),
+                              );
+                            }
 
-                    return ProfilePicture(
-                      modify: true,
-                      backgroundImage:
-                          (snapshot.connectionState == ConnectionState.done &&
-                                  snapshot.hasData)
-                              ? NetworkImage(snapshot.data!)
-                              : null,
-                    );
-                  },
-                ),
+                            return ProfilePicture(
+                              modify: true,
+                              backgroundImage: (snapshot.connectionState ==
+                                          ConnectionState.done &&
+                                      snapshot.hasData)
+                                  ? NetworkImage(snapshot.data!)
+                                  : null,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: MediaQuery.of(context).size.width / 5,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(50)),
+                      padding: const EdgeInsets.all(15),
+                      child: const Icon(Icons.mode),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
-                height: 50,
+                height: 20,
               ),
               TextInput(
                 hintText: 'Enter your name',
@@ -83,7 +104,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
                 icon: Icons.person,
               ),
               const SizedBox(
-                height: 50,
+                height: 20,
               ),
               Button(
                 onPressed: () {
