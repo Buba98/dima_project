@@ -47,6 +47,10 @@ class _MyAppState extends State<MyApp> {
       },
       title: 'Walk the dog',
       theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            iconTheme: IconThemeData(color: Colors.black),
+            foregroundColor: Colors.black,
+          ),
           fontFamily: 'OpenSans',
           primarySwatch: createMaterialColor(const Color(0xFF287762)),
           scaffoldBackgroundColor: const Color(0xFFe5e1d5)),

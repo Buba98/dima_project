@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../user/user_bloc.dart';
+import 'modify_dog_screen.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -17,7 +18,9 @@ class SettingScreen extends StatelessWidget {
         (context.read<UserBloc>().state as InitializedState).internalUser;
 
     return Scaffold(
-      appBar: const KAppBar(text: 'Profile',),
+      appBar: const KAppBar(
+        text: 'Profile',
+      ),
       body: Center(
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 12 / 13,
@@ -41,12 +44,14 @@ class SettingScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Button(
-                      onPressed: () => null,
-                      text: 'Add new dog',
+                  Button(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ModifyDogScreen(),
+                      ),
                     ),
+                    text: 'Add new dog',
                   ),
                 ],
               ),

@@ -7,12 +7,16 @@ class InlineSelection extends StatefulWidget {
     required this.first,
     required this.second,
     this.onChanged,
+    this.firstLeadingIcon,
+    this.secondLeadingIcon,
   });
 
   final bool initialValue;
   final String first;
   final String second;
   final Function(bool)? onChanged;
+  final IconData? firstLeadingIcon;
+  final IconData? secondLeadingIcon;
 
   @override
   State<StatefulWidget> createState() => _InlineSelectionState();
@@ -41,13 +45,31 @@ class _InlineSelectionState extends State<InlineSelection> {
             child: Container(
               alignment: Alignment.center,
               height: 68,
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(
                   Radius.circular(20),
                 ),
                 color: value ? Colors.black26 : Colors.black12,
               ),
-              child: Text(widget.first),
+              child: Row(
+                children: [
+                  if (widget.firstLeadingIcon != null)
+                    Icon(
+                      widget.firstLeadingIcon,
+                    ),
+                  if (widget.firstLeadingIcon != null)
+                    const SizedBox(
+                      width: 12,
+                    ),
+                  Expanded(
+                    child: Text(
+                      widget.first,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -62,6 +84,7 @@ class _InlineSelectionState extends State<InlineSelection> {
               widget.onChanged!(false);
             },
             child: Container(
+              padding: const EdgeInsets.all(10),
               alignment: Alignment.center,
               height: 68,
               decoration: BoxDecoration(
@@ -70,7 +93,24 @@ class _InlineSelectionState extends State<InlineSelection> {
                 ),
                 color: value ? Colors.black12 : Colors.black26,
               ),
-              child: Text(widget.second),
+              child: Row(
+                children: [
+                  if (widget.secondLeadingIcon != null)
+                    Icon(
+                      widget.secondLeadingIcon,
+                    ),
+                  if (widget.secondLeadingIcon != null)
+                    const SizedBox(
+                      width: 12,
+                    ),
+                  Expanded(
+                    child: Text(
+                      widget.second,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
