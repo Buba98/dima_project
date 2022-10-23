@@ -3,18 +3,21 @@ import 'package:flutter/material.dart';
 class Button extends StatelessWidget {
   const Button({
     super.key,
-    required this.onPressed,
+    required Function() onPressed,
     required this.text,
     this.primary = true,
     this.width,
     this.icon,
-  });
+    this.disabled = false,
+  }) :
+    onPressed = disabled ? null : onPressed;
 
-  final Function() onPressed;
+  final Function()? onPressed;
   final String text;
   final bool primary;
   final double? width;
   final IconData? icon;
+  final bool disabled;
 
   @override
   Widget build(BuildContext context) {

@@ -18,9 +18,17 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    BlocProvider(
-      lazy: false,
-      create: (BuildContext context) => AuthenticationBloc(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          lazy: false,
+          create: (BuildContext context) => AuthenticationBloc(),
+          child: const MyApp(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => user_bloc.UserBloc(),
+        ),
+      ],
       child: const MyApp(),
     ),
   );
@@ -65,11 +73,7 @@ class _MyAppState extends State<MyApp> {
           } else if (state is UnauthenticatedState) {
             home = const AuthenticationScreen();
           } else if (state is AuthenticatedState) {
-            home = BlocProvider(
-              create: (BuildContext context) => user_bloc.UserBloc(),
-              lazy: false,
-              child: const HomeScreen(),
-            );
+            home = const HomeScreen();
           }
           setState(() {
             this.home = home;

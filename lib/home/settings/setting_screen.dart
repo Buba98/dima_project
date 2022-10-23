@@ -2,7 +2,6 @@ import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/home/settings/dog_card.dart';
 import 'package:dima_project/home/settings/user_card.dart';
 import 'package:dima_project/input/button.dart';
-import 'package:dima_project/model/internal_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,51 +13,55 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    InternalUser internalUser =
-        (context.read<UserBloc>().state as InitializedState).internalUser;
+    // InternalUser internalUser =
+    //     (context.read<UserBloc>().state as InitializedState).internalUser;
 
-    return Scaffold(
-      appBar: const KAppBar(
-        text: 'Profile',
-      ),
-      body: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 12 / 13,
-          child: ListView(
-            children: [
-              UserCard(
-                internalUser: internalUser,
-              ),
-              const Divider(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    itemCount: internalUser.dogs!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return DogCard(
-                        name: internalUser.dogs![index].name!,
-                        sex: internalUser.dogs![index].sex!,
-                      );
-                    },
-                  ),
-                  Button(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ModifyDogScreen(),
-                      ),
+    return BlocBuilder<UserBloc, UserState>(
+        builder: (BuildContext context, UserState state) {
+      state as InitializedState;
+      return Scaffold(
+        appBar: const KAppBar(
+          text: 'Profile',
+        ),
+        body: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 12 / 13,
+            child: ListView(
+              children: [
+                UserCard(
+                  internalUser: state.internalUser,
+                ),
+                const Divider(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      itemCount: state.internalUser.dogs!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return DogCard(
+                          name: state.internalUser.dogs![index].name!,
+                          sex: state.internalUser.dogs![index].sex!,
+                        );
+                      },
                     ),
-                    text: 'Add new dog',
-                  ),
-                ],
-              ),
-            ],
+                    Button(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ModifyDogScreen(),
+                        ),
+                      ),
+                      text: 'Add new dog',
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

@@ -29,6 +29,16 @@ class ModifyEvent extends UserEvent {
         };
 }
 
+class ModifyDogEvent extends UserEvent {
+  final Map<String, dynamic> firestoreModel;
+
+  ModifyDogEvent({required String name, required bool sex})
+      : firestoreModel = {
+          'name': name,
+          'sex': sex,
+        };
+}
+
 abstract class UserState {}
 
 class InitializationState extends UserState {}
@@ -57,6 +67,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(InitializationState()) {
     on<_ReloadEvent>(_onReloadEvent);
     on<ModifyEvent>(_onModifyEvent);
+    on<ModifyDogEvent>(_onModifyDogEvent);
 
     _firebaseFirestore
         .collection('users')
@@ -64,6 +75,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         .snapshots()
         .listen((DocumentSnapshot<Map<String, dynamic>> event) {
       add(_ReloadEvent(event: event));
+    });
+  }
+
+  _onModifyDogEvent(ModifyDogEvent event, Emitter<UserState> emit) async {
+    event.firestoreModel['owner'] = _firebaseFirestore
+        .collection('users')
+        .doc(_firebaseAuth.currentUser!.uid);
+
+    DocumentReference documentReference =
+        await _firebaseFirestore.collection('dogs').add(event.firestoreModel);
+
+    _firebaseFirestore
+        .collection('users')
+        .doc(_firebaseAuth.currentUser!.uid)
+        .update({
+      'dogs': FieldValue.arrayUnion([documentReference]),
     });
   }
 
