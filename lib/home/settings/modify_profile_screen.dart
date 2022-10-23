@@ -25,11 +25,14 @@ class ModifyProfileScreen extends StatefulWidget {
 class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
   final TextEditingController name = TextEditingController();
 
-  bool nameError = false;
+  bool emptyName = false;
   File? image;
 
   @override
   void initState() {
+    if (widget.internalUser.name != null) {
+      name.text = widget.internalUser.name!;
+    }
     super.initState();
   }
 
@@ -99,7 +102,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
               ),
               TextInput(
                 hintText: 'Enter your name',
-                errorText: nameError ? 'Name is required' : null,
+                errorText: emptyName ? 'Name is required' : null,
                 textEditingController: name,
                 icon: Icons.person,
               ),
@@ -109,14 +112,12 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
               Button(
                 onPressed: () {
                   if (name.text.isEmpty) {
-                    setState(() => nameError = true);
+                    setState(() => emptyName = true);
                     return;
                   }
                   context.read<UserBloc>().add(
                         ModifyEvent(
-                          name: name.text != widget.internalUser.name
-                              ? name.text
-                              : null,
+                          name: name.text,
                           image: image,
                         ),
                       );

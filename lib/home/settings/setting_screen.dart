@@ -1,10 +1,11 @@
 import 'package:dima_project/custom_widgets/app_bar.dart';
-import 'package:dima_project/home/settings/dog_card.dart';
 import 'package:dima_project/home/settings/user_card.dart';
 import 'package:dima_project/input/button.dart';
+import 'package:dima_project/input/show_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../model/dog.dart';
 import '../../user/user_bloc.dart';
 import 'modify_dog_screen.dart';
 
@@ -13,12 +14,9 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // InternalUser internalUser =
-    //     (context.read<UserBloc>().state as InitializedState).internalUser;
-
     return BlocBuilder<UserBloc, UserState>(
         builder: (BuildContext context, UserState state) {
-      state as InitializedState;
+      state as CompleteState;
       return Scaffold(
         appBar: const KAppBar(
           text: 'Profile',
@@ -32,31 +30,36 @@ class SettingScreen extends StatelessWidget {
                   internalUser: state.internalUser,
                 ),
                 const Divider(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      itemCount: state.internalUser.dogs!.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return DogCard(
-                          name: state.internalUser.dogs![index].name!,
-                          sex: state.internalUser.dogs![index].sex!,
-                        );
-                      },
+                for (Dog dog in state.internalUser.dogs!)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 20,
                     ),
-                    Button(
+                    child: ShowText(
+                      text: dog.name!,
+                      title: 'Dog',
+                      trailerIcon: Icons.arrow_forward_ios,
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ModifyDogScreen(),
+                          builder: (context) => ModifyDogScreen(
+                            dog: dog,
+                          ),
                         ),
                       ),
-                      text: 'Add new dog',
                     ),
-                  ],
+                  ),
+                Button(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ModifyDogScreen(),
+                    ),
+                  ),
+                  text: 'Add new dog',
                 ),
+                // ],
+                // ),
               ],
             ),
           ),

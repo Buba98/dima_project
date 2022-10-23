@@ -29,11 +29,21 @@ class ModifyEvent extends UserEvent {
         };
 }
 
+class DeleteDogEvent extends UserEvent {
+  final String uid;
+
+  DeleteDogEvent({required this.uid});
+}
+
 class ModifyDogEvent extends UserEvent {
   final Map<String, dynamic> firestoreModel;
+  final String? uid;
 
-  ModifyDogEvent({required String name, required bool sex})
-      : firestoreModel = {
+  ModifyDogEvent({
+    required String name,
+    required bool sex,
+    this.uid,
+  }) : firestoreModel = {
           'name': name,
           'sex': sex,
         };
@@ -68,6 +78,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<_ReloadEvent>(_onReloadEvent);
     on<ModifyEvent>(_onModifyEvent);
     on<ModifyDogEvent>(_onModifyDogEvent);
+    on<DeleteDogEvent>(_onDeleteDogEvent);
 
     _firebaseFirestore
         .collection('users')
@@ -78,11 +89,33 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
   }
 
+  _onDeleteDogEvent(DeleteDogEvent event, Emitter<UserState> emit) {
+    DocumentReference documentReference =
+        _firebaseFirestore.collection('dogs').doc(event.uid);
+
+    _firebaseFirestore
+        .collection('users')
+        .doc(_firebaseAuth.currentUser!.uid)
+        .update({
+      'dogs': FieldValue.arrayRemove([documentReference]),
+    });
+
+    documentReference.delete();
+  }
+
   _onModifyDogEvent(ModifyDogEvent event, Emitter<UserState> emit) async {
     event.firestoreModel['owner'] = _firebaseFirestore
         .collection('users')
         .doc(_firebaseAuth.currentUser!.uid);
 
+    if (event.uid != null) {
+      await _firebaseFirestore
+          .collection('dogs')
+          .doc(event.uid)
+          .update(event.firestoreModel);
+
+      return;
+    }
     DocumentReference documentReference =
         await _firebaseFirestore.collection('dogs').add(event.firestoreModel);
 
@@ -94,7 +127,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
   }
 
-  _onReloadEvent(_ReloadEvent event, Emitter<UserState> emit) {
+  _onReloadEvent(_ReloadEvent event, Emitter<UserState> emit) async {
     if (!event.event.exists || event.event.data()!['name'] == null) {
       emit(
         NotInitializedState(
@@ -109,25 +142,23 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     Map<String, dynamic> data = event.event.data()!;
 
-    List<Dog> dogs = [];
-
     InternalUser internalUser = InternalUser(
       uid: _firebaseAuth.currentUser!.uid,
       name: data['name'],
-      dogs: dogs,
+      dogs: [],
       fetched: true,
     );
 
     if (data.containsKey('dogs')) {
       for (var doc in data['dogs']) {
-        _firebaseFirestore
+        await _firebaseFirestore
             .collection('dogs')
             .doc(doc.id)
             .get()
             .then((DocumentSnapshot dogDocument) {
           Map<String, dynamic> dogData =
               dogDocument.data()! as Map<String, dynamic>;
-          dogs.add(
+          internalUser.dogs!.add(
             Dog(
               uid: dogDocument.id,
               fetched: true,

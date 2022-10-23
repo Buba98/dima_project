@@ -6,8 +6,15 @@ import 'package:dima_project/user/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../model/dog.dart';
+
 class ModifyDogScreen extends StatefulWidget {
-  const ModifyDogScreen({super.key});
+  const ModifyDogScreen({
+    super.key,
+    this.dog,
+  });
+
+  final Dog? dog;
 
   @override
   State<StatefulWidget> createState() => _ModifyDogScreenState();
@@ -18,10 +25,19 @@ class _ModifyDogScreenState extends State<ModifyDogScreen> {
   bool sex = true;
 
   @override
+  void initState() {
+    if (widget.dog != null) {
+      name.text = widget.dog!.name!;
+      sex = widget.dog!.sex!;
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const KAppBar(
-        text: 'Modify dog',
+      appBar: KAppBar(
+        text: widget.dog != null ? 'Create dog' : 'Modify dog',
       ),
       body: Center(
         child: SizedBox(
@@ -56,11 +72,31 @@ class _ModifyDogScreenState extends State<ModifyDogScreen> {
               const SizedBox(
                 height: 20,
               ),
+              if (widget.dog != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Button(
+                    onPressed: () => context.read<UserBloc>().add(
+                          DeleteDogEvent(
+                            uid: widget.dog!.uid,
+                          ),
+                        ),
+                    text: 'Delete dog',
+                    primary: false,
+                  ),
+                ),
               Button(
-                onPressed: () => context
-                    .read<UserBloc>()
-                    .add(ModifyDogEvent(name: name.text, sex: sex)),
-                text: 'Modify dog',
+                onPressed: () {
+                  context.read<UserBloc>().add(
+                        ModifyDogEvent(
+                          uid: widget.dog != null ? widget.dog!.uid : null,
+                          name: name.text,
+                          sex: sex,
+                        ),
+                      );
+                  Navigator.pop(context);
+                },
+                text: 'Finalize',
               ),
             ],
           ),
