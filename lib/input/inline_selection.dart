@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class InlineSelection extends StatefulWidget {
+class InlineSelection extends StatelessWidget {
   const InlineSelection({
     super.key,
-    this.initialValue = true,
+    required this.value,
     required this.first,
     required this.second,
     this.onChanged,
@@ -11,25 +11,12 @@ class InlineSelection extends StatefulWidget {
     this.secondLeadingIcon,
   });
 
-  final bool initialValue;
+  final bool value;
   final String first;
   final String second;
   final Function(bool)? onChanged;
   final IconData? firstLeadingIcon;
   final IconData? secondLeadingIcon;
-
-  @override
-  State<StatefulWidget> createState() => _InlineSelectionState();
-}
-
-class _InlineSelectionState extends State<InlineSelection> {
-  late bool value;
-
-  @override
-  void initState() {
-    value = widget.initialValue;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +25,8 @@ class _InlineSelectionState extends State<InlineSelection> {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              setState(() => value = true);
-              if (widget.onChanged == null) return;
-              widget.onChanged!(true);
+              if (onChanged == null) return;
+              onChanged!(true);
             },
             child: Container(
               alignment: Alignment.center,
@@ -54,17 +40,17 @@ class _InlineSelectionState extends State<InlineSelection> {
               ),
               child: Row(
                 children: [
-                  if (widget.firstLeadingIcon != null)
+                  if (firstLeadingIcon != null)
                     Icon(
-                      widget.firstLeadingIcon,
+                      firstLeadingIcon,
                     ),
-                  if (widget.firstLeadingIcon != null)
+                  if (firstLeadingIcon != null)
                     const SizedBox(
                       width: 12,
                     ),
                   Expanded(
                     child: Text(
-                      widget.first,
+                      first,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -79,9 +65,8 @@ class _InlineSelectionState extends State<InlineSelection> {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              setState(() => value = false);
-              if (widget.onChanged == null) return;
-              widget.onChanged!(false);
+              if (onChanged == null) return;
+              onChanged!(false);
             },
             child: Container(
               padding: const EdgeInsets.all(10),
@@ -95,17 +80,17 @@ class _InlineSelectionState extends State<InlineSelection> {
               ),
               child: Row(
                 children: [
-                  if (widget.secondLeadingIcon != null)
+                  if (secondLeadingIcon != null)
                     Icon(
-                      widget.secondLeadingIcon,
+                      secondLeadingIcon,
                     ),
-                  if (widget.secondLeadingIcon != null)
+                  if (secondLeadingIcon != null)
                     const SizedBox(
                       width: 12,
                     ),
                   Expanded(
                     child: Text(
-                      widget.second,
+                      second,
                       textAlign: TextAlign.center,
                     ),
                   ),
