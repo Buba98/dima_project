@@ -43,9 +43,9 @@ class SearchResultWidget extends StatelessWidget {
             Row(
               children: [
                 Spacer(),
-                ProfilePicture(
-                  profilePictureUrl: userProfileUrl,
-                ),
+                // ProfilePicture(
+                //   profilePictureUrl: userProfileUrl,
+                // ),
                 const SizedBox(
                   width: 15,
                 ),

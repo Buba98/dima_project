@@ -1,5 +1,6 @@
+import 'package:dima_project/input/text_input.dart';
 import 'package:intl/intl.dart';
-import 'package:dima_project/custom_widgets/button.dart';
+import 'package:dima_project/input/button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,9 +20,11 @@ class _CreateOfferWidgetState extends State<CreateOfferWidget> {
     //'example3': false,
     'other': false,
   };
-  bool visibleCalendar = false;
-  bool visibleStartTime = false;
-  bool visibleEndTime = false;
+  bool _isOtherActivitiesSelected = false;
+  bool _isOtherOptionsVisible = false;
+  List<String> maxDogsAllowedList = ['1', '2', '3', '4', '5', 'Any'];
+  int maxDogsAllowed = -1;
+  String maxDogsAllowedHint = '';
 
   DateTime selectedDate = DateTime.now();
   String selectedDateString = 'no selected date';
@@ -30,8 +33,8 @@ class _CreateOfferWidgetState extends State<CreateOfferWidget> {
   String selectedStartingTimeString = 'no starting time';
 
   bool _isEndingTimeButtonDisabled = true;
-  TimeOfDay selectedEndingTime =
-      TimeOfDay(hour: TimeOfDay.now().hour + 1, minute: TimeOfDay.now().minute);
+  TimeOfDay selectedEndingTime = TimeOfDay(
+      hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute + 30);
   String selectedEndingTimeString = 'no ending time';
 
   bool _isNotPast({required DateTime selectedDate, TimeOfDay? selectedTime}) {
@@ -133,6 +136,12 @@ class _CreateOfferWidgetState extends State<CreateOfferWidget> {
     }
   }
 
+  _enableOtherOptions() {
+    setState(() {
+      _isOtherOptionsVisible = !_isOtherOptionsVisible;
+    });
+  }
+
   //TODO delete
   Widget _tmpSpacer(color) {
     return Container(
@@ -150,37 +159,27 @@ class _CreateOfferWidgetState extends State<CreateOfferWidget> {
       width: MediaQuery.of(context).size.width * 0.95,
       child: ListView(
         children: [
-          ElevatedButton(
+          Button(
             onPressed: () => _selectDate(context: context),
-            child: Row(
-              children: [
-                Spacer(),
-                Icon(Icons.calendar_month_outlined),
-                Text(' $selectedDateString'),
-                Spacer(),
-                //TODO maybe use RichText for readability
-              ],
-            ),
+            text: ' $selectedDateString',
+            icon: Icons.calendar_month_outlined,
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
-          ElevatedButton(
+          Button(
             onPressed: () => _selectTime(context: context, isStart: true),
-            child: Row(
-              children: [
-                Spacer(),
-                Icon(Icons.timer_outlined),
-                Text(' Start: $selectedStartingTimeString'),
-                Spacer(),
-              ],
-            ),
+            text: 'Start: $selectedStartingTimeString',
+            icon: Icons.timer_outlined,
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           ElevatedButton(
-            onPressed: _isEndingTimeButtonDisabled ? null : () => _selectTime(context: context, isStart: false),
+            //TODO change UI
+            onPressed: _isEndingTimeButtonDisabled
+                ? null
+                : () => _selectTime(context: context, isStart: false),
             child: Row(
               children: [
                 Spacer(),
@@ -190,12 +189,12 @@ class _CreateOfferWidgetState extends State<CreateOfferWidget> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           ElevatedButton(
               onPressed: () => {}, child: Text('location placeholder')),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Row(
@@ -232,6 +231,10 @@ class _CreateOfferWidgetState extends State<CreateOfferWidget> {
                           onChanged: (bool? value) {
                             setState(() {
                               activities[key] = value;
+                              key == 'other'
+                                  ? _isOtherActivitiesSelected =
+                                      !_isOtherActivitiesSelected
+                                  : null;
                             });
                           },
                         ),
@@ -239,16 +242,72 @@ class _CreateOfferWidgetState extends State<CreateOfferWidget> {
                     }).toList(),
                   ),
                 ),
-                //     //TODO make a appear a TextField to describe 'other' activities
+                Visibility(
+                  visible: _isOtherActivitiesSelected,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Column(children: [
+                      TextInput(
+                          textEditingController:
+                              TextEditingController(text: '')),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                    ]),
+                  ),
+                ),
+                //TODO make a appear a TextField to describe 'other' activities
               ],
             ),
           ),
-          const Center(
-            child: Text('Other options'),
+          const SizedBox(
+            height: 15,
+          ),
+          Center(
+            child:
+                Button(onPressed: _enableOtherOptions, text: 'Other options'),
           ),
           //TODO make it interactable to open other options to be filed
+          Visibility(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text('#max'),
+                    DropdownButton(
+                      hint: Text(maxDogsAllowedHint),
+                        items: maxDogsAllowedList
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (String? value) {
+                          setState(() {
+                            maxDogsAllowed = 3;
+                            maxDogsAllowedHint = value!;
+                          });
+                        }),
+                  ],
+                )
+              ],
+            ),
+          )
         ],
       ),
     );
+  }
+
+  Widget _otherOptionsWidget(String rowName, List options){
+    Column option = Column(
+      children: [
+        Text(rowName),
+        Row(
+
+        )
+      ],
+    );
+    return Container();
   }
 }
