@@ -1,3 +1,4 @@
+import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -5,7 +6,14 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column();
+    return Scaffold(
+      appBar: const KAppBar(
+        text: 'Search',
+      ),
+      body: ListView(
+        shrinkWrap: true,
+        children: [],
+      ),
+    );
   }
-
 }

@@ -1,5 +1,5 @@
-import 'package:dima_project/custom_widgets/app_bar.dart';
-import 'package:dima_project/home/settings/user_card.dart';
+import 'package:dima_project/home/settings/modify_dog_screen.dart';
+import 'package:dima_project/home/settings/profile_picture.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/show_text.dart';
 import 'package:flutter/material.dart';
@@ -7,27 +7,57 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../model/dog.dart';
 import '../../user/user_bloc.dart';
-import 'modify_dog_screen.dart';
+import 'modify_profile_screen.dart';
 
 class SettingScreen extends StatelessWidget {
-  const SettingScreen({super.key});
+  const SettingScreen({super.key, required this.changeScreen});
+
+  final Function(Widget?) changeScreen;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
-        builder: (BuildContext context, UserState state) {
-      state as CompleteState;
-      return Scaffold(
-        appBar: const KAppBar(
-          text: 'Profile',
-        ),
-        body: Center(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width * 12 / 13,
+      builder: (BuildContext context, UserState state) {
+        state as CompleteState;
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ListView(
               children: [
-                UserCard(
-                  internalUser: state.internalUser,
+                LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return FutureBuilder<String>(
+                      builder: (BuildContext context,
+                          AsyncSnapshot<String> snapshot) {
+                        return ProfilePicture(
+                          image: snapshot.connectionState ==
+                                      ConnectionState.done &&
+                                  snapshot.hasData
+                              ? NetworkImage(snapshot.data!)
+                              : null,
+                        );
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ShowText(
+                  title: 'Name:',
+                  text: state.internalUser.name!,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Button(
+                  onPressed: () => changeScreen(
+                    ModifyProfileScreen(
+                      internalUser: state.internalUser,
+                      goBack: () => changeScreen(null),
+                    ),
+                  ),
+                  text: 'Modify',
                 ),
                 const Divider(),
                 for (Dog dog in state.internalUser.dogs!)
@@ -39,32 +69,27 @@ class SettingScreen extends StatelessWidget {
                       text: dog.name!,
                       title: 'Dog',
                       trailerIcon: Icons.arrow_forward_ios,
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ModifyDogScreen(
-                            dog: dog,
-                          ),
+                      onPressed: () => changeScreen(
+                        ModifyDogScreen(
+                          dog: dog,
+                          goBack: () => changeScreen(null),
                         ),
                       ),
                     ),
                   ),
                 Button(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ModifyDogScreen(),
+                  onPressed: () => changeScreen(
+                    ModifyDogScreen(
+                      goBack: () => changeScreen(null),
                     ),
                   ),
                   text: 'Add new dog',
                 ),
-                // ],
-                // ),
               ],
             ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

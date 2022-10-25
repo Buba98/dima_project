@@ -9,8 +9,7 @@ class Button extends StatelessWidget {
     this.width,
     this.icon,
     this.disabled = false,
-  }) :
-    onPressed = disabled ? null : onPressed;
+  }) : onPressed = disabled ? null : onPressed;
 
   final Function()? onPressed;
   final String text;

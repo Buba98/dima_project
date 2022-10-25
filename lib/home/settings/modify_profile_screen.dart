@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/home/settings/profile_picture.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/text_input.dart';
@@ -14,8 +13,10 @@ class ModifyProfileScreen extends StatefulWidget {
   const ModifyProfileScreen({
     super.key,
     required this.internalUser,
+    required this.goBack,
   });
 
+  final Function() goBack;
   final InternalUser internalUser;
 
   @override
@@ -38,94 +39,91 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const KAppBar(
-        text: 'Modify profile',
-      ),
-      body: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 12 / 13,
-          child: ListView(
-            children: [
-              Stack(
-                children: [
-                  Align(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: GestureDetector(
-                        onTap: () async {
-                          final XFile? image = await ImagePicker()
-                              .pickImage(source: ImageSource.camera);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: ListView(
+          children: [
+            Stack(
+              children: [
+                Align(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final XFile? image = await ImagePicker()
+                            .pickImage(source: ImageSource.camera);
 
+                        if (image != null) {
+                          setState(() => this.image = File(image.path));
+                        }
+                      },
+                      child: FutureBuilder<String>(
+                        builder: (BuildContext context,
+                            AsyncSnapshot<String> snapshot) {
                           if (image != null) {
-                            setState(() => this.image = File(image.path));
-                          }
-                        },
-                        child: FutureBuilder<String>(
-                          builder: (BuildContext context,
-                              AsyncSnapshot<String> snapshot) {
-                            if (image != null) {
-                              return ProfilePicture(
-                                modify: true,
-                                backgroundImage: FileImage(image!),
-                              );
-                            }
-
                             return ProfilePicture(
+                              // size: 20,
                               modify: true,
-                              backgroundImage: (snapshot.connectionState ==
-                                          ConnectionState.done &&
-                                      snapshot.hasData)
-                                  ? NetworkImage(snapshot.data!)
-                                  : null,
+                              image: FileImage(image!),
                             );
-                          },
-                        ),
+                          }
+
+                          return ProfilePicture(
+                            modify: true,
+                            image: (snapshot.connectionState ==
+                                        ConnectionState.done &&
+                                    snapshot.hasData)
+                                ? NetworkImage(snapshot.data!)
+                                : null,
+                          );
+                        },
                       ),
                     ),
                   ),
-                  Positioned(
-                    top: 0,
-                    right: MediaQuery.of(context).size.width / 5,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(50)),
-                      padding: const EdgeInsets.all(15),
-                      child: const Icon(Icons.mode),
-                    ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: MediaQuery.of(context).size.width / 5,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(50)),
+                    padding: const EdgeInsets.all(15),
+                    child: const Icon(Icons.mode),
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextInput(
-                hintText: 'Enter your name',
-                errorText: emptyName ? 'Name is required' : null,
-                textEditingController: name,
-                icon: Icons.person,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Button(
-                onPressed: () {
-                  if (name.text.isEmpty) {
-                    setState(() => emptyName = true);
-                    return;
-                  }
-                  context.read<UserBloc>().add(
-                        ModifyEvent(
-                          name: name.text,
-                          image: image,
-                        ),
-                      );
-                },
-                text: 'Finalize',
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextInput(
+              hintText: 'Enter your name',
+              errorText: emptyName ? 'Name is required' : null,
+              textEditingController: name,
+              icon: Icons.person,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Button(
+              onPressed: () {
+                if (name.text.isEmpty) {
+                  setState(() => emptyName = true);
+                  return;
+                }
+                context.read<UserBloc>().add(
+                      ModifyEvent(
+                        name: name.text,
+                        image: image,
+                      ),
+                    );
+                widget.goBack();
+              },
+              text: 'Finalize',
+            ),
+          ],
         ),
       ),
     );

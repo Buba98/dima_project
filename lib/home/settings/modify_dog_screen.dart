@@ -1,4 +1,3 @@
-import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/inline_selection.dart';
 import 'package:dima_project/input/text_input.dart';
@@ -12,9 +11,11 @@ class ModifyDogScreen extends StatefulWidget {
   const ModifyDogScreen({
     super.key,
     this.dog,
+    required this.goBack,
   });
 
   final Dog? dog;
+  final Function() goBack;
 
   @override
   State<StatefulWidget> createState() => _ModifyDogScreenState();
@@ -23,6 +24,7 @@ class ModifyDogScreen extends StatefulWidget {
 class _ModifyDogScreenState extends State<ModifyDogScreen> {
   final TextEditingController name = TextEditingController();
   bool sex = true;
+  bool emptyName = false;
 
   @override
   void initState() {
@@ -35,71 +37,72 @@ class _ModifyDogScreenState extends State<ModifyDogScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: KAppBar(
-        text: widget.dog != null ? 'Create dog' : 'Modify dog',
-      ),
-      body: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 12 / 13,
-          child: ListView(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Image.asset(
-                'assets/images/playing_dog.png',
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextInput(
-                textEditingController: name,
-                hintText: 'Name',
-                icon: Icons.pets,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              InlineSelection(
-                first: 'Male',
-                firstLeadingIcon: Icons.male,
-                second: 'Female',
-                secondLeadingIcon: Icons.female,
-                value: sex,
-                onChanged: (bool value) => setState(() => sex = value),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              if (widget.dog != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Button(
-                    onPressed: () => context.read<UserBloc>().add(
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: ListView(
+          children: [
+            Image.asset(
+              'assets/images/playing_dog.png',
+              height: 300,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextInput(
+              errorText: emptyName ? 'Name cannot be empty' : null,
+              textEditingController: name,
+              hintText: 'Name',
+              icon: Icons.pets,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            InlineSelection(
+              first: 'Male',
+              firstLeadingIcon: Icons.male,
+              second: 'Female',
+              secondLeadingIcon: Icons.female,
+              value: sex,
+              onChanged: (bool value) => setState(() => sex = value),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            if (widget.dog != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Button(
+                  onPressed: () {
+                    context.read<UserBloc>().add(
                           DeleteDogEvent(
                             uid: widget.dog!.uid,
                           ),
-                        ),
-                    text: 'Delete dog',
-                    primary: false,
-                  ),
+                        );
+                    widget.goBack();
+                  },
+                  text: 'Delete dog',
+                  primary: false,
                 ),
-              Button(
-                onPressed: () {
-                  context.read<UserBloc>().add(
-                        ModifyDogEvent(
-                          uid: widget.dog != null ? widget.dog!.uid : null,
-                          name: name.text,
-                          sex: sex,
-                        ),
-                      );
-                  Navigator.pop(context);
-                },
-                text: 'Finalize',
               ),
-            ],
-          ),
+            Button(
+              onPressed: () {
+                if (name.text.isEmpty) {
+                  setState(() =>emptyName = true);
+                  return;
+                }
+                context.read<UserBloc>().add(
+                      ModifyDogEvent(
+                        uid: widget.dog != null ? widget.dog!.uid : null,
+                        name: name.text,
+                        sex: sex,
+                      ),
+                    );
+                widget.goBack();
+              },
+              text: 'Finalize',
+            ),
+          ],
         ),
       ),
     );
