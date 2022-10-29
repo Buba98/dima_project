@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../model/dog.dart';
 import '../../user/user_bloc.dart';
-import 'modify_profile_screen.dart';
+import 'modify_profile/modify_profile_screen.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key, required this.changeScreen});

@@ -18,6 +18,11 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: KAppBar(
+        backBehaviour: screen != null
+            ? () => setState(
+                  () => screen = null,
+                )
+            : null,
         text: screen == null
             ? 'Profile'
             : screen is ModifyDogScreen

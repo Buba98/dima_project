@@ -8,12 +8,14 @@ class TextInput extends StatelessWidget {
     this.icon,
     this.obscureText = false,
     this.errorText,
+    this.textFieldKey,
   });
 
   const TextInput.email({
     super.key,
     required this.textEditingController,
     bool? error,
+    this.textFieldKey = const Key('email_text_input'),
   })  : hintText = 'Enter email',
         icon = Icons.email_outlined,
         obscureText = false,
@@ -23,6 +25,7 @@ class TextInput extends StatelessWidget {
     super.key,
     required this.textEditingController,
     bool? error,
+    this.textFieldKey = const Key('password_text_input'),
   })  : hintText = 'Enter password',
         icon = Icons.lock_outline,
         obscureText = true,
@@ -33,6 +36,7 @@ class TextInput extends StatelessWidget {
   final IconData? icon;
   final bool obscureText;
   final String? errorText;
+  final Key? textFieldKey;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +51,7 @@ class TextInput extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 48),
         child: TextField(
+          key: textFieldKey,
           controller: textEditingController,
           decoration: InputDecoration(
             errorText: errorText,

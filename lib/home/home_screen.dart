@@ -1,5 +1,5 @@
 import 'package:dima_project/home/search/search_screen.dart';
-import 'package:dima_project/home/settings/modify_profile_screen.dart';
+import 'package:dima_project/home/settings/modify_profile/modify_profile_page.dart';
 import 'package:dima_project/home/settings/setting_page.dart';
 import 'package:dima_project/loading/loading_screen.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Widget home = const LoadingScreen();
 
         if (state is NotInitializedState) {
-          home = ModifyProfileScreen(
-            internalUser: state.internalUser,
-            goBack: () {},
-          );
+          home = const ModifyProfilePage();
         } else if (state is CompleteState) {
           home = _Home();
         }

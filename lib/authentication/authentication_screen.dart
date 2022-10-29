@@ -48,7 +48,7 @@ class AuthenticationScreen extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => SignInScreen()),
                             ),
-                        text: 'Sign in'),
+                        text: 'Sign In'),
                     const SizedBox(
                       height: 50,
                     ),
@@ -57,7 +57,7 @@ class AuthenticationScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(builder: (context) => SignUpScreen()),
                       ),
-                      text: 'Sign up',
+                      text: 'Sign Up',
                       primary: false,
                     ),
                     const Spacer(),

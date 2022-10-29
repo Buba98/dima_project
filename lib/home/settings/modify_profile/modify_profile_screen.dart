@@ -13,10 +13,10 @@ class ModifyProfileScreen extends StatefulWidget {
   const ModifyProfileScreen({
     super.key,
     required this.internalUser,
-    required this.goBack,
+    this.goBack,
   });
 
-  final Function() goBack;
+  final Function()? goBack;
   final InternalUser internalUser;
 
   @override
@@ -119,7 +119,9 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
                         image: image,
                       ),
                     );
-                widget.goBack();
+                if (widget.goBack != null) {
+                  widget.goBack!();
+                }
               },
               text: 'Finalize',
             ),
