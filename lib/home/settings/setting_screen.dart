@@ -27,6 +27,7 @@ class SettingScreen extends StatelessWidget {
                 LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
                     return FutureBuilder<String>(
+                      future: state.internalUser.profilePicture,
                       builder: (BuildContext context,
                           AsyncSnapshot<String> snapshot) {
                         return ProfilePicture(

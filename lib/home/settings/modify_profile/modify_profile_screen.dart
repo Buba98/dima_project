@@ -56,6 +56,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
                   }
                 },
                 child: FutureBuilder<String>(
+                  future: widget.internalUser.profilePicture,
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     if (image != null) {
