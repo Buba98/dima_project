@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
@@ -18,4 +21,18 @@ MaterialColor createMaterialColor(Color color) {
     );
   }
   return MaterialColor(color.value, swatch);
+}
+
+double distanceInMeters(LatLng latLng1, LatLng latLng2) {
+  double dlon = latLng2.longitudeInRad - latLng1.longitudeInRad;
+  double dlat = latLng2.latitudeInRad - latLng1.latitudeInRad;
+
+  double a = pow(sin(dlat / 2), 2) +
+      cos(latLng1.latitudeInRad) *
+          cos(latLng2.latitudeInRad) *
+          pow(sin(dlon / 2), 2);
+
+  double c = 2 * asin(asin(sqrt(a)));
+
+  return c * 6371 * 1000;
 }
