@@ -102,8 +102,7 @@ class SearchResultWidget extends StatelessWidget {
                 //'Mon 17 Oct from 9:00 to 10:00'
                 const Icon(Icons.access_time),
                 Text(
-                  ' ${DateFormat('E').format(startingTime)} ${DateFormat('d').format(startingTime)} '
-                  '${DateFormat('H:mm').format(startingTime)} '
+                  ' ${DateFormat('E d H:mm').format(startingTime)} '
                   '-${DateFormat('H:mm').format(startingTime.add(duration))}',
                   style: const TextStyle(
                     fontSize: 15,

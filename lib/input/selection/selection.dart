@@ -10,7 +10,7 @@ class Selection extends StatelessWidget {
     this.runSpacing = 30,
     this.spacing = 10,
     this.elementHeight = 50,
-    this.elementWidth = 80,
+    this.elementWidth = 150,
     this.baseColor = const Color(0xFF287762),
     this.selectedAlpha = 150,
     this.notSelectedAlpha = 50,

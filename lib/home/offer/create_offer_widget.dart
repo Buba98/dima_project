@@ -1,8 +1,11 @@
+import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/text_input.dart';
 import 'package:intl/intl.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../input/selection/selection_element.dart';
 
 class CreateOfferWidget extends StatefulWidget {
   const CreateOfferWidget({super.key});
@@ -13,18 +16,15 @@ class CreateOfferWidget extends StatefulWidget {
 
 class _CreateOfferWidgetState extends State<CreateOfferWidget> {
   double? price;
-  final Map<String, bool?> activities = {
-    'walk': true,
-    'example1': false,
-    'example2': false,
-    //'example3': false,
-    'other': false,
-  };
+  final List<SelectionElement> activities = [
+    SelectionElement(name: 'walk', selected: true),
+    SelectionElement(name: 'example1', selected: false),
+    SelectionElement(name: 'example2', selected: false),
+    SelectionElement(name: 'other', selected: false),
+  ];
+
   bool _isOtherActivitiesSelected = false;
   bool _isOtherOptionsVisible = false;
-  List<String> maxDogsAllowedList = ['1', '2', '3', '4', '5', 'Any'];
-  int maxDogsAllowed = -1;
-  String maxDogsAllowedHint = '';
 
   DateTime selectedDate = DateTime.now();
   String selectedDateString = 'no selected date';
@@ -36,6 +36,10 @@ class _CreateOfferWidgetState extends State<CreateOfferWidget> {
   TimeOfDay selectedEndingTime = TimeOfDay(
       hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute + 30);
   String selectedEndingTimeString = 'no ending time';
+
+  // List<String> maxDogsAllowedList = ['1', '2', '3', '4', '5', 'Any'];
+  // int maxDogsAllowed = -1;
+  // String maxDogsAllowedHint = '';
 
   bool _isNotPast({required DateTime selectedDate, TimeOfDay? selectedTime}) {
     DateTime now = DateTime.now();
@@ -136,22 +140,6 @@ class _CreateOfferWidgetState extends State<CreateOfferWidget> {
     }
   }
 
-  _enableOtherOptions() {
-    setState(() {
-      _isOtherOptionsVisible = !_isOtherOptionsVisible;
-    });
-  }
-
-  //TODO delete
-  Widget _tmpSpacer(color) {
-    return Container(
-      height: 20,
-      decoration: BoxDecoration(
-        color: color,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -211,103 +199,79 @@ class _CreateOfferWidgetState extends State<CreateOfferWidget> {
               Spacer(),
             ],
           ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Color(0xFF287762)),
-            ),
-            child: Column(
-              children: [
-                Text('Activities'),
-                Container(
-                  height: activities.keys.length * 35 + 15,
-                  child: ListView(
-                    children: activities.keys.map((String key) {
-                      return SizedBox(
-                        height: 35,
-                        // height: max(min(MediaQuery.of(context).size.height * 0.8,40),30), //TODO better way? useful?
-                        child: CheckboxListTile(
-                          title: Text(key),
-                          value: activities[key],
-                          onChanged: (bool? value) {
-                            setState(() {
-                              activities[key] = value;
-                              key == 'other'
-                                  ? _isOtherActivitiesSelected =
-                                      !_isOtherActivitiesSelected
-                                  : null;
-                            });
-                          },
-                        ),
-                      );
-                    }).toList(),
-                  ),
+          const SizedBox(
+            height: 15,
+          ),
+          Selection(
+            elements: activities,
+            onChanged: (value) {
+              setState(() {
+                activities[value].selected = !activities[value].selected;
+                for (int i = 0; i < activities.length; i++) {
+                  print(activities[i].name);
+                }
+                if (value == activities.length - 1) {
+                  print(_isOtherActivitiesSelected);
+                  _isOtherActivitiesSelected = !_isOtherActivitiesSelected;
+                  print(_isOtherActivitiesSelected);
+                }
+              });
+            },
+          ),
+          Visibility(
+            visible: _isOtherActivitiesSelected,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Column(children: [
+                const SizedBox(
+                  height: 15,
                 ),
-                Visibility(
-                  visible: _isOtherActivitiesSelected,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Column(children: [
-                      TextInput(
-                          textEditingController:
-                              TextEditingController(text: '')),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                    ]),
-                  ),
-                ),
-                //TODO make a appear a TextField to describe 'other' activities
-              ],
+                TextInput(
+                    textEditingController: TextEditingController(text: '')),
+              ]),
             ),
           ),
           const SizedBox(
             height: 15,
           ),
           Center(
-            child:
-                Button(onPressed: _enableOtherOptions, text: 'Other options'),
+            child: Button(
+                onPressed: () {
+                  setState(() {
+                    _isOtherOptionsVisible = !_isOtherOptionsVisible;
+                  });
+                },
+                text: 'Other options'),
           ),
           //TODO make it interactable to open other options to be filed
-          Visibility(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text('#max'),
-                    DropdownButton(
-                      hint: Text(maxDogsAllowedHint),
-                        items: maxDogsAllowedList
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (String? value) {
-                          setState(() {
-                            maxDogsAllowed = 3;
-                            maxDogsAllowedHint = value!;
-                          });
-                        }),
-                  ],
-                )
-              ],
-            ),
-          )
+          // Visibility(
+          //   child: Column(
+          //     children: [
+          //       Row(
+          //         children: [
+          //           Text('#max'),
+          //           DropdownButton(
+          //               hint: Text(maxDogsAllowedHint),
+          //               items: maxDogsAllowedList
+          //                   .map<DropdownMenuItem<String>>((String value) {
+          //                 return DropdownMenuItem<String>(
+          //                   value: value,
+          //                   child: Text(value),
+          //                 );
+          //               }).toList(),
+          //               onChanged: (String? value) {
+          //                 setState(() {
+          //                   maxDogsAllowed = 3;
+          //                   maxDogsAllowedHint = value!;
+          //                 });
+          //               }),
+          //         ],
+          //       )
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );
-  }
-
-  Widget _otherOptionsWidget(String rowName, List options){
-    Column option = Column(
-      children: [
-        Text(rowName),
-        Row(
-
-        )
-      ],
-    );
-    return Container();
   }
 }
