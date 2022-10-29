@@ -60,7 +60,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     if (image != null) {
                       return ProfilePicture(
-                        radius: constraints.maxWidth / 2,
+                        radius: constraints.maxWidth / 4,
                         modify: true,
                         image: FileImage(image!),
                       );

@@ -33,6 +33,9 @@ class ProfilePicture extends StatelessWidget {
                 radius: radius,
                 child: ClipOval(
                   child: Image(
+                    fit: BoxFit.fill,
+                    width: radius * 2,
+                    height: radius * 2,
                     image: image,
                   ),
                 ),
@@ -46,7 +49,6 @@ class ProfilePicture extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(50)),
-                    padding: const EdgeInsets.all(15),
                     child: Icon(
                       Icons.mode,
                       size: radius / 4,
