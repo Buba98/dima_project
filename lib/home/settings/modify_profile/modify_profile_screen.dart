@@ -44,56 +44,40 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: ListView(
           children: [
-            Stack(
-              children: [
-                Align(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: GestureDetector(
-                      onTap: () async {
-                        final XFile? image = await ImagePicker()
-                            .pickImage(source: ImageSource.camera);
+            LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) =>
+                  GestureDetector(
+                onTap: () async {
+                  final XFile? image =
+                      await ImagePicker().pickImage(source: ImageSource.camera);
 
-                        if (image != null) {
-                          setState(() => this.image = File(image.path));
-                        }
-                      },
-                      child: FutureBuilder<String>(
-                        builder: (BuildContext context,
-                            AsyncSnapshot<String> snapshot) {
-                          if (image != null) {
-                            return ProfilePicture(
-                              // size: 20,
-                              modify: true,
-                              image: FileImage(image!),
-                            );
-                          }
+                  if (image != null) {
+                    setState(() => this.image = File(image.path));
+                  }
+                },
+                child: FutureBuilder<String>(
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (image != null) {
+                      return ProfilePicture(
+                        radius: constraints.maxWidth / 2,
+                        modify: true,
+                        image: FileImage(image!),
+                      );
+                    }
 
-                          return ProfilePicture(
-                            modify: true,
-                            image: (snapshot.connectionState ==
-                                        ConnectionState.done &&
-                                    snapshot.hasData)
-                                ? NetworkImage(snapshot.data!)
-                                : null,
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+                    return ProfilePicture(
+                      radius: constraints.maxWidth / 4,
+                      modify: true,
+                      image:
+                          (snapshot.connectionState == ConnectionState.done &&
+                                  snapshot.hasData)
+                              ? NetworkImage(snapshot.data!)
+                              : null,
+                    );
+                  },
                 ),
-                Positioned(
-                  top: 0,
-                  right: MediaQuery.of(context).size.width / 5,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(50)),
-                    padding: const EdgeInsets.all(15),
-                    child: const Icon(Icons.mode),
-                  ),
-                ),
-              ],
+              ),
             ),
             const SizedBox(
               height: 20,

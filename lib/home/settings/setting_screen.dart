@@ -30,6 +30,7 @@ class SettingScreen extends StatelessWidget {
                       builder: (BuildContext context,
                           AsyncSnapshot<String> snapshot) {
                         return ProfilePicture(
+                          radius: constraints.maxWidth / 4,
                           image: snapshot.connectionState ==
                                       ConnectionState.done &&
                                   snapshot.hasData
