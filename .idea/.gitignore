@@ -1,4 +1,8 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+misc.xml
+runConfigurations/main_dart.xml
+libraries/Dart_SDK.xml
+
 dictionaries
