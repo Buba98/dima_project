@@ -43,6 +43,7 @@ class AuthenticationScreen extends StatelessWidget {
                   children: [
                     const Spacer(),
                     Button(
+                        key: const Key('sign_in_button'),
                         onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -53,6 +54,7 @@ class AuthenticationScreen extends StatelessWidget {
                       height: 50,
                     ),
                     Button(
+                      key: const Key('sign_up_button'),
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => SignUpScreen()),

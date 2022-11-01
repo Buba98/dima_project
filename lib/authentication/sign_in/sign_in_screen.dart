@@ -78,6 +78,7 @@ class SignInScreen extends StatelessWidget {
                               ),
                               const Spacer(),
                               Button(
+                                key: const Key('sign_in_button'),
                                 onPressed: () => signInBloc.add(
                                   EmailPasswordSignInEvent(
                                     email: email.text,

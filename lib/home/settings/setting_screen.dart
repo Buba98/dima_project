@@ -2,6 +2,7 @@ import 'package:dima_project/home/settings/modify_dog_screen.dart';
 import 'package:dima_project/home/settings/profile_picture.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/show_text.dart';
+import 'package:dima_project/user/authentication_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -86,6 +87,12 @@ class SettingScreen extends StatelessWidget {
                     ),
                   ),
                   text: 'Add new dog',
+                ),
+                const Divider(),
+                Button(
+                  onPressed: () =>
+                      context.read<AuthenticationBloc>().add(SignOutEvent()),
+                  text: 'Sign out',
                 ),
               ],
             ),
