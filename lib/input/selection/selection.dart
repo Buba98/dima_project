@@ -15,6 +15,7 @@ class Selection extends StatelessWidget {
     this.baseColor = Colors.black12,
     this.selectedAlpha = 120,
     this.notSelectedAlpha = 50,
+    //TODO fontSize
   });
 
   final List<SelectionElement> elements;

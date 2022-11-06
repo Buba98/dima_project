@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 
 import '../../input/selection/selection_element.dart';
 
-class CreateOfferWidget extends StatefulWidget {
-  const CreateOfferWidget({super.key});
+class CreateOfferPhoneWidget extends StatefulWidget {
+  const CreateOfferPhoneWidget({super.key});
 
   @override
-  _CreateOfferWidgetState createState() => _CreateOfferWidgetState();
+  _CreateOfferPhoneWidgetState createState() => _CreateOfferPhoneWidgetState();
 }
 
-class _CreateOfferWidgetState extends State<CreateOfferWidget> {
+class _CreateOfferPhoneWidgetState extends State<CreateOfferPhoneWidget> {
   double? price;
   final List<SelectionElement> activities = [
     SelectionElement(name: 'walk', selected: true),
@@ -208,12 +208,9 @@ class _CreateOfferWidgetState extends State<CreateOfferWidget> {
               setState(() {
                 activities[value].selected = !activities[value].selected;
                 for (int i = 0; i < activities.length; i++) {
-                  print(activities[i].name);
                 }
                 if (value == activities.length - 1) {
-                  print(_isOtherActivitiesSelected);
                   _isOtherActivitiesSelected = !_isOtherActivitiesSelected;
-                  print(_isOtherActivitiesSelected);
                 }
               });
             },
