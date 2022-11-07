@@ -1,4 +1,5 @@
 import 'package:dima_project/home/offer/create_offer_screen.dart';
+import 'package:dima_project/home/search/search_screen.dart';
 import 'package:dima_project/home/settings/modify_profile/modify_profile_page.dart';
 import 'package:dima_project/home/settings/setting_page.dart';
 import 'package:dima_project/loading/loading_screen.dart';
@@ -48,7 +49,7 @@ class _Home extends StatefulWidget {
 
 class _HomeState extends State<_Home> {
   List<Widget> bodyList = [
-    const CreateOfferScreen(),
+    const SearchScreen(),
     const SettingPage(),
   ];
   int currentIndex = 0;

@@ -13,7 +13,7 @@ class SearchResultWidget extends StatelessWidget {
   final String distance;
   final DateTime startingTime;
   final Duration duration;
-  final Future<String> userProfileUrl;
+  final Future<String>? userProfileUrl;
 
   SearchResultWidget(
       {required this.name,
@@ -23,7 +23,7 @@ class SearchResultWidget extends StatelessWidget {
       required distance,
       required this.startingTime,
       required this.duration,
-      required this.userProfileUrl,
+      this.userProfileUrl,
       super.key})
       : this.price =
             price.toString().replaceAll(RegExp(r"([.]+0+)(?!.*\d)"), ""),
