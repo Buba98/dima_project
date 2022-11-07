@@ -1,6 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
-import 'create_offer_phone_widget.dart';
 import 'create_offer_widget.dart';
 
 class CreateOfferScreen extends StatelessWidget {
