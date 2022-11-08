@@ -36,3 +36,15 @@ double distanceInMeters(LatLng latLng1, LatLng latLng2) {
 
   return c * 6371 * 1000;
 }
+
+String printDate(DateTime dateTime) =>
+    '${dateTime.day} / ${dateTime.month} / ${dateTime.year}\t${dateTime.hour > 9 ? dateTime.hour : '0${dateTime.hour}'} : ${dateTime.minute > 9 ? dateTime.minute : '0${dateTime.minute}'}';
+
+String printTime(TimeOfDay timeOfDay) =>
+    '${timeOfDay.hour} : ${timeOfDay.minute}';
+
+DateTime getDay(DateTime dateTime) =>
+    DateTime(dateTime.year, dateTime.month, dateTime.day);
+
+bool isTablet(BuildContext context) =>
+    MediaQuery.of(context).size.shortestSide < 600;

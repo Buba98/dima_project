@@ -9,6 +9,7 @@ class TextInput extends StatelessWidget {
     this.obscureText = false,
     this.errorText,
     this.textFieldKey,
+    this.textInputType = TextInputType.text,
   });
 
   const TextInput.email({
@@ -19,7 +20,8 @@ class TextInput extends StatelessWidget {
   })  : hintText = 'Enter email',
         icon = Icons.email_outlined,
         obscureText = false,
-        errorText = (error ?? false) ? 'Wrong password' : null;
+        errorText = (error ?? false) ? 'Wrong password' : null,
+        textInputType = TextInputType.text;
 
   const TextInput.password({
     super.key,
@@ -29,7 +31,8 @@ class TextInput extends StatelessWidget {
   })  : hintText = 'Enter password',
         icon = Icons.lock_outline,
         obscureText = true,
-        errorText = (error ?? false) ? 'Wrong password' : null;
+        errorText = (error ?? false) ? 'Wrong password' : null,
+        textInputType = TextInputType.text;
 
   final TextEditingController textEditingController;
   final String? hintText;
@@ -37,6 +40,7 @@ class TextInput extends StatelessWidget {
   final bool obscureText;
   final String? errorText;
   final Key? textFieldKey;
+  final TextInputType textInputType;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +55,7 @@ class TextInput extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 48),
         child: TextField(
+          keyboardType: textInputType,
           key: textFieldKey,
           controller: textEditingController,
           decoration: InputDecoration(

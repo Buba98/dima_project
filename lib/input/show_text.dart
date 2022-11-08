@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 
 class ShowText extends StatelessWidget {
-  const ShowText(
-      {super.key,
-      required this.text,
-      required this.title,
-      this.onPressed,
-      this.trailerIcon,
-      this.leadingIcon});
+  const ShowText({
+    super.key,
+    required this.text,
+    this.title,
+    this.onPressed,
+    this.trailerIcon,
+    this.leadingIcon,
+    this.backgroundColor = Colors.black26,
+    this.centerText = false,
+  });
 
   final String text;
-  final String title;
+  final String? title;
   final Function()? onPressed;
   final IconData? trailerIcon;
   final IconData? leadingIcon;
+  final Color backgroundColor;
+  final bool centerText;
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +27,11 @@ class ShowText extends StatelessWidget {
       child: Container(
         alignment: Alignment.centerLeft,
         height: 68,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),
-          color: Colors.black26,
+          color: backgroundColor,
         ),
         padding: const EdgeInsets.all(10),
         child: Row(
@@ -41,13 +46,16 @@ class ShowText extends StatelessWidget {
               ),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: centerText
+                    ? CrossAxisAlignment.center
+                    : CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    title,
-                    style: const TextStyle(color: Colors.black45),
-                  ),
+                  if (title != null)
+                    Text(
+                      title!,
+                      style: const TextStyle(color: Colors.black45),
+                    ),
                   Text(
                     text,
                     style: const TextStyle(fontWeight: FontWeight.bold),

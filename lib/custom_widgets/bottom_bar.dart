@@ -49,6 +49,10 @@ class BottomBarState extends State<BottomBar> {
           label: 'home',
         ),
         BottomNavigationBarItem(
+          icon: Icon(Icons.add),
+          label: 'add',
+        ),
+        BottomNavigationBarItem(
           icon: Icon(Icons.settings),
           label: 'settings',
         ),

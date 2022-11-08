@@ -1,3 +1,4 @@
+import 'package:dima_project/constants/constants.dart';
 import 'package:dima_project/home/settings/modify_dog_screen.dart';
 import 'package:dima_project/home/settings/setting_screen.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class _SettingPageState extends State<SettingPage> {
       ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth > 500) {
+          if (constraints.maxWidth > Constants.tabletThreshold) {
             return Row(
               children: [
                 Flexible(
