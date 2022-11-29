@@ -1,3 +1,4 @@
+import 'package:dima_project/home/offer/duration_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';
@@ -5,38 +6,38 @@ import '../../input/button.dart';
 import '../../input/text_input.dart';
 import 'date_picker.dart';
 
-class DateStartEndPricePicker extends StatefulWidget {
-  const DateStartEndPricePicker({
+class StartDateDurationPricePicker extends StatefulWidget {
+  const StartDateDurationPricePicker({
     super.key,
     required this.startDate,
-    required this.endDate,
+    required this.duration,
     required this.price,
     required this.onNext,
   });
 
   final DateTime? startDate;
-  final DateTime? endDate;
-  final Function(DateTime, DateTime, double) onNext;
+  final Duration? duration;
+  final Function(DateTime, Duration, double) onNext;
   final double? price;
 
   @override
-  State<DateStartEndPricePicker> createState() =>
-      _DateStartEndPricePickerState();
+  State<StartDateDurationPricePicker> createState() =>
+      _StartDateDurationPricePickerState();
 }
 
-class _DateStartEndPricePickerState extends State<DateStartEndPricePicker> {
+class _StartDateDurationPricePickerState extends State<StartDateDurationPricePicker> {
   bool startDateError = false;
-  bool endDateError = false;
+  bool durationError = false;
   bool priceError = false;
 
   DateTime? startDate;
-  DateTime? endDate;
+  Duration? duration;
   late TextEditingController priceEditingController;
 
   @override
   void initState() {
     startDate = widget.startDate;
-    endDate = widget.endDate;
+    duration = widget.duration;
     priceEditingController = TextEditingController(
       text: widget.price?.toString(),
     );
@@ -62,16 +63,14 @@ class _DateStartEndPricePickerState extends State<DateStartEndPricePicker> {
         SizedBox(
           height: spaceBetweenWidgets,
         ),
-        DatePicker(
-          error: endDateError,
-          date: endDate,
-          startDate: startDate,
-          onChangeDate: (DateTime dataTime) {
+        DurationPicker(
+          onChangeDuration: (Duration duration) {
             setState(() {
-              endDateError = false;
-              endDate = dataTime;
+              durationError = false;
+              this.duration = duration;
             });
           },
+          duration: duration,
         ),
         SizedBox(
           height: spaceBetweenWidgets,
@@ -92,9 +91,9 @@ class _DateStartEndPricePickerState extends State<DateStartEndPricePicker> {
               return;
             }
 
-            if (endDate == null || endDate!.isBefore(DateTime.now())) {
+            if (duration == null) {
               setState(() {
-                endDateError = true;
+                durationError = true;
               });
               return;
             }
@@ -107,7 +106,7 @@ class _DateStartEndPricePickerState extends State<DateStartEndPricePicker> {
               });
               return;
             }
-            widget.onNext(startDate!, endDate!,
+            widget.onNext(startDate!, duration!,
                 double.parse(priceEditingController.text));
           },
           text: 'Next',

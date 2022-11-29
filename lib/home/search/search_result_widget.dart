@@ -1,118 +1,90 @@
+import 'package:dima_project/constants/constants.dart';
+import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
+import '../../model/offer.dart';
 
 class SearchResultWidget extends StatelessWidget {
-  final String name;
+  const SearchResultWidget({
+    required this.offer,
+    super.key,
+  });
 
-  // double stars;
-  // bool favourites;
-  final String price;
-  final String distance;
-  final DateTime startingTime;
-  final Duration duration;
-  final Future<String>? userProfileUrl;
-
-  SearchResultWidget(
-      {required this.name,
-      // this.stars = 0.0,
-      // this.favourites = false,
-      required price,
-      required distance,
-      required this.startingTime,
-      required this.duration,
-      this.userProfileUrl,
-      super.key})
-      : price =
-            price.toString().replaceAll(RegExp(r"([.]+0+)(?!.*\d)"), ""),
-        distance =
-            distance.toString().replaceAll(RegExp(r"([.]+0+)(?!.*\d)"), "");
+  final Offer offer;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.95,
-      child: Card(
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20)
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(spaceBetweenWidgets/2),
         child: Column(
           children: [
-            const SizedBox(
-              height: 15,
-            ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Spacer(),
-                // ProfilePicture(
-                //   profilePictureUrl: userProfileUrl,
-                // ),
-                const SizedBox(
-                  width: 15,
-                ),
                 Column(
                   children: [
                     Text(
-                      name,
+                      offer.id,
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
-                        fontSize: 32.0,
+                        fontSize: 12.0,
                       ),
                     ),
-                    // Row(
-                    //   children: [
-                    //     Text('Reviews: $stars/5'), //TODO?
-                    //     Text(favourites ? 'Saved' : 'Not saved'), //TODO?
-                    //   ],
-                    // ),
                   ],
                 ),
-                const Spacer(
-                  flex: 3,
-                ),
                 Text(
-                  '$price €/h',
+                  '€${offer.price}',
                   style: const TextStyle(
                     fontSize: 25.0,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF287762),
                   ),
                 ),
-                const Spacer(),
               ],
             ),
-            const SizedBox(
-              height: 7,
+            SizedBox(
+              height: spaceBetweenWidgets,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Spacer(),
                 const Icon(Icons.location_on_outlined),
+                SizedBox(
+                  width: spaceBetweenWidgets,
+                ),
                 Text(
-                  ' $distance m',
+                  '${(distanceInMeters(polimi, offer.position!) / 1000).toStringAsFixed(2)} Km',
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Colors.black54,
                   ),
                 ),
-                const Spacer(
-                  flex: 4,
-                ),
-                //'Mon 17 Oct from 9:00 to 10:00'
-                const Icon(Icons.access_time),
-                Text(
-                  ' ${DateFormat('E d H:mm').format(startingTime)} '
-                  '-${DateFormat('H:mm').format(startingTime.add(duration))}',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black54,
-                  ),
-                ),
-                Spacer(),
               ],
             ),
-            const SizedBox(
-              height: 15,
-            )
+            SizedBox(
+              height: spaceBetweenWidgets,
+            ),
+            Row(
+              children: [
+                const Icon(Icons.access_time),
+                SizedBox(
+                  width: spaceBetweenWidgets,
+                ),
+                Text(
+                  '${printDate(offer.startDate!)} for ${printDuration(offer.duration!)}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

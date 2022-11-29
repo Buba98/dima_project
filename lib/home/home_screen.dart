@@ -1,4 +1,5 @@
 import 'package:dima_project/home/offer/create_offer_page.dart';
+import 'package:dima_project/home/offer/offer_bloc.dart';
 import 'package:dima_project/home/search/search_screen.dart';
 import 'package:dima_project/home/settings/modify_profile/modify_profile_page.dart';
 import 'package:dima_project/home/settings/setting_page.dart';
@@ -61,7 +62,12 @@ class _HomeState extends State<_Home> {
       body: bodyList[currentIndex],
       bottomNavigationBar: BottomBar(
         currentIndex: currentIndex,
-        onTap: (int index) => setState(() => currentIndex = index),
+        onTap: (int index) {
+          if(index == 0){
+            context.read<OfferBloc>().add(LoadEvent());
+          }
+          setState(() => currentIndex = index);
+        },
       ),
     );
   }

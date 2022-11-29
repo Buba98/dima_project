@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dima_project/model/internal_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:latlong2/latlong.dart';
+
+import '../../model/offer.dart';
 
 abstract class OfferEvent {}
 
@@ -10,26 +15,37 @@ class AddOfferEvent extends OfferEvent {
 
   AddOfferEvent({
     required DateTime startDate,
-    required DateTime endDate,
+    required Duration duration,
     required double price,
     required List<String> activities,
     required LatLng position,
   }) : firestoreModel = {
           'start_date': Timestamp.fromDate(startDate),
-          'end_date': Timestamp.fromDate(endDate),
+          'end_date': Timestamp.fromDate(startDate.add(duration)),
           'price': price,
           'activities': activities,
           'position': [position.latitude, position.longitude],
         };
 }
 
-abstract class OfferState {}
+class LoadEvent extends OfferEvent {
+  final Completer? completer;
 
-class InitializedState extends OfferState {}
+  LoadEvent({this.completer});
+}
+
+class OfferState {
+  final List<Offer> offers;
+
+  OfferState({
+    this.offers = const [],
+  });
+}
 
 class OfferBloc extends Bloc<OfferEvent, OfferState> {
-  OfferBloc() : super(InitializedState()) {
+  OfferBloc() : super(OfferState()) {
     on<AddOfferEvent>(_onAddOfferEvent);
+    on<LoadEvent>(_onLoadEvent);
   }
 
   _onAddOfferEvent(AddOfferEvent event, Emitter<OfferState> emit) async {
@@ -40,5 +56,46 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
     await FirebaseFirestore.instance
         .collection('offers')
         .add(event.firestoreModel);
+  }
+
+  _onLoadEvent(LoadEvent event, Emitter<OfferState> emit) async {
+    List<Offer> offers = [];
+
+    await FirebaseFirestore.instance
+        .collection('offers') /*.where('acrivities', arrayContains: )*/ .get()
+        .then(
+      (QuerySnapshot<Map<String, dynamic>> doc) {
+        for (var element in doc.docs) {
+          if (!element.exists) {
+            continue;
+          }
+
+          offers.add(
+            Offer(
+              id: element.id,
+              startDate: (element['start_date'] as Timestamp).toDate(),
+              duration: (element['end_date'] as Timestamp)
+                  .toDate()
+                  .difference((element['start_date'] as Timestamp).toDate()),
+              price: element['price'],
+              activities: (element['activities'] as List)
+                  .map((e) => Activity(activity: e))
+                  .toList(),
+              position: LatLng(element['position'][0], element['position'][1]),
+              user: InternalUser(
+                uid: (element['user'] as DocumentReference).id,
+                fetched: false,
+              ),
+              fetched: true,
+            ),
+          );
+        }
+      },
+      onError: (e) => throw Exception(e),
+    );
+
+    emit(OfferState(offers: offers));
+
+    event.completer?.complete();
   }
 }

@@ -65,6 +65,7 @@ class _MyAppState extends State<MyApp> {
           ),
           fontFamily: 'OpenSans',
           primarySwatch: createMaterialColor(const Color(0xFF287762)),
+          primaryColor: const Color(0xFF287762),
           scaffoldBackgroundColor: const Color(0xFFe5e1d5)),
       home: BlocListener<AuthenticationBloc, AuthenticationState>(
         listener: (BuildContext context, AuthenticationState state) {

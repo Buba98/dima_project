@@ -8,7 +8,7 @@ import 'package:latlong2/latlong.dart';
 
 import '../../custom_widgets/app_bar.dart';
 import 'activities_picker.dart';
-import 'date_start_end_price_picker.dart';
+import 'start_date_duration_price_picker.dart';
 
 class CreateOfferPage extends StatefulWidget {
   const CreateOfferPage({super.key});
@@ -21,12 +21,9 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
   int index = 0;
 
   DateTime? startDate;
-  DateTime? endDate;
-
+  Duration? duration;
   double? price;
-
   List<SelectionElement>? activities;
-
   LatLng? position;
 
   @override
@@ -39,16 +36,16 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
       body: Padding(
         padding: EdgeInsets.all(spaceBetweenWidgets),
         child: index == 0
-            ? DateStartEndPricePicker(
-                onNext: (DateTime startDate, DateTime endDate, double price) =>
+            ? StartDateDurationPricePicker(
+                onNext: (DateTime startDate, Duration duration, double price) =>
                     setState(() {
                   this.startDate = startDate;
-                  this.endDate = endDate;
+                  this.duration = duration;
                   this.price = price;
                   index++;
                 }),
                 startDate: startDate,
-                endDate: endDate,
+                duration: duration,
                 price: price,
               )
             : index == 1
@@ -76,7 +73,7 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
                       context.read<OfferBloc>().add(
                             AddOfferEvent(
                               startDate: startDate!,
-                              endDate: endDate!,
+                              duration: duration!,
                               price: price!,
                               activities: activities!
                                   .where((element) => element.selected)
@@ -88,7 +85,7 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
                       setState(() {
                         index = 0;
                         startDate = null;
-                        endDate = null;
+                        duration = null;
                         price = null;
                         activities = null;
                         this.position = null;
