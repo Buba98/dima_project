@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../settings/profile_picture.dart';
 
 class SearchResultWidget extends StatelessWidget {
   final String name;
@@ -25,9 +22,9 @@ class SearchResultWidget extends StatelessWidget {
       required this.duration,
       this.userProfileUrl,
       super.key})
-      : this.price =
+      : price =
             price.toString().replaceAll(RegExp(r"([.]+0+)(?!.*\d)"), ""),
-        this.distance =
+        distance =
             distance.toString().replaceAll(RegExp(r"([.]+0+)(?!.*\d)"), "");
 
   @override

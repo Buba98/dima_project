@@ -45,11 +45,11 @@ class TextInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
           Radius.circular(20),
         ),
-        color: Colors.black26,
+        color: errorText != null ? Colors.red.withOpacity(.26) : Colors.black26,
       ),
       padding: const EdgeInsets.all(10),
       child: ConstrainedBox(

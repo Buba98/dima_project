@@ -23,32 +23,28 @@ class Selection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Wrap(
-        direction: direction,
-        runSpacing: spacing,
-        spacing: spacing,
-        children: elements.map(
-          (element) {
-            return GestureDetector(
-              onTap: () {
-                if (onChanged == null) return;
-                onChanged!(elements.indexOf(element));
-              },
-              child: SizedBox(
-                width: elementWidth,
-                child: ShowText(
-                  centerText: true,
-                  backgroundColor:
-                      element.selected ? Colors.black26 : Colors.black12,
-                  trailerIcon: element.icon,
-                  text: element.name,
-                ),
-              ),
-            );
-          },
-        ).toList(),
-      ),
+    return Wrap(
+      direction: direction,
+      runSpacing: spacing,
+      spacing: spacing,
+      children: elements.map(
+        (element) {
+          return GestureDetector(
+            onTap: () {
+              if (onChanged == null) return;
+              onChanged!(elements.indexOf(element));
+            },
+            child: ShowText(
+              wight: elementWidth,
+              centerText: true,
+              backgroundColor:
+                  element.selected ? Colors.black26 : Colors.black12,
+              trailerIcon: element.icon,
+              text: element.name,
+            ),
+          );
+        },
+      ).toList(),
     );
   }
 }

@@ -10,11 +10,13 @@ class DatePicker extends StatelessWidget {
     required this.startDate,
     required this.onChangeDate,
     required this.date,
+    this.error = false,
   });
 
   final DateTime? startDate;
   final DateTime? date;
   final Function(DateTime) onChangeDate;
+  final bool error;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,8 @@ class DatePicker extends StatelessWidget {
           children: [
             Expanded(
               child: ShowText(
+                backgroundColor:
+                    error ? Colors.red.withOpacity(.26) : Colors.black26,
                 onPressed: () async {
                   final DateTime? picked = await showDatePicker(
                     context: context,
@@ -53,10 +57,12 @@ class DatePicker extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: Constants.spaceBetweenWidgets,
+              width: spaceBetweenWidgets,
             ),
             Expanded(
               child: ShowText(
+                backgroundColor:
+                    error ? Colors.red.withOpacity(.26) : Colors.black26,
                 onPressed: () async {
                   final TimeOfDay? picked = await showTimePicker(
                     context: context,

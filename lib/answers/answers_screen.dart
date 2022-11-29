@@ -1,5 +1,4 @@
 import 'package:dima_project/input/button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AnswersScreen extends StatelessWidget {

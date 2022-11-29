@@ -1,5 +1,4 @@
 import 'package:dima_project/home/offer/create_offer_page.dart';
-import 'package:dima_project/home/offer/create_offer_page.dart';
 import 'package:dima_project/home/search/search_screen.dart';
 import 'package:dima_project/home/settings/modify_profile/modify_profile_page.dart';
 import 'package:dima_project/home/settings/setting_page.dart';

@@ -32,7 +32,7 @@ class _SettingPageState extends State<SettingPage> {
       ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth > Constants.tabletThreshold) {
+          if (constraints.maxWidth > tabletThreshold) {
             return Row(
               children: [
                 Flexible(

@@ -10,6 +10,7 @@ class ShowText extends StatelessWidget {
     this.leadingIcon,
     this.backgroundColor = Colors.black26,
     this.centerText = false,
+    this.wight,
   });
 
   final String text;
@@ -19,6 +20,7 @@ class ShowText extends StatelessWidget {
   final IconData? leadingIcon;
   final Color backgroundColor;
   final bool centerText;
+  final double? wight;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class ShowText extends StatelessWidget {
       child: Container(
         alignment: Alignment.centerLeft,
         height: 68,
+        width: wight,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(
             Radius.circular(20),

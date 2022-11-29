@@ -70,19 +70,15 @@ class CompleteState extends InitializedState {
 }
 
 class UserBloc extends Bloc<UserEvent, UserState> {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-
   UserBloc() : super(InitializationState()) {
     on<_ReloadEvent>(_onReloadEvent);
     on<ModifyEvent>(_onModifyEvent);
     on<ModifyDogEvent>(_onModifyDogEvent);
     on<DeleteDogEvent>(_onDeleteDogEvent);
 
-    _firebaseFirestore
+    FirebaseFirestore.instance
         .collection('users')
-        .doc(_firebaseAuth.currentUser!.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .snapshots()
         .listen((DocumentSnapshot<Map<String, dynamic>> event) {
       add(_ReloadEvent(event: event));
@@ -91,11 +87,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   _onDeleteDogEvent(DeleteDogEvent event, Emitter<UserState> emit) {
     DocumentReference documentReference =
-        _firebaseFirestore.collection('dogs').doc(event.uid);
+        FirebaseFirestore.instance.collection('dogs').doc(event.uid);
 
-    _firebaseFirestore
+    FirebaseFirestore.instance
         .collection('users')
-        .doc(_firebaseAuth.currentUser!.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({
       'dogs': FieldValue.arrayRemove([documentReference]),
     });
@@ -104,24 +100,25 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   _onModifyDogEvent(ModifyDogEvent event, Emitter<UserState> emit) async {
-    event.firestoreModel['owner'] = _firebaseFirestore
+    event.firestoreModel['owner'] = FirebaseFirestore.instance
         .collection('users')
-        .doc(_firebaseAuth.currentUser!.uid);
+        .doc(FirebaseAuth.instance.currentUser!.uid);
 
     if (event.uid != null) {
-      await _firebaseFirestore
+      await FirebaseFirestore.instance
           .collection('dogs')
           .doc(event.uid)
           .update(event.firestoreModel);
 
       return;
     }
-    DocumentReference documentReference =
-        await _firebaseFirestore.collection('dogs').add(event.firestoreModel);
+    DocumentReference documentReference = await FirebaseFirestore.instance
+        .collection('dogs')
+        .add(event.firestoreModel);
 
-    _firebaseFirestore
+    FirebaseFirestore.instance
         .collection('users')
-        .doc(_firebaseAuth.currentUser!.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({
       'dogs': FieldValue.arrayUnion([documentReference]),
     });
@@ -132,7 +129,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(
         NotInitializedState(
           internalUser: InternalUser(
-            uid: _firebaseAuth.currentUser!.uid,
+            uid: FirebaseAuth.instance.currentUser!.uid,
             fetched: false,
           ),
         ),
@@ -143,7 +140,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     Map<String, dynamic> data = event.event.data()!;
 
     InternalUser internalUser = InternalUser(
-      uid: _firebaseAuth.currentUser!.uid,
+      uid: FirebaseAuth.instance.currentUser!.uid,
       name: data['name'],
       dogs: [],
       fetched: true,
@@ -151,7 +148,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     if (data.containsKey('dogs')) {
       for (var doc in data['dogs']) {
-        await _firebaseFirestore
+        await FirebaseFirestore.instance
             .collection('dogs')
             .doc(doc.id)
             .get()
@@ -175,14 +172,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   _onModifyEvent(ModifyEvent event, Emitter<UserState> emit) {
-    _firebaseFirestore
+    FirebaseFirestore.instance
         .collection('users')
-        .doc(_firebaseAuth.currentUser!.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .set(event.firestoreModel, SetOptions(merge: true));
 
     if (event.image != null) {
-      _firebaseStorage
-          .ref(_firebaseAuth.currentUser!.uid)
+      FirebaseStorage.instance
+          .ref(FirebaseAuth.instance.currentUser!.uid)
           .child('profile.jpg')
           .putFile(event.image!);
     }
