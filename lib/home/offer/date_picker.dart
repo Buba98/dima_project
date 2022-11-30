@@ -1,8 +1,7 @@
+import 'package:dima_project/constants.dart';
+import 'package:dima_project/input/show_text.dart';
+import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
-
-import '../../constants/constants.dart';
-import '../../input/show_text.dart';
-import '../../utils/utils.dart';
 
 class DatePicker extends StatelessWidget {
   const DatePicker({
@@ -56,7 +55,7 @@ class DatePicker extends StatelessWidget {
                 title: 'Start date',
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: spaceBetweenWidgets,
             ),
             Expanded(

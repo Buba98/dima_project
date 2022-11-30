@@ -1,10 +1,9 @@
+import 'package:dima_project/constants.dart';
+import 'package:dima_project/home/offer/date_picker.dart';
 import 'package:dima_project/home/offer/duration_picker.dart';
+import 'package:dima_project/input/button.dart';
+import 'package:dima_project/input/text_input.dart';
 import 'package:flutter/material.dart';
-
-import '../../constants/constants.dart';
-import '../../input/button.dart';
-import '../../input/text_input.dart';
-import 'date_picker.dart';
 
 class StartDateDurationPricePicker extends StatefulWidget {
   const StartDateDurationPricePicker({
@@ -60,7 +59,7 @@ class _StartDateDurationPricePickerState extends State<StartDateDurationPricePic
             });
           },
         ),
-        SizedBox(
+        const SizedBox(
           height: spaceBetweenWidgets,
         ),
         DurationPicker(
@@ -72,7 +71,7 @@ class _StartDateDurationPricePickerState extends State<StartDateDurationPricePic
           },
           duration: duration,
         ),
-        SizedBox(
+        const SizedBox(
           height: spaceBetweenWidgets,
         ),
         TextInput(

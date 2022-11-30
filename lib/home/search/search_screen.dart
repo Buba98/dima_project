@@ -1,18 +1,52 @@
 import 'dart:async';
 
-import 'package:dima_project/constants/constants.dart';
+import 'package:dima_project/bloc/location_bloc.dart';
+import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
-import 'package:dima_project/home/offer/offer_bloc.dart';
+import 'package:dima_project/bloc/offer_bloc.dart';
 import 'package:dima_project/home/search/search_result_widget.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
 import 'package:dima_project/input/text_input.dart';
+import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  LatLng? position;
+
+  @override
+  void initState() {
+    _positionHandler();
+    super.initState();
+  }
+
+  _positionHandler() async {
+    LocationBloc locationBloc = context.read<LocationBloc>();
+    Location? location;
+
+    location = await locationBloc.state.location;
+
+    if (location == null) {
+      return;
+    }
+
+    LatLng position = locationDataToLatLng(await location.getLocation());
+
+    setState(() {
+      this.position = position;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +55,25 @@ class SearchScreen extends StatelessWidget {
         text: 'Search',
       ),
       body: Center(
-          child: MediaQuery.of(context).size.shortestSide < tabletThreshold
-              ? const _SearchScreenPhone()
-              : const _SearchScreenTablet()),
+        child: isTablet(context)
+            ? _SearchScreenTablet(
+                position: position,
+              )
+            : _SearchScreenPhone(
+                position: position,
+              ),
+      ),
     );
   }
 }
 
 class _SearchScreenPhone extends StatefulWidget {
-  const _SearchScreenPhone({Key? key}) : super(key: key);
+  const _SearchScreenPhone({
+    Key? key,
+    required this.position,
+  }) : super(key: key);
+
+  final LatLng? position;
 
   @override
   State<_SearchScreenPhone> createState() => _SearchScreenPhoneState();
@@ -46,8 +90,10 @@ class _SearchScreenPhoneState extends State<_SearchScreenPhone> {
           SizedBox(
             height: spaceBetweenWidgets,
           ),
-          const Expanded(
-            child: _OffersView(),
+          Expanded(
+            child: _OffersView(
+              position: widget.position,
+            ),
           ),
         ],
       ),
@@ -56,7 +102,12 @@ class _SearchScreenPhoneState extends State<_SearchScreenPhone> {
 }
 
 class _SearchScreenTablet extends StatefulWidget {
-  const _SearchScreenTablet({Key? key}) : super(key: key);
+  const _SearchScreenTablet({
+    Key? key,
+    required this.position,
+  }) : super(key: key);
+
+  final LatLng? position;
 
   @override
   State<_SearchScreenTablet> createState() => _SearchScreenTabletState();
@@ -76,22 +127,22 @@ class _SearchScreenTabletState extends State<_SearchScreenTablet> {
         Expanded(
           flex: 4,
           child: Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: spaceBetweenWidgets,
             ),
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Filter'),
+                  children: const [
+                    Text('Filter'),
                     SizedBox(
                       width: spaceBetweenWidgets,
                     ),
-                    const Icon(Icons.filter_list_sharp),
+                    Icon(Icons.filter_list_sharp),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: spaceBetweenWidgets,
                 ),
                 Selection(
@@ -111,7 +162,7 @@ class _SearchScreenTabletState extends State<_SearchScreenTablet> {
                         textEditingController: otherActivity,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: spaceBetweenWidgets,
                     ),
                     GestureDetector(
@@ -155,14 +206,16 @@ class _SearchScreenTabletState extends State<_SearchScreenTablet> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: spaceBetweenWidgets,
         ),
         Expanded(
           flex: 7,
           child: Padding(
-            padding: EdgeInsets.only(right: spaceBetweenWidgets),
-            child: const _OffersView(),
+            padding: const EdgeInsets.only(right: spaceBetweenWidgets),
+            child: _OffersView(
+              position: widget.position,
+            ),
           ),
         ),
       ],
@@ -171,7 +224,12 @@ class _SearchScreenTabletState extends State<_SearchScreenTablet> {
 }
 
 class _OffersView extends StatelessWidget {
-  const _OffersView({Key? key}) : super(key: key);
+  const _OffersView({
+    Key? key,
+    required this.position,
+  }) : super(key: key);
+
+  final LatLng? position;
 
   @override
   Widget build(BuildContext context) {
@@ -184,6 +242,7 @@ class _OffersView extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return SearchResultWidget(
                 offer: state.offers[index],
+                position: position,
               );
             },
             separatorBuilder: (BuildContext context, int index) => SizedBox(

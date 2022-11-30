@@ -1,8 +1,7 @@
+import 'package:dima_project/bloc/user/user_bloc.dart';
 import 'package:dima_project/home/settings/modify_profile/modify_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../user/user_bloc.dart';
 
 class ModifyProfilePage extends StatelessWidget {
   const ModifyProfilePage({super.key});

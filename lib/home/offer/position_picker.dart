@@ -1,15 +1,14 @@
 import 'dart:async';
 
 import 'package:dima_project/bloc/location_bloc.dart';
+import 'package:dima_project/constants.dart';
+import 'package:dima_project/input/button.dart';
+import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
-
-import '../../constants/constants.dart';
-import '../../input/button.dart';
-import '../../utils/utils.dart';
 
 class PositionPicker extends StatefulWidget {
   const PositionPicker({
@@ -109,7 +108,7 @@ class _PositionPickerState extends State<PositionPicker> {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: spaceBetweenWidgets,
         ),
         Row(
@@ -126,7 +125,7 @@ class _PositionPickerState extends State<PositionPicker> {
                 text: 'Back',
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: spaceBetweenWidgets,
             ),
             Expanded(

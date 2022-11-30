@@ -1,10 +1,10 @@
 import 'dart:io';
 
+import 'package:dima_project/bloc/user/user_bloc.dart';
 import 'package:dima_project/home/settings/profile_picture.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/text_input.dart';
 import 'package:dima_project/model/internal_user.dart';
-import 'package:dima_project/user/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';

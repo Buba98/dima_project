@@ -1,8 +1,7 @@
+import 'package:dima_project/input/show_text.dart';
+import 'package:dima_project/utils/utils.dart';
 import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
-
-import '../../input/show_text.dart';
-import '../../utils/utils.dart';
 
 class DurationPicker extends StatelessWidget {
   const DurationPicker({

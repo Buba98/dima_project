@@ -51,7 +51,7 @@ DateTime getDay(DateTime dateTime) =>
     DateTime(dateTime.year, dateTime.month, dateTime.day);
 
 bool isTablet(BuildContext context) =>
-    MediaQuery.of(context).size.shortestSide < 600;
+    MediaQuery.of(context).size.shortestSide > 600;
 
 LatLng locationDataToLatLng(LocationData locationData) =>
     LatLng(locationData.latitude!, locationData.longitude!);

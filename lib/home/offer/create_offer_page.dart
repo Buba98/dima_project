@@ -1,14 +1,13 @@
-import 'package:dima_project/constants/constants.dart';
-import 'package:dima_project/home/offer/offer_bloc.dart';
+import 'package:dima_project/bloc/offer_bloc.dart';
+import 'package:dima_project/constants.dart';
+import 'package:dima_project/custom_widgets/app_bar.dart';
+import 'package:dima_project/home/offer/activities_picker.dart';
 import 'package:dima_project/home/offer/position_picker.dart';
+import 'package:dima_project/home/offer/start_date_duration_price_picker.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:latlong2/latlong.dart';
-
-import '../../custom_widgets/app_bar.dart';
-import 'activities_picker.dart';
-import 'start_date_duration_price_picker.dart';
 
 class CreateOfferPage extends StatefulWidget {
   const CreateOfferPage({super.key});
@@ -34,7 +33,7 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
         text: 'Create offer',
       ),
       body: Padding(
-        padding: EdgeInsets.all(spaceBetweenWidgets),
+        padding: const EdgeInsets.all(spaceBetweenWidgets),
         child: index == 0
             ? StartDateDurationPricePicker(
                 onNext: (DateTime startDate, Duration duration, double price) =>

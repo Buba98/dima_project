@@ -1,9 +1,10 @@
 import 'package:dima_project/authentication/authentication_screen.dart';
 import 'package:dima_project/bloc/location_bloc.dart';
+import 'package:dima_project/bloc/offer_bloc.dart';
+import 'package:dima_project/bloc/user/authentication_bloc.dart';
+import 'package:dima_project/bloc/user/user_bloc.dart' as user_bloc;
+import 'package:dima_project/constants.dart';
 import 'package:dima_project/home/home_screen.dart';
-import 'package:dima_project/home/offer/offer_bloc.dart';
-import 'package:dima_project/user/authentication_bloc.dart';
-import 'package:dima_project/user/user_bloc.dart' as user_bloc;
 import 'package:dima_project/utils/scroll_behavior.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -63,14 +64,15 @@ class _MyAppState extends State<MyApp> {
       },
       title: 'Walk the dog',
       theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-            iconTheme: IconThemeData(color: Colors.black),
-            foregroundColor: Colors.black,
-          ),
-          fontFamily: 'OpenSans',
-          primarySwatch: createMaterialColor(const Color(0xFF287762)),
-          primaryColor: const Color(0xFF287762),
-          scaffoldBackgroundColor: const Color(0xFFe5e1d5)),
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(color: Colors.black),
+          foregroundColor: Colors.black,
+        ),
+        fontFamily: 'OpenSans',
+        primarySwatch: createMaterialColor(primaryColor),
+        primaryColor: primaryColor,
+        scaffoldBackgroundColor: secondaryColor,
+      ),
       home: BlocListener<AuthenticationBloc, AuthenticationState>(
         listener: (BuildContext context, AuthenticationState state) {
           Navigator.popUntil(context, (route) => route.isFirst);

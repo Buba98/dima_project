@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dima_project/model/internal_user.dart';
+import 'package:dima_project/model/offer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:latlong2/latlong.dart';
-
-import '../../model/offer.dart';
 
 abstract class OfferEvent {}
 

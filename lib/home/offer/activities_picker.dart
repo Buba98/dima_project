@@ -1,10 +1,10 @@
+import 'package:dima_project/constants.dart';
+import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/selection/selection.dart';
+import 'package:dima_project/input/selection/selection_element.dart';
+import 'package:dima_project/input/text_input.dart';
+import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
-
-import '../../constants/constants.dart';
-import '../../input/button.dart';
-import '../../input/selection/selection_element.dart';
-import '../../input/text_input.dart';
 
 class ActivitiesPicker extends StatefulWidget {
   const ActivitiesPicker({
@@ -48,6 +48,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
             child: Selection(
               spacing: spaceBetweenWidgets,
               direction: Axis.horizontal,
+              rows: isTablet(context) ? 4 : 2,
               elements: activities,
               onChanged: (int change) {
                 setState(() {
@@ -58,7 +59,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: spaceBetweenWidgets,
         ),
         Row(
@@ -70,7 +71,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
                 errorText: error ? 'Select at least one activity' : null,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: spaceBetweenWidgets,
             ),
             GestureDetector(
@@ -110,7 +111,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: spaceBetweenWidgets,
         ),
         Row(
@@ -132,7 +133,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
                 text: 'Back',
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: spaceBetweenWidgets,
             ),
             Expanded(

@@ -1,26 +1,26 @@
-import 'package:dima_project/constants/constants.dart';
+import 'package:dima_project/constants.dart';
+import 'package:dima_project/model/offer.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
-
-import '../../model/offer.dart';
+import 'package:latlong2/latlong.dart';
 
 class SearchResultWidget extends StatelessWidget {
   const SearchResultWidget({
     required this.offer,
+    required this.position,
     super.key,
   });
 
   final Offer offer;
+  final LatLng? position;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20)
-      ),
+          color: Colors.white, borderRadius: BorderRadius.circular(20)),
       child: Padding(
-        padding: EdgeInsets.all(spaceBetweenWidgets/2),
+        padding: const EdgeInsets.all(spaceBetweenWidgets / 2),
         child: Column(
           children: [
             Row(
@@ -47,32 +47,33 @@ class SearchResultWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: spaceBetweenWidgets,
             ),
             Row(
               children: [
                 const Icon(Icons.location_on_outlined),
-                SizedBox(
+                const SizedBox(
                   width: spaceBetweenWidgets,
                 ),
-                Text(
-                  '${(distanceInMeters(polimi, offer.position!) / 1000).toStringAsFixed(2)} Km',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black54,
+                if (position != null)
+                  Text(
+                    '${(distanceInMeters(position!, offer.position!) / 1000).toStringAsFixed(2)} Km',
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black54,
+                    ),
                   ),
-                ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: spaceBetweenWidgets,
             ),
             Row(
               children: [
                 const Icon(Icons.access_time),
-                SizedBox(
+                const SizedBox(
                   width: spaceBetweenWidgets,
                 ),
                 Text(

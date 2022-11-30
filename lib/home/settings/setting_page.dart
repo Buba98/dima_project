@@ -1,9 +1,8 @@
-import 'package:dima_project/constants/constants.dart';
+import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/home/settings/modify_dog_screen.dart';
 import 'package:dima_project/home/settings/setting_screen.dart';
+import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
-
-import '../../custom_widgets/app_bar.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -30,10 +29,8 @@ class _SettingPageState extends State<SettingPage> {
                 ? 'Dog profile'
                 : 'Modify profile',
       ),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth > tabletThreshold) {
-            return Row(
+      body: isTablet(context)
+          ? Row(
               children: [
                 Flexible(
                   flex: 2,
@@ -50,19 +47,15 @@ class _SettingPageState extends State<SettingPage> {
                   child: screen ?? Container(),
                 ),
               ],
-            );
-          } else {
-            return screen ??
-                SettingScreen(
-                  changeScreen: (Widget? screen) {
-                    setState(() {
-                      this.screen = screen;
-                    });
-                  },
-                );
-          }
-        },
-      ),
+            )
+          : screen ??
+              SettingScreen(
+                changeScreen: (Widget? screen) {
+                  setState(() {
+                    this.screen = screen;
+                  });
+                },
+              ),
     );
   }
 }

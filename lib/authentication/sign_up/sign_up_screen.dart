@@ -1,10 +1,9 @@
 import 'package:dima_project/authentication/sign_up/sign_up_bloc.dart';
+import 'package:dima_project/custom_widgets/app_bar.dart';
+import 'package:dima_project/input/button.dart';
+import 'package:dima_project/input/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../custom_widgets/app_bar.dart';
-import '../../input/button.dart';
-import '../../input/text_input.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
