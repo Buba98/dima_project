@@ -1,4 +1,5 @@
 import 'package:dima_project/authentication/authentication_screen.dart';
+import 'package:dima_project/bloc/location_bloc.dart';
 import 'package:dima_project/home/home_screen.dart';
 import 'package:dima_project/home/offer/offer_bloc.dart';
 import 'package:dima_project/user/authentication_bloc.dart';
@@ -31,6 +32,9 @@ Future<void> main() async {
         ),
         BlocProvider(
           create: (BuildContext context) => OfferBloc(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => LocationBloc(),
         ),
       ],
       child: const MyApp(),

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
 
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
@@ -51,3 +52,6 @@ DateTime getDay(DateTime dateTime) =>
 
 bool isTablet(BuildContext context) =>
     MediaQuery.of(context).size.shortestSide < 600;
+
+LatLng locationDataToLatLng(LocationData locationData) =>
+    LatLng(locationData.latitude!, locationData.longitude!);

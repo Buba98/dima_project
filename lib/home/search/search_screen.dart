@@ -179,13 +179,16 @@ class _OffersView extends StatelessWidget {
       strokeWidth: 3.0,
       child: BlocBuilder<OfferBloc, OfferState>(
         builder: (BuildContext context, OfferState state) {
-          return ListView.builder(
+          return ListView.separated(
             itemCount: state.offers.length,
             itemBuilder: (BuildContext context, int index) {
               return SearchResultWidget(
                 offer: state.offers[index],
               );
             },
+            separatorBuilder: (BuildContext context, int index) => SizedBox(
+              height: spaceBetweenWidgets,
+            ),
           );
         },
       ),
