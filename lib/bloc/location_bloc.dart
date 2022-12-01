@@ -13,7 +13,6 @@ class LocationState {
   }) : _location = location;
 
   Future<Location?> get location async {
-
     bool serviceEnabled;
     PermissionStatus permissionGranted;
 
@@ -37,6 +36,5 @@ class LocationState {
 }
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
-  LocationBloc()
-      : super(LocationState(location: Location()..enableBackgroundMode()));
+  LocationBloc() : super(LocationState(location: Location()));
 }

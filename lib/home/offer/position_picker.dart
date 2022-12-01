@@ -30,6 +30,7 @@ class _PositionPickerState extends State<PositionPicker> {
   LatLng? position;
   LatLng? livePosition;
   StreamSubscription? streamSubscription;
+  final MapController mapController = MapController();
 
   @override
   void initState() {
@@ -48,7 +49,10 @@ class _PositionPickerState extends State<PositionPicker> {
       return;
     }
 
-    streamSubscription = location.onLocationChanged.listen((LocationData event) {
+    mapController.move(locationDataToLatLng(await location.getLocation()), 15);
+
+    streamSubscription =
+        location.onLocationChanged.listen((LocationData event) {
       setState(() {
         livePosition = locationDataToLatLng(event);
       });
@@ -67,6 +71,7 @@ class _PositionPickerState extends State<PositionPicker> {
       children: [
         Expanded(
           child: FlutterMap(
+            mapController: mapController,
             options: MapOptions(
               center: polimi,
               zoom: 15,

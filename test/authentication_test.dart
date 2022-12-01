@@ -14,7 +14,7 @@ void main() {
       testWidgets(
         'Sign up test',
         (WidgetTester tester) async {
-          app.main();
+          await app.main();
           await tester.pump(const Duration(seconds: 3));
           await tester.pumpAndSettle();
 

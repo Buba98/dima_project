@@ -1,5 +1,7 @@
 import 'package:dima_project/authentication/sign_in/sign_in_bloc.dart';
+import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
+import 'package:dima_project/custom_widgets/scroll_expandable.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/text_input.dart';
 import 'package:flutter/material.dart';
@@ -18,82 +20,76 @@ class SignInScreen extends StatelessWidget {
       appBar: KAppBar(
         backBehaviour: () => Navigator.pop(context),
       ),
-      resizeToAvoidBottomInset: false,
       body: BlocBuilder<SignInBloc, SignInState>(
         bloc: signInBloc,
         builder: (BuildContext context, SignInState state) {
-          return Center(
-            child: SizedBox(
-              width: 300,
-              child: CustomScrollView(
-                slivers: [
-                  SliverFillRemaining(
-                    child: Flex(
-                      direction: Axis.vertical,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: const [
-                              Spacer(
-                                flex: 2,
-                              ),
-                              Center(
-                                child: FittedBox(
-                                  fit: BoxFit.fitWidth,
-                                  child: Text(
-                                    "Welcome",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 110,
-                                      fontFamily: 'Pacifico',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Spacer(),
-                            ],
+          return ScrollExpandable(
+            child: Center(
+              child: SizedBox(
+                width: 300,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: const [
+                          Spacer(
+                            flex: 2,
                           ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              if (state is GenericErrorState)
-                                Text(
-                                  'Generic error',
-                                  style: TextStyle(
-                                      color: Theme.of(context).errorColor),
-                                ),
-                              const Spacer(),
-                              TextInput.email(
-                                textEditingController: email,
-                                error: state is UserNotFoundState,
+                          FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              "Welcome",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 110,
+                                fontFamily: 'Pacifico',
                               ),
-                              const SizedBox(
-                                height: 25,
-                              ),
-                              TextInput.password(
-                                textEditingController: password,
-                                error: state is WrongPasswordState,
-                              ),
-                              const Spacer(),
-                              Button(
-                                key: const Key('sign_in_button'),
-                                onPressed: () => signInBloc.add(
-                                  EmailPasswordSignInEvent(
-                                    email: email.text,
-                                    password: password.text,
-                                  ),
-                                ),
-                                text: 'Sign In',
-                              ),
-                              const Spacer(),
-                            ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Spacer(),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Column(
+                        children: [
+                          if (state is GenericErrorState)
+                            Text(
+                              'Generic error',
+                              style: TextStyle(
+                                  color: Theme.of(context).errorColor),
+                            ),
+                          const Spacer(),
+                          TextInput.email(
+                            textEditingController: email,
+                            error: state is UserNotFoundState,
+                          ),
+                          const SizedBox(
+                            height: spaceBetweenWidgets,
+                          ),
+                          TextInput.password(
+                            textEditingController: password,
+                            error: state is WrongPasswordState,
+                          ),
+                          const SizedBox(
+                            height: spaceBetweenWidgets,
+                          ),
+                          Button(
+                            key: const Key('sign_in_button'),
+                            onPressed: () => signInBloc.add(
+                              EmailPasswordSignInEvent(
+                                email: email.text,
+                                password: password.text,
+                              ),
+                            ),
+                            text: 'Sign In',
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
