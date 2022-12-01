@@ -57,7 +57,7 @@ class _HomeState extends State<_Home> {
 
   @override
   void initState() {
-    context.read<OfferBloc>().add(LoadEvent());
+    context.read<OfferBloc>().add(LoadEvent(filters: []));
     super.initState();
   }
 
