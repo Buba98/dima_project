@@ -55,9 +55,9 @@ class _SearchScreenState extends State<SearchScreen> {
       ...activities
           .where((element) => element.selected)
           .map<Filter>((e) => Filter(
-                parameter: e.name,
-                field: 'activities',
-                filterType: FilterType.arrayContains,
+                parameter: true,
+                field: 'activities.${e.name}',
+                filterType: FilterType.equalTo,
               )),
     ];
 

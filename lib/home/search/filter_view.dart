@@ -21,16 +21,19 @@ class FilterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Selection(
-          onChanged: onChangeActivity,
-          elements: activities,
+        Expanded(
+          child: SingleChildScrollView(
+            child: Selection(
+              onChanged: onChangeActivity,
+              elements: activities,
+            ),
+          ),
         ),
-        const Spacer(),
         Row(
           children: [
             Expanded(
               child: TextInput(
-                hintText: 'Add activity',
+                hintText: 'Add filter',
                 textEditingController: otherActivity,
               ),
             ),

@@ -6,6 +6,7 @@ class Button extends StatelessWidget {
     required Function() onPressed,
     required this.text,
     this.primary = true,
+    this.attention = false,
     this.width,
     this.icon,
     this.disabled = false,
@@ -17,6 +18,7 @@ class Button extends StatelessWidget {
   final double? width;
   final IconData? icon;
   final bool disabled;
+  final bool attention;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,9 @@ class Button extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
           minimumSize: Size(width ?? double.infinity, 68),
+          backgroundColor: attention
+              ? Theme.of(context).errorColor
+              : Theme.of(context).primaryColor,
         ),
         onPressed: onPressed,
         child: Stack(
@@ -51,6 +56,14 @@ class Button extends StatelessWidget {
           minimumSize: Size(width ?? double.infinity, 68),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
+          ),
+          foregroundColor: attention
+              ? Theme.of(context).errorColor
+              : Theme.of(context).primaryColor,
+          side: BorderSide(
+            color: attention
+                ? Theme.of(context).errorColor
+                : Theme.of(context).primaryColor,
           ),
         ),
         onPressed: onPressed,

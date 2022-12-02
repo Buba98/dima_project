@@ -89,6 +89,7 @@ class SettingScreen extends StatelessWidget {
                 ),
                 const Divider(),
                 Button(
+                  attention: true,
                   onPressed: () =>
                       context.read<AuthenticationBloc>().add(SignOutEvent()),
                   text: 'Sign out',

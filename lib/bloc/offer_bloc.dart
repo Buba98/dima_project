@@ -23,7 +23,7 @@ class AddOfferEvent extends OfferEvent {
           'start_date': Timestamp.fromDate(startDate),
           'end_date': Timestamp.fromDate(startDate.add(duration)),
           'price': price,
-          'activities': activities,
+          'activities': {for (String v in activities) v: true},
           'position': [position.latitude, position.longitude],
         };
 }
@@ -133,9 +133,10 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
                   .toDate()
                   .difference((element['start_date'] as Timestamp).toDate()),
               price: element['price'],
-              activities: (element['activities'] as List)
-                  .map((e) => Activity(activity: e))
-                  .toList(),
+              activities: [
+                for (MapEntry m in (element['activities'] as Map).entries)
+                  Activity(activity: m.key),
+              ],
               position: LatLng(element['position'][0], element['position'][1]),
               user: InternalUser(
                 uid: (element['user'] as DocumentReference).id,

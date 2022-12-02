@@ -33,7 +33,7 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
         text: 'Create offer',
       ),
       body: Padding(
-        padding: const EdgeInsets.all(spaceBetweenWidgets),
+        padding: const EdgeInsets.symmetric(horizontal: spaceBetweenWidgets),
         child: index == 0
             ? StartDateDurationPricePicker(
                 onNext: (DateTime startDate, Duration duration, double price) =>

@@ -1,4 +1,5 @@
 import 'package:dima_project/constants.dart';
+import 'package:dima_project/custom_widgets/scroll_expandable.dart';
 import 'package:dima_project/home/offer/date_picker.dart';
 import 'package:dima_project/home/offer/duration_picker.dart';
 import 'package:dima_project/input/button.dart';
@@ -45,72 +46,74 @@ class _StartDateDurationPricePickerState extends State<StartDateDurationPricePic
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Spacer(),
-        DatePicker(
-          error: startDateError,
-          startDate: DateTime.now(),
-          date: startDate,
-          onChangeDate: (DateTime dataTime) {
-            setState(() {
-              startDateError = false;
-              startDate = dataTime;
-            });
-          },
-        ),
-        const SizedBox(
-          height: spaceBetweenWidgets,
-        ),
-        DurationPicker(
-          onChangeDuration: (Duration duration) {
-            setState(() {
-              durationError = false;
-              this.duration = duration;
-            });
-          },
-          duration: duration,
-        ),
-        const SizedBox(
-          height: spaceBetweenWidgets,
-        ),
-        TextInput(
-          errorText: priceError ? 'Insert valid price' : null,
-          textInputType: TextInputType.number,
-          textEditingController: priceEditingController,
-          icon: Icons.attach_money,
-        ),
-        const Spacer(),
-        Button(
-          onPressed: () {
-            if (startDate == null || startDate!.isBefore(DateTime.now())) {
+    return ScrollExpandable(
+      child: Column(
+        children: [
+          const Spacer(),
+          DatePicker(
+            error: startDateError,
+            startDate: DateTime.now(),
+            date: startDate,
+            onChangeDate: (DateTime dataTime) {
               setState(() {
-                startDateError = true;
+                startDateError = false;
+                startDate = dataTime;
               });
-              return;
-            }
+            },
+          ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
+          DurationPicker(
+            onChangeDuration: (Duration duration) {
+              setState(() {
+                durationError = false;
+                this.duration = duration;
+              });
+            },
+            duration: duration,
+          ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
+          TextInput(
+            errorText: priceError ? 'Insert valid price' : null,
+            textInputType: TextInputType.number,
+            textEditingController: priceEditingController,
+            icon: Icons.attach_money,
+          ),
+          const Spacer(),
+          Button(
+            onPressed: () {
+              if (startDate == null || startDate!.isBefore(DateTime.now())) {
+                setState(() {
+                  startDateError = true;
+                });
+                return;
+              }
 
-            if (duration == null) {
-              setState(() {
-                durationError = true;
-              });
-              return;
-            }
+              if (duration == null) {
+                setState(() {
+                  durationError = true;
+                });
+                return;
+              }
 
-            if (priceEditingController.text.isEmpty ||
-                double.tryParse(priceEditingController.text) == null ||
-                double.parse(priceEditingController.text) <= 0) {
-              setState(() {
-                priceError = true;
-              });
-              return;
-            }
-            widget.onNext(startDate!, duration!,
-                double.parse(priceEditingController.text));
-          },
-          text: 'Next',
-        ),
-      ],
+              if (priceEditingController.text.isEmpty ||
+                  double.tryParse(priceEditingController.text) == null ||
+                  double.parse(priceEditingController.text) <= 0) {
+                setState(() {
+                  priceError = true;
+                });
+                return;
+              }
+              widget.onNext(startDate!, duration!,
+                  double.parse(priceEditingController.text));
+            },
+            text: 'Next',
+          ),
+        ],
+      ),
     );
   }
 }
