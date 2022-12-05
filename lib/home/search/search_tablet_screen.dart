@@ -2,6 +2,7 @@ import 'package:dima_project/constants.dart';
 import 'package:dima_project/home/search/filter_view.dart';
 import 'package:dima_project/home/search/offers_view.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
+import 'package:dima_project/model/offer.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -13,6 +14,9 @@ class SearchTabletScreen extends StatelessWidget {
     required this.addOtherActivity,
     required this.onChangeActivity,
     required this.onRefresh,
+    required this.priceValue,
+    required this.onChangePriceValue,
+    required this.offers,
   }) : super(key: key);
 
   final LatLng? position;
@@ -20,6 +24,9 @@ class SearchTabletScreen extends StatelessWidget {
   final Function(SelectionElement) addOtherActivity;
   final Function(int change) onChangeActivity;
   final Future<void> Function() onRefresh;
+  final double priceValue;
+  final Function(double) onChangePriceValue;
+  final List<Offer> offers;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +58,8 @@ class SearchTabletScreen extends StatelessWidget {
                     addOtherActivity: addOtherActivity,
                     activities: activities,
                     onChangeActivity: onChangeActivity,
+                    priceValue: priceValue,
+                    onChangePriceValue: onChangePriceValue,
                   ),
                 ),
               ],
@@ -67,6 +76,7 @@ class SearchTabletScreen extends StatelessWidget {
             child: OffersView(
               position: position,
               onRefresh: onRefresh,
+              offers: offers,
             ),
           ),
         ),

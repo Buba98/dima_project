@@ -7,7 +7,7 @@ import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/home/search/search_phone_screen.dart';
 import 'package:dima_project/home/search/search_tablet_screen.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
-import 'package:dima_project/model/filter.dart';
+import 'package:dima_project/model/offer.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +26,10 @@ class _SearchScreenState extends State<SearchScreen> {
   List<SelectionElement> activities = defaultActivities
       .map((e) => SelectionElement(name: e, selected: false))
       .toList();
+
+  double priceValue = 100;
+
+  List<Offer> offers = [];
 
   @override
   void initState() {
@@ -51,20 +55,9 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<void> onRefresh() {
-    List<Filter> filters = [
-      ...activities
-          .where((element) => element.selected)
-          .map<Filter>((e) => Filter(
-                parameter: true,
-                field: 'activities.${e.name}',
-                filterType: FilterType.equalTo,
-              )),
-    ];
-
     Completer completer = Completer();
     context.read<OfferBloc>().add(LoadEvent(
           completer: completer,
-          filters: filters,
         ));
     return completer.future;
   }
@@ -73,7 +66,6 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() {
       activities[change].selected = !activities[change].selected;
     });
-    onRefresh();
   }
 
   addOtherActivity(SelectionElement selectionElement) {
@@ -83,7 +75,12 @@ class _SearchScreenState extends State<SearchScreen> {
         selectionElement,
       ];
     });
-    onRefresh();
+  }
+
+  onChangePriceValue(double priceValue) {
+    setState(() {
+      this.priceValue = priceValue;
+    });
   }
 
   @override
@@ -92,23 +89,51 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: const KAppBar(
         text: 'Search',
       ),
-      body: Center(
-        child: isTablet(context)
-            ? SearchTabletScreen(
-                position: position,
-                activities: activities,
-                addOtherActivity: addOtherActivity,
-                onChangeActivity: onChangeActivity,
-                onRefresh: onRefresh,
-              )
-            : SearchPhoneScreen(
-                position: position,
-                activities: activities,
-                addOtherActivity: addOtherActivity,
-                onChangeActivity: onChangeActivity,
-                onRefresh: onRefresh,
-              ),
-      ),
+      body: Center(child: BlocBuilder<OfferBloc, OfferState>(
+        builder: (BuildContext context, OfferState state) {
+          List<Offer> offers = state.offers.where((offer) {
+            for (String activity in activities
+                .where((element) => element.selected)
+                .map((e) => e.name)) {
+              if (!offer.activities!
+                  .map((e) => e.activity)
+                  .contains(activity)) {
+                return false;
+              }
+            }
+
+            if (offer.price! > priceValue) {
+              return false;
+            }
+
+            return true;
+          }).toList();
+
+          if (isTablet(context)) {
+            return SearchTabletScreen(
+              position: position,
+              activities: activities,
+              addOtherActivity: addOtherActivity,
+              onChangeActivity: onChangeActivity,
+              onRefresh: onRefresh,
+              priceValue: priceValue,
+              onChangePriceValue: onChangePriceValue,
+              offers: offers,
+            );
+          } else {
+            return SearchPhoneScreen(
+              position: position,
+              activities: activities,
+              addOtherActivity: addOtherActivity,
+              onChangeActivity: onChangeActivity,
+              onRefresh: onRefresh,
+              priceValue: priceValue,
+              onChangePriceValue: onChangePriceValue,
+              offers: offers,
+            );
+          }
+        },
+      )),
     );
   }
 }

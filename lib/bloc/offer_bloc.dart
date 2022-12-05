@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dima_project/model/filter.dart';
 import 'package:dima_project/model/internal_user.dart';
 import 'package:dima_project/model/offer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,18 +22,16 @@ class AddOfferEvent extends OfferEvent {
           'start_date': Timestamp.fromDate(startDate),
           'end_date': Timestamp.fromDate(startDate.add(duration)),
           'price': price,
-          'activities': {for (String v in activities) v: true},
+          'activities': activities,
           'position': [position.latitude, position.longitude],
         };
 }
 
 class LoadEvent extends OfferEvent {
   final Completer? completer;
-  final List<Filter> filters;
 
   LoadEvent({
     this.completer,
-    required this.filters,
   });
 }
 
@@ -73,51 +70,6 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
       isGreaterThan: Timestamp.now(),
     );
 
-    for (Filter filter in event.filters) {
-      switch (filter.filterType) {
-        case FilterType.lessThan:
-          collection =
-              collection.where(filter.field, isLessThan: filter.parameter);
-          break;
-        case FilterType.lessOrEqual:
-          collection = collection.where(filter.field,
-              isLessThanOrEqualTo: filter.parameter);
-          break;
-        case FilterType.equalTo:
-          collection =
-              collection.where(filter.field, isEqualTo: filter.parameter);
-          break;
-        case FilterType.greaterThan:
-          collection =
-              collection.where(filter.field, isGreaterThan: filter.parameter);
-          break;
-        case FilterType.greaterOrEqualTo:
-          collection = collection.where(filter.field,
-              isGreaterThanOrEqualTo: filter.parameter);
-          break;
-        case FilterType.notEqualTo:
-          collection =
-              collection.where(filter.field, isNotEqualTo: filter.parameter);
-          break;
-        case FilterType.arrayContains:
-          collection =
-              collection.where(filter.field, arrayContains: filter.parameter);
-          break;
-        case FilterType.arrayContainsAny:
-          collection = collection.where(filter.field,
-              arrayContainsAny: filter.parameter as List<Object>);
-          break;
-        case FilterType.isIn:
-          collection = collection.where(filter.field,
-              whereIn: filter.parameter as List<Object>);
-          break;
-        case FilterType.isNotIn:
-          collection = collection.where(filter.field,
-              whereNotIn: filter.parameter as List<Object>);
-          break;
-      }
-    }
-
     await collection.get().then(
       (QuerySnapshot<Map<String, dynamic>> doc) {
         for (var element in doc.docs) {
@@ -134,8 +86,8 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
                   .difference((element['start_date'] as Timestamp).toDate()),
               price: element['price'],
               activities: [
-                for (MapEntry m in (element['activities'] as Map).entries)
-                  Activity(activity: m.key),
+                for (String e in element['activities'] as List)
+                  Activity(activity: e)
               ],
               position: LatLng(element['position'][0], element['position'][1]),
               user: InternalUser(
