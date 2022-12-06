@@ -37,7 +37,7 @@ class DurationPicker extends StatelessWidget {
             text: duration != null
                 ? printDuration(duration!)
                 : S.of(context).selectDuration,
-            leadingIcon: Icons.timer,
+            leadingIcon: Icons.timer_outlined,
             title: S.of(context).duration,
           ),
         ),

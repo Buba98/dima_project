@@ -42,5 +42,7 @@
     "deleteDog":"Delete dog",
     "enterYourName":"Enter your name",
     "nameIsRequired":"Name is required",
-    "km":"km"
+    "km":"km",
+    "showActivities":"Show activities",
+    "hideActivities":"Hide activities"
 }

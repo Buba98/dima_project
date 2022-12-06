@@ -39,16 +39,13 @@ double distanceInMeters(LatLng latLng1, LatLng latLng2) {
 }
 
 String printDate(DateTime dateTime) =>
-    '${dateTime.day} / ${dateTime.month} / ${dateTime.year}\t${dateTime.hour > 9 ? dateTime.hour : '0${dateTime.hour}'} : ${dateTime.minute > 9 ? dateTime.minute : '0${dateTime.minute}'}';
+    '${dateTime.day} / ${dateTime.month} / ${dateTime.year}';
 
 String printDuration(Duration duration) =>
-    '${duration.inMinutes ~/ 60} h : ${duration.inMinutes % 60 > 9 ? duration.inMinutes % 60 : '0${duration.inMinutes % 60}'} min';
+    '${duration.inMinutes ~/ 60} : ${duration.inMinutes % 60 > 9 ? duration.inMinutes % 60 : '0${duration.inMinutes % 60}'}';
 
-String printTime(TimeOfDay timeOfDay) =>
-    '${timeOfDay.hour} : ${timeOfDay.minute}';
-
-DateTime getDay(DateTime dateTime) =>
-    DateTime(dateTime.year, dateTime.month, dateTime.day);
+String printTime(DateTime dateTime) =>
+    '${dateTime.hour > 9 ? dateTime.hour : '0${dateTime.hour}'} : ${dateTime.minute > 9 ? dateTime.minute : '0${dateTime.minute}'}';
 
 bool isTablet(BuildContext context) =>
     MediaQuery.of(context).size.shortestSide > 600;

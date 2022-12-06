@@ -489,6 +489,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Show activities`
+  String get showActivities {
+    return Intl.message(
+      'Show activities',
+      name: 'showActivities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hide activities`
+  String get hideActivities {
+    return Intl.message(
+      'Hide activities',
+      name: 'hideActivities',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

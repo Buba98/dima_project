@@ -42,5 +42,7 @@
     "deleteDog":"删除狗",
     "enterYourName":"输入你的名字",
     "nameIsRequired":"姓名为必填项",
-    "km":"公里"
+    "km":"公里",
+    "showActivities":"显示活动",
+    "hideActivities":"隐藏活动"
 }

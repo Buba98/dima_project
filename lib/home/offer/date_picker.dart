@@ -81,7 +81,7 @@ class DatePicker extends StatelessWidget {
             },
             text:
                 date != null ? printDate(date!).split('\t')[1] :S.of(context).selectTime,
-            leadingIcon: Icons.timer_outlined,
+            leadingIcon: Icons.access_time,
             title: S.of(context).startTime,
           ),
         ),

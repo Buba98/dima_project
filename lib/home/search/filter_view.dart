@@ -53,7 +53,7 @@ class FilterView extends StatelessWidget {
           children: [
             Expanded(
               child: TextInput(
-                hintText: 'Add filter',
+                hintText: S.of(context).addFilter,
                 textEditingController: otherActivity,
               ),
             ),

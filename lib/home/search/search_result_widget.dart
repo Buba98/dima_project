@@ -5,7 +5,7 @@ import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
-class SearchResultWidget extends StatelessWidget {
+class SearchResultWidget extends StatefulWidget {
   const SearchResultWidget({
     required this.offer,
     required this.position,
@@ -16,10 +16,19 @@ class SearchResultWidget extends StatelessWidget {
   final LatLng? position;
 
   @override
+  State<SearchResultWidget> createState() => _SearchResultWidgetState();
+}
+
+class _SearchResultWidgetState extends State<SearchResultWidget> {
+  bool isShowActivities = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(20)),
+    return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(spaceBetweenWidgets / 2),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(spaceBetweenWidgets / 2),
         child: Column(
@@ -30,20 +39,20 @@ class SearchResultWidget extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      offer.id,
+                      widget.offer.id,
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
-                        fontSize: 12.0,
+                        fontSize: 25.0,
                       ),
                     ),
                   ],
                 ),
                 Text(
-                  '€${offer.price}',
+                  '\$${widget.offer.price}',
                   style: const TextStyle(
                     fontSize: 25.0,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF287762),
+                    color: primaryColor,
                   ),
                 ),
               ],
@@ -57,9 +66,9 @@ class SearchResultWidget extends StatelessWidget {
                 const SizedBox(
                   width: spaceBetweenWidgets,
                 ),
-                if (position != null)
+                if (widget.position != null)
                   Text(
-                    '${(distanceInMeters(position!, offer.position!) / 1000).toStringAsFixed(2)} ${S.of(context).km}',
+                    '${(distanceInMeters(widget.position ?? polimi, widget.offer.position!) / 1000).toStringAsFixed(2)}${S.of(context).km}',
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -69,7 +78,26 @@ class SearchResultWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: spaceBetweenWidgets,
+              height: spaceBetweenWidgets / 2,
+            ),
+            Row(
+              children: [
+                const Icon(Icons.calendar_month_outlined),
+                const SizedBox(
+                  width: spaceBetweenWidgets,
+                ),
+                Text(
+                  printDate(widget.offer.startDate!),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: spaceBetweenWidgets / 2,
             ),
             Row(
               children: [
@@ -78,7 +106,7 @@ class SearchResultWidget extends StatelessWidget {
                   width: spaceBetweenWidgets,
                 ),
                 Text(
-                  '${printDate(offer.startDate!)} ${S.of(context).fOr} ${printDuration(offer.duration!)}',
+                  printTime(widget.offer.startDate!),
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -86,6 +114,98 @@ class SearchResultWidget extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(
+              height: spaceBetweenWidgets / 2,
+            ),
+            Row(
+              children: [
+                const Icon(Icons.timer_outlined),
+                const SizedBox(
+                  width: spaceBetweenWidgets,
+                ),
+                Text(
+                  printDuration(widget.offer.duration!),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            ),
+            const Divider(),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isShowActivities = !isShowActivities;
+                });
+              },
+              child: Container(
+                decoration: const BoxDecoration(color: Colors.transparent),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    isShowActivities
+                        ? Column(
+                            children: widget.offer.activities!
+                                .map<Widget>((e) => Padding(
+                                      padding: EdgeInsets.only(
+                                          bottom:
+                                              widget.offer.activities!.last == e
+                                                  ? 0
+                                                  : spaceBetweenWidgets / 2),
+                                      child: Row(
+                                        children: [
+                                          const Text(
+                                            '\u2022',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black54,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: spaceBetweenWidgets,
+                                          ),
+                                          Text(
+                                            e.activity,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black54,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ))
+                                .toList(),
+                          )
+                        : Row(
+                            children: [
+                              const Icon(Icons.local_activity_outlined),
+                              const SizedBox(
+                                width: spaceBetweenWidgets,
+                              ),
+                              Text(
+                                isShowActivities
+                                    ? S.of(context).hideActivities
+                                    : S.of(context).showActivities,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ),
+                    Icon(isShowActivities
+                        ? Icons.arrow_drop_up
+                        : Icons.arrow_drop_down),
+                  ],
+                ),
+              ),
             ),
           ],
         ),

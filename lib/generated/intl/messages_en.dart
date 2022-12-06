@@ -39,6 +39,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "finalize": MessageLookupByLibrary.simpleMessage("Finalize"),
         "genericError": MessageLookupByLibrary.simpleMessage("Generic error"),
+        "hideActivities":
+            MessageLookupByLibrary.simpleMessage("Hide activities"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "insertValidPrice":
             MessageLookupByLibrary.simpleMessage("Insert valid price"),
@@ -65,6 +67,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectPrice": MessageLookupByLibrary.simpleMessage("Select price"),
         "selectTime": MessageLookupByLibrary.simpleMessage("Select time"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "showActivities":
+            MessageLookupByLibrary.simpleMessage("Show activities"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),
         "signOut": MessageLookupByLibrary.simpleMessage("Sign out"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign up"),
