@@ -39,7 +39,7 @@ class _SearchResultWidgetState extends State<SearchResultWidget> {
                 Column(
                   children: [
                     Text(
-                      widget.offer.id,
+                      widget.offer.user!.name!,
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 25.0,

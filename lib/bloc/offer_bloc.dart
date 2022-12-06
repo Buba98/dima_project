@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dima_project/model/dog.dart';
 import 'package:dima_project/model/internal_user.dart';
 import 'package:dima_project/model/offer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -70,12 +71,33 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
       isGreaterThan: Timestamp.now(),
     );
 
+    collection = collection.orderBy('start_date');
+
     await collection.get().then(
-      (QuerySnapshot<Map<String, dynamic>> doc) {
+      (QuerySnapshot<Map<String, dynamic>> doc) async {
         for (var element in doc.docs) {
           if (!element.exists) {
             continue;
           }
+
+          DocumentSnapshot documentSnapshot =
+              await (element['user'] as DocumentReference).get();
+
+          if (!documentSnapshot.exists) {
+            continue;
+          }
+
+          Map<String, dynamic> map =
+              documentSnapshot.data()! as Map<String, dynamic>;
+
+          InternalUser user = InternalUser(
+            uid: documentSnapshot.id,
+            name: map['name'],
+            dogs: (map['dogs'] as List)
+                .map((e) => Dog(uid: e.id, fetched: false))
+                .toList(),
+            fetched: true,
+          );
 
           offers.add(
             Offer(
@@ -90,10 +112,7 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
                   Activity(activity: e)
               ],
               position: LatLng(element['position'][0], element['position'][1]),
-              user: InternalUser(
-                uid: (element['user'] as DocumentReference).id,
-                fetched: false,
-              ),
+              user: user,
               fetched: true,
             ),
           );

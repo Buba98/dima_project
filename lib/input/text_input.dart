@@ -60,7 +60,7 @@ class TextInput extends StatelessWidget {
           controller: textEditingController,
           decoration: InputDecoration(
             errorText: errorText,
-            border: const UnderlineInputBorder(),
+            border: InputBorder.none,
             hintText: hintText,
             icon: icon != null ? Icon(icon) : null,
           ),
