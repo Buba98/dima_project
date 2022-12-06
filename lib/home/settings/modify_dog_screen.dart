@@ -1,11 +1,11 @@
 import 'package:dima_project/bloc/user/user_bloc.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/inline_selection.dart';
 import 'package:dima_project/input/text_input.dart';
 import 'package:dima_project/model/dog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class ModifyDogScreen extends StatefulWidget {
   const ModifyDogScreen({
@@ -50,18 +50,18 @@ class _ModifyDogScreenState extends State<ModifyDogScreen> {
               height: 20,
             ),
             TextInput(
-              errorText: emptyName ? 'Name cannot be empty' : null,
+              errorText: emptyName ? S.of(context).nameCannotBeEmpty : null,
               textEditingController: name,
-              hintText: 'Name',
+              hintText: S.of(context).name,
               icon: Icons.pets,
             ),
             const SizedBox(
               height: 20,
             ),
             InlineSelection(
-              first: 'Male',
+              first: S.of(context).male,
               firstLeadingIcon: Icons.male,
-              second: 'Female',
+              second: S.of(context).female,
               secondLeadingIcon: Icons.female,
               value: sex,
               onChanged: (bool value) => setState(() => sex = value),
@@ -81,14 +81,14 @@ class _ModifyDogScreenState extends State<ModifyDogScreen> {
                         );
                     widget.goBack();
                   },
-                  text: 'Delete dog',
+                  text: S.of(context).deleteDog,
                   primary: false,
                 ),
               ),
             Button(
               onPressed: () {
                 if (name.text.isEmpty) {
-                  setState(() =>emptyName = true);
+                  setState(() => emptyName = true);
                   return;
                 }
                 context.read<UserBloc>().add(
@@ -100,7 +100,7 @@ class _ModifyDogScreenState extends State<ModifyDogScreen> {
                     );
                 widget.goBack();
               },
-              text: 'Finalize',
+              text: S.of(context).finalize,
             ),
           ],
         ),

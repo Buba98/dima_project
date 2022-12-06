@@ -1,4 +1,5 @@
 import 'package:dima_project/constants.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/model/offer.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class SearchResultWidget extends StatelessWidget {
                 ),
                 if (position != null)
                   Text(
-                    '${(distanceInMeters(position!, offer.position!) / 1000).toStringAsFixed(2)} Km',
+                    '${(distanceInMeters(position!, offer.position!) / 1000).toStringAsFixed(2)} ${S.of(context).km}',
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -77,7 +78,7 @@ class SearchResultWidget extends StatelessWidget {
                   width: spaceBetweenWidgets,
                 ),
                 Text(
-                  '${printDate(offer.startDate!)} for ${printDuration(offer.duration!)}',
+                  '${printDate(offer.startDate!)} ${S.of(context).fOr} ${printDuration(offer.duration!)}',
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,

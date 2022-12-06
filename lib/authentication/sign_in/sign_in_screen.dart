@@ -7,6 +7,8 @@ import 'package:dima_project/input/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../generated/l10n.dart';
+
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
 
@@ -31,22 +33,22 @@ class SignInScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Column(
-                        children: const [
-                          Spacer(
+                        children: [
+                          const Spacer(
                             flex: 2,
                           ),
                           FittedBox(
                             fit: BoxFit.fitWidth,
                             child: Text(
-                              "Welcome",
-                              style: TextStyle(
+                              S.of(context).welcome,
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 110,
                                 fontFamily: 'Pacifico',
                               ),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                         ],
                       ),
                     ),
@@ -55,7 +57,7 @@ class SignInScreen extends StatelessWidget {
                         children: [
                           if (state is GenericErrorState)
                             Text(
-                              'Generic error',
+                              S.of(context).genericError,
                               style: TextStyle(
                                   color: Theme.of(context).errorColor),
                             ),
@@ -82,7 +84,7 @@ class SignInScreen extends StatelessWidget {
                                 password: password.text,
                               ),
                             ),
-                            text: 'Sign In',
+                            text: S.of(context).signIn,
                           ),
                           const Spacer(),
                         ],

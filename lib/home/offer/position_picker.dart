@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dima_project/bloc/location_bloc.dart';
 import 'package:dima_project/constants.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -127,7 +128,7 @@ class _PositionPickerState extends State<PositionPicker> {
                   }
                   widget.onBack(position!);
                 },
-                text: 'Back',
+                text: S.of(context).back,
               ),
             ),
             const SizedBox(
@@ -141,7 +142,7 @@ class _PositionPickerState extends State<PositionPicker> {
                   }
                   widget.onComplete(position!);
                 },
-                text: 'Complete',
+                text: S.of(context).complete,
               ),
             ),
           ],

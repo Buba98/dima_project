@@ -1,4 +1,5 @@
 import 'package:dima_project/custom_widgets/app_bar.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/settings/modify_dog_screen.dart';
 import 'package:dima_project/home/settings/setting_screen.dart';
 import 'package:dima_project/utils/utils.dart';
@@ -24,10 +25,10 @@ class _SettingPageState extends State<SettingPage> {
                 )
             : null,
         text: screen == null
-            ? 'Profile'
+            ? S.of(context).profile
             : screen is ModifyDogScreen
-                ? 'Dog profile'
-                : 'Modify profile',
+                ? S.of(context).dogProfile
+                : S.of(context).modifyProfile,
       ),
       body: isTablet(context)
           ? Row(

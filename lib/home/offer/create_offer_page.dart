@@ -1,6 +1,7 @@
 import 'package:dima_project/bloc/offer_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/offer/activities_picker.dart';
 import 'package:dima_project/home/offer/position_picker.dart';
 import 'package:dima_project/home/offer/start_date_duration_price_picker.dart';
@@ -29,8 +30,8 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const KAppBar(
-        text: 'Create offer',
+      appBar: KAppBar(
+        text: S.of(context).createOffer,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: spaceBetweenWidgets),

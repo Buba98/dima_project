@@ -25,6 +25,9 @@ dependencies:
   duration_picker: ^1.1.1
   location: ^4.4.0
   geocode: ^1.0.2
+  intl: ^0.17.0
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   integration_test:
@@ -86,3 +89,6 @@ flutter:
         - asset: assets/fonts/OpenSans/OpenSans-ExtraBoldItalic.ttf
           style: italic
           weight: 800
+
+flutter_intl:
+  enabled: true

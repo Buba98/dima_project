@@ -1,4 +1,5 @@
 import 'package:dima_project/constants.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
 import 'package:dima_project/input/show_text.dart';
@@ -26,8 +27,8 @@ class FilterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const ShowText(
-          text: 'Max price',
+        ShowText(
+          text: S.of(context).maxPrice,
           backgroundColor: Colors.transparent,
         ),
         Slider(
@@ -35,7 +36,9 @@ class FilterView extends StatelessWidget {
           max: 100,
           min: 0,
           divisions: 100 * 2,
-          label: priceValue == 0 ? 'No filter': priceValue.toStringAsFixed(1),
+          label: priceValue == 0
+              ? S.of(context).noFilter
+              : priceValue.toStringAsFixed(1),
           onChanged: onChangePriceValue,
         ),
         Expanded(

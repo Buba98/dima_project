@@ -16,22 +16,22 @@ class TextInput extends StatelessWidget {
     super.key,
     required this.textEditingController,
     bool? error,
+    this.errorText,
     this.textFieldKey = const Key('email_text_input'),
   })  : hintText = 'Enter email',
         icon = Icons.email_outlined,
         obscureText = false,
-        errorText = (error ?? false) ? 'Wrong password' : null,
         textInputType = TextInputType.text;
 
   const TextInput.password({
     super.key,
     required this.textEditingController,
     bool? error,
+    this.errorText,
     this.textFieldKey = const Key('password_text_input'),
   })  : hintText = 'Enter password',
         icon = Icons.lock_outline,
         obscureText = true,
-        errorText = (error ?? false) ? 'Wrong password' : null,
         textInputType = TextInputType.text;
 
   final TextEditingController textEditingController;

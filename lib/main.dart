@@ -5,6 +5,7 @@ import 'package:dima_project/bloc/user/authentication_bloc.dart';
 import 'package:dima_project/bloc/user/user_bloc.dart' as user_bloc;
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/firebase_options.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/home_screen.dart';
 import 'package:dima_project/loading/loading_screen.dart';
 import 'package:dima_project/utils/scroll_behavior.dart';
@@ -12,7 +13,8 @@ import 'package:dima_project/utils/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,6 +58,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       builder: (context, child) {
         return ScrollConfiguration(
           behavior: NoGlowScrollBehavior(),

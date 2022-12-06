@@ -1,4 +1,5 @@
 import 'package:dima_project/constants.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/search/filter_view.dart';
 import 'package:dima_project/home/search/offers_view.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
@@ -42,12 +43,12 @@ class SearchTabletScreen extends StatelessWidget {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text('Filter'),
-                    SizedBox(
+                  children: [
+                    Text(S.of(context).filter),
+                    const SizedBox(
                       width: spaceBetweenWidgets,
                     ),
-                    Icon(Icons.filter_list_sharp),
+                    const Icon(Icons.filter_list_sharp),
                   ],
                 ),
                 const SizedBox(

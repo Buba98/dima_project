@@ -1,5 +1,6 @@
 import 'package:dima_project/bloc/user/authentication_bloc.dart';
 import 'package:dima_project/bloc/user/user_bloc.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/settings/modify_dog_screen.dart';
 import 'package:dima_project/home/settings/modify_profile/modify_profile_screen.dart';
 import 'package:dima_project/home/settings/profile_picture.dart';
@@ -46,7 +47,7 @@ class SettingScreen extends StatelessWidget {
                   height: 20,
                 ),
                 ShowText(
-                  title: 'Name:',
+                  title: S.of(context).name,
                   text: state.internalUser.name!,
                 ),
                 const SizedBox(
@@ -59,7 +60,7 @@ class SettingScreen extends StatelessWidget {
                       goBack: () => changeScreen(null),
                     ),
                   ),
-                  text: 'Modify',
+                  text: S.of(context).modify,
                 ),
                 const Divider(),
                 for (Dog dog in state.internalUser.dogs!)
@@ -69,7 +70,7 @@ class SettingScreen extends StatelessWidget {
                     ),
                     child: ShowText(
                       text: dog.name!,
-                      title: 'Dog',
+                      title: S.of(context).dog,
                       trailerIcon: Icons.arrow_forward_ios,
                       onPressed: () => changeScreen(
                         ModifyDogScreen(
@@ -85,14 +86,14 @@ class SettingScreen extends StatelessWidget {
                       goBack: () => changeScreen(null),
                     ),
                   ),
-                  text: 'Add new dog',
+                  text: S.of(context).addNewDog,
                 ),
                 const Divider(),
                 Button(
                   attention: true,
                   onPressed: () =>
                       context.read<AuthenticationBloc>().add(SignOutEvent()),
-                  text: 'Sign out',
+                  text: S.of(context).signOut,
                 ),
               ],
             ),

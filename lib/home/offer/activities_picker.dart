@@ -1,4 +1,5 @@
 import 'package:dima_project/constants.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
@@ -68,7 +69,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
               child: TextInput(
                 icon: Icons.add,
                 textEditingController: otherOption,
-                errorText: error ? 'Select at least one activity' : null,
+                errorText: error ? S.of(context).selectAtLeastOneActivity : null,
               ),
             ),
             const SizedBox(
@@ -130,7 +131,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
 
                   widget.onBack(activities);
                 },
-                text: 'Back',
+                text: S.of(context).back,
               ),
             ),
             const SizedBox(
@@ -149,7 +150,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
 
                   widget.onNext(activities);
                 },
-                text: 'Next',
+                text: S.of(context).next,
               ),
             ),
           ],

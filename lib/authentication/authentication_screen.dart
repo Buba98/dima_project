@@ -1,4 +1,5 @@
 import 'package:dima_project/authentication/sign_up/sign_up_screen.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class AuthenticationScreen extends StatelessWidget {
                       child: FittedBox(
                         fit: BoxFit.fitWidth,
                         child: Text(
-                          "Walk the dog",
+                          'Walk the dog',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 110,
@@ -43,13 +44,13 @@ class AuthenticationScreen extends StatelessWidget {
                   children: [
                     const Spacer(),
                     Button(
-                        key: const Key('sign_in_button'),
-                        onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignInScreen()),
-                            ),
-                        text: 'Sign In'),
+                      key: const Key('sign_in_button'),
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignInScreen()),
+                      ),
+                      text: S.of(context).signIn,
+                    ),
                     const SizedBox(
                       height: 50,
                     ),
@@ -59,7 +60,7 @@ class AuthenticationScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(builder: (context) => SignUpScreen()),
                       ),
-                      text: 'Sign Up',
+                      text: S.of(context).signUp,
                       primary: false,
                     ),
                     const Spacer(),

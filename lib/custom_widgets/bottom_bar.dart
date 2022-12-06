@@ -1,3 +1,4 @@
+import 'package:dima_project/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatefulWidget {
@@ -43,18 +44,18 @@ class BottomBarState extends State<BottomBar> {
       onTap: _onItemTapped,
       backgroundColor: Colors.transparent,
       type: BottomNavigationBarType.fixed,
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'home',
+          icon: const Icon(Icons.search),
+          label: S.of(context).home,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.add),
-          label: 'add',
+          icon: const Icon(Icons.add),
+          label: S.of(context).add,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'settings',
+          icon: const Icon(Icons.settings),
+          label: S.of(context).settings,
         ),
       ],
     );

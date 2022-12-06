@@ -1,3 +1,4 @@
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/show_text.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:duration_picker/duration_picker.dart';
@@ -33,10 +34,11 @@ class DurationPicker extends StatelessWidget {
                 onChangeDuration(picked);
               }
             },
-            text:
-                duration != null ? printDuration(duration!) : 'Select duration',
+            text: duration != null
+                ? printDuration(duration!)
+                : S.of(context).selectDuration,
             leadingIcon: Icons.timer,
-            title: 'Duration',
+            title: S.of(context).duration,
           ),
         ),
       ],

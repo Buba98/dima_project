@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dima_project/bloc/user/user_bloc.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/settings/profile_picture.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/text_input.dart';
@@ -84,8 +85,8 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
               height: 20,
             ),
             TextInput(
-              hintText: 'Enter your name',
-              errorText: emptyName ? 'Name is required' : null,
+              hintText: S.of(context).enterYourName,
+              errorText: emptyName ? S.of(context).nameIsRequired : null,
               textEditingController: name,
               icon: Icons.person,
             ),
@@ -108,7 +109,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
                   widget.goBack!();
                 }
               },
-              text: 'Finalize',
+              text: S.of(context).finalize,
             ),
           ],
         ),

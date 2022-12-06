@@ -42,7 +42,7 @@ String printDate(DateTime dateTime) =>
     '${dateTime.day} / ${dateTime.month} / ${dateTime.year}\t${dateTime.hour > 9 ? dateTime.hour : '0${dateTime.hour}'} : ${dateTime.minute > 9 ? dateTime.minute : '0${dateTime.minute}'}';
 
 String printDuration(Duration duration) =>
-    '${duration.inMinutes ~/ 60} hours : ${duration.inMinutes % 60 > 9 ? duration.inMinutes % 60 : '0${duration.inMinutes % 60}'} min';
+    '${duration.inMinutes ~/ 60} h : ${duration.inMinutes % 60 > 9 ? duration.inMinutes % 60 : '0${duration.inMinutes % 60}'} min';
 
 String printTime(TimeOfDay timeOfDay) =>
     '${timeOfDay.hour} : ${timeOfDay.minute}';

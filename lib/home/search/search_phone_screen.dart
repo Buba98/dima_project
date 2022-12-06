@@ -1,5 +1,6 @@
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/search/filter_view.dart';
 import 'package:dima_project/home/search/offers_view.dart';
 import 'package:dima_project/input/button.dart';
@@ -54,7 +55,7 @@ class SearchPhoneScreen extends StatelessWidget {
                 ),
               );
             },
-            text: 'Filter',
+            text: S.of(context).filter,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,
@@ -91,8 +92,8 @@ class FilterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const KAppBar(
-        text: 'Filters',
+      appBar: KAppBar(
+        text: S.of(context).filter,
       ),
       body: Padding(
         padding: const EdgeInsets.all(spaceBetweenWidgets),

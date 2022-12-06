@@ -4,6 +4,7 @@ import 'package:dima_project/bloc/location_bloc.dart';
 import 'package:dima_project/bloc/offer_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/search/search_phone_screen.dart';
 import 'package:dima_project/home/search/search_tablet_screen.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
@@ -86,8 +87,8 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const KAppBar(
-        text: 'Search',
+      appBar: KAppBar(
+        text: S.of(context).search,
       ),
       body: Center(child: BlocBuilder<OfferBloc, OfferState>(
         builder: (BuildContext context, OfferState state) {

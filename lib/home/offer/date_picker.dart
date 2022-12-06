@@ -1,4 +1,5 @@
 import 'package:dima_project/constants.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/show_text.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -46,10 +47,11 @@ class DatePicker extends StatelessWidget {
                 );
               }
             },
-            text:
-                date != null ? printDate(date!).split('\t')[0] : 'Select date',
+            text: date != null
+                ? printDate(date!).split('\t')[0]
+                : S.of(context).selectDate,
             leadingIcon: Icons.calendar_month_outlined,
-            title: 'Start date',
+            title: S.of(context).startDate,
           ),
         ),
         const SizedBox(
@@ -78,9 +80,9 @@ class DatePicker extends StatelessWidget {
               }
             },
             text:
-                date != null ? printDate(date!).split('\t')[1] : 'Select time',
+                date != null ? printDate(date!).split('\t')[1] :S.of(context).selectTime,
             leadingIcon: Icons.timer_outlined,
-            title: 'Start time',
+            title: S.of(context).startTime,
           ),
         ),
       ],

@@ -1,5 +1,6 @@
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/scroll_expandable.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/offer/date_picker.dart';
 import 'package:dima_project/home/offer/duration_picker.dart';
 import 'package:dima_project/input/button.dart';
@@ -77,7 +78,8 @@ class _StartDateDurationPricePickerState extends State<StartDateDurationPricePic
             height: spaceBetweenWidgets,
           ),
           TextInput(
-            errorText: priceError ? 'Insert valid price' : null,
+            hintText: S.of(context).selectPrice,
+            errorText: priceError ? S.of(context).insertValidPrice : null,
             textInputType: TextInputType.number,
             textEditingController: priceEditingController,
             icon: Icons.attach_money,
@@ -110,7 +112,7 @@ class _StartDateDurationPricePickerState extends State<StartDateDurationPricePic
               widget.onNext(startDate!, duration!,
                   double.parse(priceEditingController.text));
             },
-            text: 'Next',
+            text: S.of(context).next,
           ),
         ],
       ),

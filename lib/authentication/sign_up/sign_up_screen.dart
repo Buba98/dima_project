@@ -2,6 +2,7 @@ import 'package:dima_project/authentication/sign_up/sign_up_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/custom_widgets/scroll_expandable.dart';
+import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/text_input.dart';
 import 'package:flutter/material.dart';
@@ -32,16 +33,16 @@ class SignUpScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Column(
-                        children: const [
-                          Spacer(
+                        children: [
+                          const Spacer(
                             flex: 2,
                           ),
                           Center(
                             child: FittedBox(
                               fit: BoxFit.fitWidth,
                               child: Text(
-                                "Welcome",
-                                style: TextStyle(
+                                S.of(context).welcome,
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 110,
                                   fontFamily: 'Pacifico',
@@ -49,7 +50,7 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                         ],
                       ),
                     ),
@@ -58,7 +59,7 @@ class SignUpScreen extends StatelessWidget {
                         children: [
                           if (state is GenericErrorState)
                             Text(
-                              'Generic error',
+                              S.of(context).genericError,
                               style: TextStyle(
                                   color: Theme.of(context).errorColor),
                             ),
@@ -84,7 +85,7 @@ class SignUpScreen extends StatelessWidget {
                                 password: password.text,
                               ),
                             ),
-                            text: 'Sign Up',
+                            text: S.of(context).signUp,
                           ),
                           const Spacer(),
                         ],
