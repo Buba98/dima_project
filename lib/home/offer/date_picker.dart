@@ -30,7 +30,7 @@ class DatePicker extends StatelessWidget {
               final DateTime? picked = await showDatePicker(
                 context: context,
                 initialDate: date ?? DateTime.now(),
-                firstDate: date ?? DateTime.now(),
+                firstDate: DateTime.now(),
                 lastDate: DateTime.now().add(
                   const Duration(days: 365),
                 ),
@@ -64,7 +64,7 @@ class DatePicker extends StatelessWidget {
             onPressed: () async {
               final TimeOfDay? picked = await showTimePicker(
                 context: context,
-                initialTime: TimeOfDay.now(),
+                initialTime: TimeOfDay.fromDateTime(DateTime.now().add(Duration(minutes: 15))),
               );
 
               if (picked != null) {
@@ -80,7 +80,7 @@ class DatePicker extends StatelessWidget {
               }
             },
             text:
-                date != null ? printDate(date!).split('\t')[1] :S.of(context).selectTime,
+                date != null ? printTime(DateTime.now().add(const Duration(minutes: 15))) : S.of(context).selectTime,
             leadingIcon: Icons.access_time,
             title: S.of(context).startTime,
           ),
