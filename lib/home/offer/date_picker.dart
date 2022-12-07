@@ -47,9 +47,7 @@ class DatePicker extends StatelessWidget {
                 );
               }
             },
-            text: date != null
-                ? printDate(date!).split('\t')[0]
-                : S.of(context).selectDate,
+            text: date != null ? printDate(date!) : S.of(context).selectDate,
             leadingIcon: Icons.calendar_month_outlined,
             title: S.of(context).startDate,
           ),
@@ -64,7 +62,9 @@ class DatePicker extends StatelessWidget {
             onPressed: () async {
               final TimeOfDay? picked = await showTimePicker(
                 context: context,
-                initialTime: TimeOfDay.fromDateTime(DateTime.now().add(Duration(minutes: 15))),
+                initialTime: date != null
+                    ? TimeOfDay(hour: date!.hour, minute: date!.minute)
+                    : TimeOfDay.now(),
               );
 
               if (picked != null) {
@@ -79,8 +79,7 @@ class DatePicker extends StatelessWidget {
                 );
               }
             },
-            text:
-                date != null ? printTime(DateTime.now().add(const Duration(minutes: 15))) : S.of(context).selectTime,
+            text: date != null ? printTime(date!) : S.of(context).selectTime,
             leadingIcon: Icons.access_time,
             title: S.of(context).startTime,
           ),
