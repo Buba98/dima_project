@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:dima_project/main.dart' as app;
@@ -19,33 +20,35 @@ void main() {
           await app.main();
           await tester.pumpAndSettle();
 
-          final signUpButton = find.byKey(const Key('sign_in_button'));
+          final signInButton = find.byKey(const Key('sign_in_button'));
 
-          expect(signUpButton, findsOneWidget);
+          expect(signInButton, findsOneWidget);
 
-          await tester.tap(signUpButton);
+          await tester.tap(signInButton);
 
           await tester.pumpAndSettle();
 
           final emailTextInput = find.byKey(const Key('email_text_input'));
+          final passwordTextInput =
+              find.byKey(const Key('password_text_input'));
 
           expect(emailTextInput, findsOneWidget);
 
           await tester.enterText(emailTextInput, 'nv.fg.dima@gmail.com');
 
-          await tester.enterText(find.byKey(const Key('password_text_input')),
-              'strongPassword666');
+          await tester.enterText(passwordTextInput, 'strongPassword666');
 
           await tester.tap(find.byKey(const Key('sign_in_button')));
 
-          final addMenuButton = find.byKey(const Key('add_menu'));
+          bool timerDone = false;
+          Timer(const Duration(seconds: 5), () => timerDone = true);
+          while (timerDone != true) {
+            await tester.pump();
+          }
 
-          await pumpUntilFound(
-            tester,
-            addMenuButton,
-          );
+          await tester.pumpAndSettle();
 
-          await tester.tap(addMenuButton);
+          await tester.tap(find.byKey(const Key('add_menu')));
 
           await tester.pumpAndSettle();
 
@@ -68,7 +71,9 @@ void main() {
           var center = tester.getCenter(
               find.byKey(const ValueKey<String>('time-picker-dial')));
 
-          await tester.tapAt(Offset(center.dx - 10, center.dy));
+          await tester.tapAt(Offset(center.dx - .1, center.dy));
+
+          await tester.pumpAndSettle();
 
           await tester.tap(find.text('OK'));
 
@@ -110,6 +115,8 @@ void main() {
           await tester.pumpAndSettle();
 
           await tester.tap(find.byKey(const Key('search_menu')));
+
+          await tester.pumpAndSettle();
 
           await pumpUntilFound(
             tester,

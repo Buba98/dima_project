@@ -58,7 +58,7 @@ class DatePicker extends StatelessWidget {
         ),
         Expanded(
           child: ShowText(
-            key: const Key('day_picker_button'),
+            key: const Key('time_picker_button'),
             backgroundColor:
                 error ? Colors.red.withOpacity(.26) : Colors.black26,
             onPressed: () async {

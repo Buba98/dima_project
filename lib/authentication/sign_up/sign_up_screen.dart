@@ -21,7 +21,6 @@ class SignUpScreen extends StatelessWidget {
       appBar: KAppBar(
         backBehaviour: () => Navigator.pop(context),
       ),
-      resizeToAvoidBottomInset: false,
       body: BlocBuilder<SignUpBloc, SignUpState>(
         bloc: signUpBloc,
         builder: (BuildContext context, SignUpState state) {
