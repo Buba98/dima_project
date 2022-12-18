@@ -12,6 +12,7 @@ class Selection extends StatelessWidget {
     this.spacing = spaceBetweenWidgets,
     this.rows = 2,
     this.baseColor = Colors.black12,
+    this.title,
   });
 
   final List<SelectionElement> elements;
@@ -20,33 +21,47 @@ class Selection extends StatelessWidget {
   final double spacing;
   final int rows;
   final Color baseColor;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      return Wrap(
-        direction: direction,
-        runSpacing: spacing,
-        spacing: spacing,
-        children: elements.map(
-          (element) {
-            return GestureDetector(
-              onTap: () {
-                if (onChanged == null) return;
-                onChanged!(elements.indexOf(element));
-              },
-              child: ShowText(
-                wight: (constraints.maxWidth - (spacing * rows - 1)) / rows,
-                centerText: true,
-                backgroundColor:
-                    element.selected ? Colors.black26 : Colors.black12,
-                trailerIcon: element.icon,
-                text: element.name,
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (title != null)
+            Text(
+              title!,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
               ),
-            );
-          },
-        ).toList(),
+            ),
+          if (title != null) const Divider(),
+          Wrap(
+            direction: direction,
+            runSpacing: spacing,
+            spacing: spacing,
+            children: elements.map(
+              (element) {
+                return GestureDetector(
+                  onTap: () {
+                    if (onChanged == null) return;
+                    onChanged!(elements.indexOf(element));
+                  },
+                  child: ShowText(
+                    wight: (constraints.maxWidth - spacing * (rows - 1)) / rows,
+                    centerText: true,
+                    backgroundColor:
+                        element.selected ? Colors.black26 : Colors.black12,
+                    trailerIcon: element.icon,
+                    text: element.name,
+                  ),
+                );
+              },
+            ).toList(),
+          ),
+        ],
       );
     });
   }

@@ -44,5 +44,12 @@
     "nameIsRequired":"姓名为必填项",
     "km":"公里",
     "showActivities":"显示活动",
-    "hideActivities":"隐藏活动"
+    "hideActivities":"隐藏活动",
+    "addActivity":"添加活动",
+    "enterMessage": "输入消息",
+    "price":"价格",
+    "location":"地点",
+    "time":"时间",
+    "confirm":"确认",
+    "selectDogs":"选择狗"
 }

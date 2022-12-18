@@ -72,6 +72,7 @@ class _PositionPickerState extends State<PositionPicker> {
       children: [
         Expanded(
           child: FlutterMap(
+            key: const Key('position_picker_map'),
             mapController: mapController,
             options: MapOptions(
               center: polimi,

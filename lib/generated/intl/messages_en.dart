@@ -23,15 +23,18 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add": MessageLookupByLibrary.simpleMessage("Add"),
+        "addActivity": MessageLookupByLibrary.simpleMessage("Add activity"),
         "addFilter": MessageLookupByLibrary.simpleMessage("Add filter"),
         "addNewDog": MessageLookupByLibrary.simpleMessage("Add new dog"),
         "back": MessageLookupByLibrary.simpleMessage("Back"),
         "complete": MessageLookupByLibrary.simpleMessage("Complete"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "createOffer": MessageLookupByLibrary.simpleMessage("Create offer"),
         "deleteDog": MessageLookupByLibrary.simpleMessage("Delete dog"),
         "dog": MessageLookupByLibrary.simpleMessage("Dog"),
         "dogProfile": MessageLookupByLibrary.simpleMessage("Dog profile"),
         "duration": MessageLookupByLibrary.simpleMessage("Duration"),
+        "enterMessage": MessageLookupByLibrary.simpleMessage("Enter message"),
         "enterYourName":
             MessageLookupByLibrary.simpleMessage("Enter your name"),
         "fOr": MessageLookupByLibrary.simpleMessage("for"),
@@ -46,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Insert valid price"),
         "km": MessageLookupByLibrary.simpleMessage("km"),
         "loading": MessageLookupByLibrary.simpleMessage("Loading"),
+        "location": MessageLookupByLibrary.simpleMessage("Location"),
         "male": MessageLookupByLibrary.simpleMessage("Male"),
         "maxPrice": MessageLookupByLibrary.simpleMessage("Max price"),
         "modify": MessageLookupByLibrary.simpleMessage("Modify"),
@@ -57,11 +61,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Name is required"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "noFilter": MessageLookupByLibrary.simpleMessage("No filter"),
+        "price": MessageLookupByLibrary.simpleMessage("Price"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "selectAtLeastOneActivity": MessageLookupByLibrary.simpleMessage(
             "Select at least one activity"),
         "selectDate": MessageLookupByLibrary.simpleMessage("Select date"),
+        "selectDogs": MessageLookupByLibrary.simpleMessage("Select dogs"),
         "selectDuration":
             MessageLookupByLibrary.simpleMessage("Select duration"),
         "selectPrice": MessageLookupByLibrary.simpleMessage("Select price"),
@@ -74,6 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "signUp": MessageLookupByLibrary.simpleMessage("Sign up"),
         "startDate": MessageLookupByLibrary.simpleMessage("Start date"),
         "startTime": MessageLookupByLibrary.simpleMessage("Start time"),
+        "time": MessageLookupByLibrary.simpleMessage("Time"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage("Wrong password")
       };

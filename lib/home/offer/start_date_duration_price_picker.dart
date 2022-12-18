@@ -78,6 +78,7 @@ class _StartDateDurationPricePickerState extends State<StartDateDurationPricePic
             height: spaceBetweenWidgets,
           ),
           TextInput(
+            key: const Key('price_text_input'),
             hintText: S.of(context).selectPrice,
             errorText: priceError ? S.of(context).insertValidPrice : null,
             textInputType: TextInputType.number,

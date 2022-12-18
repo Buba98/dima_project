@@ -1,5 +1,6 @@
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/generated/l10n.dart';
+import 'package:dima_project/home/search/offer_summary_page.dart';
 import 'package:dima_project/model/offer.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -33,106 +34,133 @@ class _SearchResultWidgetState extends State<SearchResultWidget> {
         padding: const EdgeInsets.all(spaceBetweenWidgets / 2),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => OfferSummaryPage(
+                    offer: widget.offer,
+                  ),
+                ),
+              ),
+              child: Container(
+                decoration: const BoxDecoration(color: Colors.transparent),
+                child: Column(
                   children: [
-                    Text(
-                      widget.offer.user!.name!,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25.0,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              widget.offer.user!.name!,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 25.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          '\$${widget.offer.price}',
+                          style: const TextStyle(
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.w600,
+                            color: primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: spaceBetweenWidgets,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Icon(Icons.calendar_month_outlined),
+                              const SizedBox(
+                                width: spaceBetweenWidgets,
+                              ),
+                              Text(
+                                printDate(widget.offer.startDate!),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Icon(Icons.access_time),
+                              const SizedBox(
+                                width: spaceBetweenWidgets,
+                              ),
+                              Text(
+                                printTime(widget.offer.startDate!),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: spaceBetweenWidgets / 2,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Icon(Icons.timer_outlined),
+                              const SizedBox(
+                                width: spaceBetweenWidgets,
+                              ),
+                              Text(
+                                printDuration(widget.offer.duration!),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Icon(Icons.location_on_outlined),
+                              const SizedBox(
+                                width: spaceBetweenWidgets,
+                              ),
+                              if (widget.position != null)
+                                Text(
+                                  '${(distanceInMeters(widget.position!, widget.offer.position!) / 1000).toStringAsFixed(2)}${S.of(context).km}',
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                Text(
-                  '\$${widget.offer.price}',
-                  style: const TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.w600,
-                    color: primaryColor,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: spaceBetweenWidgets,
-            ),
-            Row(
-              children: [
-                const Icon(Icons.location_on_outlined),
-                const SizedBox(
-                  width: spaceBetweenWidgets,
-                ),
-                if (widget.position != null)
-                  Text(
-                    '${(distanceInMeters(widget.position ?? polimi, widget.offer.position!) / 1000).toStringAsFixed(2)}${S.of(context).km}',
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black54,
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(
-              height: spaceBetweenWidgets / 2,
-            ),
-            Row(
-              children: [
-                const Icon(Icons.calendar_month_outlined),
-                const SizedBox(
-                  width: spaceBetweenWidgets,
-                ),
-                Text(
-                  printDate(widget.offer.startDate!),
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black54,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: spaceBetweenWidgets / 2,
-            ),
-            Row(
-              children: [
-                const Icon(Icons.access_time),
-                const SizedBox(
-                  width: spaceBetweenWidgets,
-                ),
-                Text(
-                  printTime(widget.offer.startDate!),
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black54,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: spaceBetweenWidgets / 2,
-            ),
-            Row(
-              children: [
-                const Icon(Icons.timer_outlined),
-                const SizedBox(
-                  width: spaceBetweenWidgets,
-                ),
-                Text(
-                  printDuration(widget.offer.duration!),
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black54,
-                  ),
-                ),
-              ],
+              ),
             ),
             const Divider(),
             GestureDetector(

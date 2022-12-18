@@ -93,7 +93,7 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
           InternalUser user = InternalUser(
             uid: documentSnapshot.id,
             name: map['name'],
-            dogs: (map['dogs'] as List)
+            dogs: ((map['dogs'] ?? []) as List)
                 .map((e) => Dog(uid: e.id, fetched: false))
                 .toList(),
             fetched: true,

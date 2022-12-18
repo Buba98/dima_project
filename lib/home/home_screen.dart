@@ -61,15 +61,20 @@ class _HomeState extends State<_Home> {
     super.initState();
   }
 
+  onTap(int index) {
+    if (index == 0) {
+      context.read<OfferBloc>().add(LoadEvent());
+    }
+    setState(() => currentIndex = index);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: bodyList[currentIndex],
       bottomNavigationBar: BottomBar(
         currentIndex: currentIndex,
-        onTap: (int index) {
-          setState(() => currentIndex = index);
-        },
+        onTap: onTap,
       ),
     );
   }

@@ -16,6 +16,7 @@ class ScrollExpandable extends StatelessWidget {
           child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: constraint.maxHeight,
+              minWidth: constraint.minWidth
             ),
             child: IntrinsicHeight(
               child: child,

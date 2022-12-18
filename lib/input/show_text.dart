@@ -47,25 +47,24 @@ class ShowText extends StatelessWidget {
               const SizedBox(
                 width: 12,
               ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: centerText
-                    ? CrossAxisAlignment.center
-                    : CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (title != null)
-                    Text(
-                      title!,
-                      style: const TextStyle(color: Colors.black45),
-                    ),
+            Column(
+              crossAxisAlignment: centerText
+                  ? CrossAxisAlignment.center
+                  : CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (title != null)
                   Text(
-                    text,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    title!,
+                    style: const TextStyle(color: Colors.black45),
                   ),
-                ],
-              ),
+                Text(
+                  text,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
+            const Spacer(),
             if (trailerIcon != null)
               const SizedBox(
                 width: 12,

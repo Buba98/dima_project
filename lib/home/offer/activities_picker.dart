@@ -4,6 +4,7 @@ import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
 import 'package:dima_project/input/text_input.dart';
+import 'package:dima_project/input/text_input_button.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -63,54 +64,34 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
         const SizedBox(
           height: spaceBetweenWidgets,
         ),
-        Row(
-          children: [
-            Expanded(
-              child: TextInput(
-                icon: Icons.add,
-                textEditingController: otherOption,
-                errorText: error ? S.of(context).selectAtLeastOneActivity : null,
-              ),
-            ),
-            const SizedBox(
-              width: spaceBetweenWidgets,
-            ),
-            GestureDetector(
-              onTap: () {
-                if (otherOption.text.isEmpty) {
-                  return;
-                }
+        TextInputButton(
+          errorText: error ? S.of(context).selectAtLeastOneActivity : null,
+          textIcon: Icons.add,
+          textEditingController: otherOption,
+          onTap: () {
+            if (otherOption.text.isEmpty) {
+              return;
+            }
 
-                for (SelectionElement activity in activities) {
-                  if (activity.name == otherOption.text) {
-                    otherOption.clear();
-                    return;
-                  }
-                }
-
-                setState(() {
-                  activities = [
-                    ...activities,
-                    SelectionElement(name: otherOption.text, selected: true)
-                  ];
-                  error = false;
-                });
-
+            for (SelectionElement activity in activities) {
+              if (activity.name == otherOption.text) {
                 otherOption.clear();
-              },
-              child: Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(50)),
-                child: const Icon(
-                  Icons.add,
-                  size: 24,
-                ),
-              ),
-            ),
-          ],
+                return;
+              }
+            }
+
+            setState(() {
+              activities = [
+                ...activities,
+                SelectionElement(name: otherOption.text, selected: true)
+              ];
+              error = false;
+            });
+
+            otherOption.clear();
+          },
+          hintText: S.of(context).addActivity,
+          iconButton: Icons.add,
         ),
         const SizedBox(
           height: spaceBetweenWidgets,

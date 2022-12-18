@@ -22,6 +22,7 @@ class DurationPicker extends StatelessWidget {
       children: [
         Expanded(
           child: ShowText(
+            key: const Key('duration_picker_button'),
             backgroundColor:
                 error ? Colors.red.withOpacity(.26) : Colors.black26,
             onPressed: () async {

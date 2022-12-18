@@ -4,6 +4,7 @@ import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
 import 'package:dima_project/input/show_text.dart';
 import 'package:dima_project/input/text_input.dart';
+import 'package:dima_project/input/text_input_button.dart';
 import 'package:flutter/material.dart';
 
 class FilterView extends StatelessWidget {
@@ -49,50 +50,29 @@ class FilterView extends StatelessWidget {
             ),
           ),
         ),
-        Row(
-          children: [
-            Expanded(
-              child: TextInput(
-                hintText: S.of(context).addFilter,
-                textEditingController: otherActivity,
-              ),
-            ),
-            const SizedBox(
-              width: spaceBetweenWidgets,
-            ),
-            GestureDetector(
-              onTap: () {
-                if (otherActivity.text.isEmpty) {
-                  return;
-                }
+        TextInputButton(
+          textEditingController: otherActivity,
+          onTap: () {
+            if (otherActivity.text.isEmpty) {
+              return;
+            }
 
-                for (SelectionElement activity in activities) {
-                  if (activity.name == otherActivity.text) {
-                    otherActivity.clear();
-                    return;
-                  }
-                }
-
-                addOtherActivity(SelectionElement(
-                  name: otherActivity.text,
-                  selected: true,
-                ));
-
+            for (SelectionElement activity in activities) {
+              if (activity.name == otherActivity.text) {
                 otherActivity.clear();
-              },
-              child: Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(50)),
-                child: const Icon(
-                  Icons.add,
-                  size: 24,
-                ),
-              ),
-            ),
-          ],
+                return;
+              }
+            }
+
+            addOtherActivity(SelectionElement(
+              name: otherActivity.text,
+              selected: true,
+            ));
+
+            otherActivity.clear();
+          },
+          hintText: S.of(context).addFilter,
+          iconButton: Icons.add,
         ),
       ],
     );

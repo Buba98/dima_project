@@ -46,15 +46,24 @@ class BottomBarState extends State<BottomBar> {
       type: BottomNavigationBarType.fixed,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: const Icon(Icons.search),
+          icon: const Icon(
+            Icons.search,
+            key: Key('search_menu'),
+          ),
           label: S.of(context).home,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.add),
+          icon: const Icon(
+            Icons.add,
+            key: Key('add_menu'),
+          ),
           label: S.of(context).add,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.settings),
+          icon: const Icon(
+            Icons.settings,
+            key: Key('settings_menu'),
+          ),
           label: S.of(context).settings,
         ),
       ],

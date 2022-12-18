@@ -44,5 +44,12 @@
     "nameIsRequired":"Name is required",
     "km":"km",
     "showActivities":"Show activities",
-    "hideActivities":"Hide activities"
+    "hideActivities":"Hide activities",
+    "addActivity":"Add activity",
+    "enterMessage":"Enter message",
+    "price":"Price",
+    "location":"Location",
+    "time":"Time",
+    "confirm":"Confirm",
+    "selectDogs":"Select dogs"
 }
