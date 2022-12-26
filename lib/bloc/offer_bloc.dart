@@ -36,6 +36,18 @@ class LoadEvent extends OfferEvent {
   });
 }
 
+class OrderEvent extends OfferEvent {
+  final Offer offer;
+  final List<Dog> dogs;
+  final Completer? completer;
+
+  OrderEvent({
+    required this.dogs,
+    required this.offer,
+    this.completer,
+  });
+}
+
 class OfferState {
   final List<Offer> offers;
 
@@ -48,6 +60,48 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
   OfferBloc() : super(OfferState()) {
     on<AddOfferEvent>(_onAddOfferEvent);
     on<LoadEvent>(_onLoadEvent);
+    on<OrderEvent>(_onOrderEvent);
+  }
+
+  _onOrderEvent(OrderEvent event, Emitter<OfferState> emit) async {
+    QuerySnapshot<Map> querySnapshot = await FirebaseFirestore.instance
+        .collection('order')
+        .where(
+          'user',
+          isEqualTo: FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid),
+        )
+        .get();
+
+    if (querySnapshot.docs.isEmpty || !querySnapshot.docs[0].exists) {
+      await FirebaseFirestore.instance.collection('order').add(
+        {
+          'user': FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid),
+          'offer': FirebaseFirestore.instance
+              .collection('offers')
+              .doc(event.offer.id),
+          'dogs': [
+            for (Dog dog in event.dogs)
+              FirebaseFirestore.instance.collection('dogs').doc(dog.uid),
+          ],
+        },
+      );
+    } else {
+      await FirebaseFirestore.instance
+          .collection('order')
+          .doc(querySnapshot.docs[0].id)
+          .update({
+        'dogs': [
+          for (Dog dog in event.dogs)
+            FirebaseFirestore.instance.collection('dogs').doc(dog.uid),
+        ],
+      });
+    }
+
+    event.completer?.complete();
   }
 
   _onAddOfferEvent(AddOfferEvent event, Emitter<OfferState> emit) async {

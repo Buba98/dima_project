@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:dima_project/bloc/offer_bloc.dart';
 import 'package:dima_project/bloc/user/user_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
@@ -6,6 +9,7 @@ import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
 import 'package:dima_project/input/show_text.dart';
+import 'package:dima_project/model/dog.dart';
 import 'package:dima_project/model/offer.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +26,9 @@ class OfferSummaryPage extends StatefulWidget {
 }
 
 class _OfferSummaryPageState extends State<OfferSummaryPage> {
-  late final List<SelectionElement> dogs;
+  late final List<SelectionElement<Dog>> dogs;
   String location = '';
+  bool error = false;
 
   @override
   void initState() {
@@ -31,7 +36,11 @@ class _OfferSummaryPageState extends State<OfferSummaryPage> {
         .internalUser
         .dogs!
         .map(
-          (e) => SelectionElement(name: e.name!, selected: false),
+          (e) => SelectionElement<Dog>(
+            name: e.name!,
+            selected: false,
+            element: e,
+          ),
         )
         .toList();
 
@@ -64,6 +73,7 @@ class _OfferSummaryPageState extends State<OfferSummaryPage> {
               onSelectDog: onSelectDog,
               dogs: dogs,
               location: location,
+              error: error,
             )
           : _OfferSummaryPhone(
               offer: widget.offer,
@@ -71,11 +81,31 @@ class _OfferSummaryPageState extends State<OfferSummaryPage> {
               onSelectDog: onSelectDog,
               dogs: dogs,
               location: location,
+              error: error,
             ),
     );
   }
 
   void onComplete(BuildContext context) {
+    if (dogs.where((element) => element.selected).isEmpty) {
+      setState(() {
+        error = true;
+      });
+      return;
+    }
+
+    Completer completer = Completer();
+
+    context.read<OfferBloc>().add(
+          OrderEvent(
+            dogs: dogs
+                .where((element) => element.selected)
+                .map((e) => e.element!)
+                .toList(),
+            offer: widget.offer,
+            completer: completer,
+          ),
+        );
     Navigator.pop(context);
   }
 
@@ -94,6 +124,7 @@ class _OfferSummaryTablet extends StatelessWidget {
     required this.onSelectDog,
     required this.dogs,
     required this.location,
+    required this.error,
   }) : super(key: key);
 
   final Offer offer;
@@ -101,6 +132,7 @@ class _OfferSummaryTablet extends StatelessWidget {
   final Function(int) onSelectDog;
   final List<SelectionElement> dogs;
   final String location;
+  final bool error;
 
   @override
   Widget build(BuildContext context) {
@@ -171,6 +203,8 @@ class _OfferSummaryTablet extends StatelessWidget {
             elements: dogs,
             onChanged: onSelectDog,
             title: S.of(context).selectDogs,
+            error: error,
+            errorTitle: S.of(context).selectAtLeastADog,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,
@@ -194,6 +228,7 @@ class _OfferSummaryPhone extends StatelessWidget {
     required this.onSelectDog,
     required this.dogs,
     required this.location,
+    required this.error,
   }) : super(key: key);
 
   final Offer offer;
@@ -201,6 +236,7 @@ class _OfferSummaryPhone extends StatelessWidget {
   final Function(int) onSelectDog;
   final List<SelectionElement> dogs;
   final String location;
+  final bool error;
 
   @override
   Widget build(BuildContext context) {
@@ -242,6 +278,8 @@ class _OfferSummaryPhone extends StatelessWidget {
             elements: dogs,
             onChanged: onSelectDog,
             title: S.of(context).selectDogs,
+            error: error,
+            errorTitle: S.of(context).selectAtLeastADog,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,

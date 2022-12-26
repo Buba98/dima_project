@@ -51,5 +51,9 @@
     "location":"地点",
     "time":"时间",
     "confirm":"确认",
-    "selectDogs":"选择狗"
+    "selectDogs":"选择狗",
+    "selectAtLeastADog":"至少选择一只狗",
+    "chat":"聊天",
+    "myOffers":"我的报价",
+    "acceptedOffers":"接受报价"
 }

@@ -22,11 +22,14 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "acceptedOffers":
+            MessageLookupByLibrary.simpleMessage("Accepted offers"),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addActivity": MessageLookupByLibrary.simpleMessage("Add activity"),
         "addFilter": MessageLookupByLibrary.simpleMessage("Add filter"),
         "addNewDog": MessageLookupByLibrary.simpleMessage("Add new dog"),
         "back": MessageLookupByLibrary.simpleMessage("Back"),
+        "chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "complete": MessageLookupByLibrary.simpleMessage("Complete"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "createOffer": MessageLookupByLibrary.simpleMessage("Create offer"),
@@ -54,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "maxPrice": MessageLookupByLibrary.simpleMessage("Max price"),
         "modify": MessageLookupByLibrary.simpleMessage("Modify"),
         "modifyProfile": MessageLookupByLibrary.simpleMessage("Modify profile"),
+        "myOffers": MessageLookupByLibrary.simpleMessage("My offers"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "nameCannotBeEmpty":
             MessageLookupByLibrary.simpleMessage("Name cannot be empty"),
@@ -64,6 +68,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "price": MessageLookupByLibrary.simpleMessage("Price"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "selectAtLeastADog":
+            MessageLookupByLibrary.simpleMessage("Select at least a dog"),
         "selectAtLeastOneActivity": MessageLookupByLibrary.simpleMessage(
             "Select at least one activity"),
         "selectDate": MessageLookupByLibrary.simpleMessage("Select date"),

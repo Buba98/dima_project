@@ -11,8 +11,9 @@ class Selection extends StatelessWidget {
     this.direction = Axis.horizontal,
     this.spacing = spaceBetweenWidgets,
     this.rows = 2,
-    this.baseColor = Colors.black12,
     this.title,
+    this.errorTitle,
+    this.error = false,
   });
 
   final List<SelectionElement> elements;
@@ -20,8 +21,9 @@ class Selection extends StatelessWidget {
   final Axis direction;
   final double spacing;
   final int rows;
-  final Color baseColor;
   final String? title;
+  final bool error;
+  final String? errorTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +34,12 @@ class Selection extends StatelessWidget {
         children: [
           if (title != null)
             Text(
-              title!,
-              style: const TextStyle(
+              error ? errorTitle ?? title! : title!,
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
+                color: error
+                    ? Theme.of(context).errorColor
+                    : Theme.of(context).primaryColor,
               ),
             ),
           if (title != null) const Divider(),
@@ -52,8 +57,10 @@ class Selection extends StatelessWidget {
                   child: ShowText(
                     wight: (constraints.maxWidth - spacing * (rows - 1)) / rows,
                     centerText: true,
-                    backgroundColor:
-                        element.selected ? Colors.black26 : Colors.black12,
+                    backgroundColor: (error
+                            ? Theme.of(context).errorColor
+                            : Theme.of(context).primaryColor)
+                        .withOpacity(element.selected ? .26 : .12),
                     trailerIcon: element.icon,
                     text: element.name,
                   ),

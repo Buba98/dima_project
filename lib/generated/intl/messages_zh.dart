@@ -22,11 +22,13 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "acceptedOffers": MessageLookupByLibrary.simpleMessage("接受报价"),
         "add": MessageLookupByLibrary.simpleMessage("添加"),
         "addActivity": MessageLookupByLibrary.simpleMessage("添加活动"),
         "addFilter": MessageLookupByLibrary.simpleMessage("添加过滤器"),
         "addNewDog": MessageLookupByLibrary.simpleMessage("添加新狗"),
         "back": MessageLookupByLibrary.simpleMessage("返回"),
+        "chat": MessageLookupByLibrary.simpleMessage("聊天"),
         "complete": MessageLookupByLibrary.simpleMessage("完成"),
         "confirm": MessageLookupByLibrary.simpleMessage("确认"),
         "createOffer": MessageLookupByLibrary.simpleMessage("创建报价"),
@@ -51,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "maxPrice": MessageLookupByLibrary.simpleMessage("最高价格"),
         "modify": MessageLookupByLibrary.simpleMessage("修改"),
         "modifyProfile": MessageLookupByLibrary.simpleMessage("修改配置文件"),
+        "myOffers": MessageLookupByLibrary.simpleMessage("我的报价"),
         "name": MessageLookupByLibrary.simpleMessage("姓名"),
         "nameCannotBeEmpty": MessageLookupByLibrary.simpleMessage("姓名不能为空"),
         "nameIsRequired": MessageLookupByLibrary.simpleMessage("姓名为必填项"),
@@ -59,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "price": MessageLookupByLibrary.simpleMessage("价格"),
         "profile": MessageLookupByLibrary.simpleMessage("个人资料"),
         "search": MessageLookupByLibrary.simpleMessage("搜索"),
+        "selectAtLeastADog": MessageLookupByLibrary.simpleMessage("至少选择一只狗"),
         "selectAtLeastOneActivity":
             MessageLookupByLibrary.simpleMessage("选择至少一项活动"),
         "selectDate": MessageLookupByLibrary.simpleMessage("选择日期"),

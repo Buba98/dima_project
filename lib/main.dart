@@ -3,7 +3,6 @@ import 'package:dima_project/bloc/location_bloc.dart';
 import 'package:dima_project/bloc/offer_bloc.dart';
 import 'package:dima_project/bloc/user/authentication_bloc.dart';
 import 'package:dima_project/bloc/user/user_bloc.dart' as user_bloc;
-import 'package:dima_project/chat/chat_page.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/firebase_options.dart';
 import 'package:dima_project/generated/l10n.dart';

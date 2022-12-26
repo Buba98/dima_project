@@ -1,9 +1,15 @@
 import 'package:flutter/cupertino.dart';
 
-class SelectionElement {
-  SelectionElement({required this.name, required this.selected, this.icon});
+class SelectionElement<T> {
+  SelectionElement({
+    required this.name,
+    required this.selected,
+    this.icon,
+    this.element,
+  });
 
   final String name;
+  final T? element;
   bool selected;
   final IconData? icon;
 }

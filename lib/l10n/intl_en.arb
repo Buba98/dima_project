@@ -51,5 +51,9 @@
     "location":"Location",
     "time":"Time",
     "confirm":"Confirm",
-    "selectDogs":"Select dogs"
+    "selectDogs":"Select dogs",
+    "selectAtLeastADog":"Select at least a dog",
+    "chat":"Chat",
+    "myOffers":"My offers",
+    "acceptedOffers":"Accepted offers"
 }

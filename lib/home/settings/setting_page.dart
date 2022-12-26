@@ -34,7 +34,7 @@ class _SettingPageState extends State<SettingPage> {
           ? Row(
               children: [
                 Flexible(
-                  flex: 2,
+                  flex: 4,
                   child: SettingScreen(
                     changeScreen: (Widget? screen) {
                       setState(() {
@@ -44,7 +44,7 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ),
                 Flexible(
-                  flex: 3,
+                  flex: 7,
                   child: screen ?? Container(),
                 ),
               ],

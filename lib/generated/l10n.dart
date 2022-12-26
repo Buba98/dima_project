@@ -579,6 +579,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Select at least a dog`
+  String get selectAtLeastADog {
+    return Intl.message(
+      'Select at least a dog',
+      name: 'selectAtLeastADog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chat`
+  String get chat {
+    return Intl.message(
+      'Chat',
+      name: 'chat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My offers`
+  String get myOffers {
+    return Intl.message(
+      'My offers',
+      name: 'myOffers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accepted offers`
+  String get acceptedOffers {
+    return Intl.message(
+      'Accepted offers',
+      name: 'acceptedOffers',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

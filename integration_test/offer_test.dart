@@ -20,11 +20,7 @@ void main() {
           await app.main();
           await tester.pumpAndSettle();
 
-          final signInButton = find.byKey(const Key('sign_in_button'));
-
-          expect(signInButton, findsOneWidget);
-
-          await tester.tap(signInButton);
+          await tester.tap(find.byKey(const Key('sign_in_button')));
 
           await tester.pumpAndSettle();
 
@@ -110,7 +106,21 @@ void main() {
 
           await tester.pumpAndSettle();
 
+          timerDone = false;
+          Timer(const Duration(seconds: 2), () => timerDone = true);
+          while (timerDone != true) {
+            await tester.pump();
+          }
+
           await tester.tap(find.text('Complete'));
+
+          await tester.pumpAndSettle();
+
+          timerDone = false;
+          Timer(const Duration(seconds: 2), () => timerDone = true);
+          while (timerDone != true) {
+            await tester.pump();
+          }
 
           await tester.pumpAndSettle();
 
