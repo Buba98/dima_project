@@ -15,37 +15,29 @@ class ActivitiesPicker extends StatefulWidget {
     required this.onBack,
   });
 
-  final List<SelectionElement<String>>? activities;
-  final Function(List<SelectionElement<String>>) onNext;
-  final Function(List<SelectionElement<String>>) onBack;
+  final List<SelectionElement>? activities;
+  final Function(List<SelectionElement>) onNext;
+  final Function(List<SelectionElement>) onBack;
 
   @override
   State<ActivitiesPicker> createState() => _ActivitiesPickerState();
 }
 
 class _ActivitiesPickerState extends State<ActivitiesPicker> {
-  List<SelectionElement<String>>? activities;
+  late List<SelectionElement> activities;
   final TextEditingController otherOption = TextEditingController();
   bool error = false;
 
   @override
   void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
     activities = widget.activities ??
         List.from(
-          defaultActivities.map<SelectionElement<String>>(
-            (e) => SelectionElement<String>(
-              name: e.name(context),
-              selected: false,
-              element: e.value,
-            ),
+          defaultActivities.map(
+            (e) => SelectionElement(name: e, selected: false),
           ),
         );
+
+    super.initState();
   }
 
   @override
@@ -58,11 +50,11 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
               spacing: spaceBetweenWidgets,
               direction: Axis.horizontal,
               rows: isTablet(context) ? 4 : 2,
-              elements: activities!,
+              elements: activities,
               onChanged: (int change) {
                 setState(() {
                   error = false;
-                  activities![change].selected = !activities![change].selected;
+                  activities[change].selected = !activities[change].selected;
                 });
               },
             ),
@@ -80,7 +72,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
               return;
             }
 
-            for (SelectionElement activity in activities!) {
+            for (SelectionElement activity in activities) {
               if (activity.name == otherOption.text) {
                 otherOption.clear();
                 return;
@@ -89,12 +81,8 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
 
             setState(() {
               activities = [
-                ...activities!,
-                SelectionElement<String>(
-                  name: otherOption.text,
-                  selected: true,
-                  element: otherOption.text.toLowerCase(),
-                ),
+                ...activities,
+                SelectionElement(name: otherOption.text, selected: true)
               ];
               error = false;
             });
@@ -113,7 +101,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
               child: Button(
                 primary: false,
                 onPressed: () {
-                  if (activities!
+                  if (activities
                       .every((element) => element.selected == false)) {
                     setState(() {
                       error = true;
@@ -121,7 +109,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
                     return;
                   }
 
-                  widget.onBack(activities!);
+                  widget.onBack(activities);
                 },
                 text: S.of(context).back,
               ),
@@ -132,7 +120,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
             Expanded(
               child: Button(
                 onPressed: () {
-                  if (activities!
+                  if (activities
                       .every((element) => element.selected == false)) {
                     setState(() {
                       error = true;
@@ -140,7 +128,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
                     return;
                   }
 
-                  widget.onNext(activities!);
+                  widget.onNext(activities);
                 },
                 text: S.of(context).next,
               ),

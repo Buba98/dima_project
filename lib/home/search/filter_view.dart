@@ -16,7 +16,7 @@ class FilterView extends StatelessWidget {
   });
 
   final TextEditingController otherActivity = TextEditingController();
-  final Function(SelectionElement<String>) addOtherActivity;
+  final Function(SelectionElement) addOtherActivity;
   final List<SelectionElement> activities;
   final Function(int change) onChangeActivity;
   final double priceValue;
@@ -65,7 +65,6 @@ class FilterView extends StatelessWidget {
             addOtherActivity(SelectionElement(
               name: otherActivity.text,
               selected: true,
-              element: otherActivity.text,
             ));
 
             otherActivity.clear();

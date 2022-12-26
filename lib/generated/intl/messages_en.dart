@@ -66,10 +66,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "noFilter": MessageLookupByLibrary.simpleMessage("No filter"),
         "orderSummary": MessageLookupByLibrary.simpleMessage("Order summary"),
-        "park": MessageLookupByLibrary.simpleMessage("Park"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
-        "run": MessageLookupByLibrary.simpleMessage("Run"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "selectAtLeastADog":
             MessageLookupByLibrary.simpleMessage("Select at least a dog"),
@@ -90,7 +88,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "signUp": MessageLookupByLibrary.simpleMessage("Sign up"),
         "startDate": MessageLookupByLibrary.simpleMessage("Start date"),
         "startTime": MessageLookupByLibrary.simpleMessage("Start time"),
-        "swim": MessageLookupByLibrary.simpleMessage("Swim"),
         "time": MessageLookupByLibrary.simpleMessage("Time"),
         "walkTheDog": MessageLookupByLibrary.simpleMessage("Walk the dog"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),

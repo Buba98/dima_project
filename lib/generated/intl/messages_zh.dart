@@ -60,10 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "next": MessageLookupByLibrary.simpleMessage("下一个"),
         "noFilter": MessageLookupByLibrary.simpleMessage("无过滤器"),
         "orderSummary": MessageLookupByLibrary.simpleMessage("订单摘要"),
-        "park": MessageLookupByLibrary.simpleMessage("公园"),
         "price": MessageLookupByLibrary.simpleMessage("价格"),
         "profile": MessageLookupByLibrary.simpleMessage("个人资料"),
-        "run": MessageLookupByLibrary.simpleMessage("跑步"),
         "search": MessageLookupByLibrary.simpleMessage("搜索"),
         "selectAtLeastADog": MessageLookupByLibrary.simpleMessage("至少选择一只狗"),
         "selectAtLeastOneActivity":
@@ -81,7 +79,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "signUp": MessageLookupByLibrary.simpleMessage("注册"),
         "startDate": MessageLookupByLibrary.simpleMessage("开始日期"),
         "startTime": MessageLookupByLibrary.simpleMessage("开始时间"),
-        "swim": MessageLookupByLibrary.simpleMessage("游泳"),
         "time": MessageLookupByLibrary.simpleMessage("时间"),
         "walkTheDog": MessageLookupByLibrary.simpleMessage("遛狗"),
         "welcome": MessageLookupByLibrary.simpleMessage("欢迎"),

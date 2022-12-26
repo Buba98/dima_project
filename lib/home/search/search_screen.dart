@@ -24,7 +24,9 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   LatLng? position;
-  List<SelectionElement<String>>? activities;
+  List<SelectionElement> activities = defaultActivities
+      .map((e) => SelectionElement(name: e, selected: false))
+      .toList();
 
   double priceValue = 100;
 
@@ -32,22 +34,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    super.initState();
     _positionHandler();
-  }
-
-  @override
-  didChangeDependencies() {
-    super.didChangeDependencies();
-    activities ??= defaultActivities
-        .map(
-          (e) => SelectionElement<String>(
-            name: e.name(context),
-            selected: false,
-            element: e.value,
-          ),
-        )
-        .toList();
+    super.initState();
   }
 
   _positionHandler() async {
@@ -77,14 +65,14 @@ class _SearchScreenState extends State<SearchScreen> {
 
   onChangeActivity(int change) {
     setState(() {
-      activities![change].selected = !activities![change].selected;
+      activities[change].selected = !activities[change].selected;
     });
   }
 
-  addOtherActivity(SelectionElement<String> selectionElement) {
+  addOtherActivity(SelectionElement selectionElement) {
     setState(() {
       activities = [
-        ...activities!,
+        ...activities,
         selectionElement,
       ];
     });
@@ -105,9 +93,9 @@ class _SearchScreenState extends State<SearchScreen> {
       body: Center(child: BlocBuilder<OfferBloc, OfferState>(
         builder: (BuildContext context, OfferState state) {
           List<Offer> offers = state.offers.where((offer) {
-            for (String activity in activities!
+            for (String activity in activities
                 .where((element) => element.selected)
-                .map((e) => e.element!)) {
+                .map((e) => e.name)) {
               if (!offer.activities!
                   .map((e) => e.activity)
                   .contains(activity)) {
@@ -125,7 +113,7 @@ class _SearchScreenState extends State<SearchScreen> {
           if (isTablet(context)) {
             return SearchTabletScreen(
               position: position,
-              activities: activities!,
+              activities: activities,
               addOtherActivity: addOtherActivity,
               onChangeActivity: onChangeActivity,
               onRefresh: onRefresh,
@@ -136,7 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
           } else {
             return SearchPhoneScreen(
               position: position,
-              activities: activities!,
+              activities: activities,
               addOtherActivity: addOtherActivity,
               onChangeActivity: onChangeActivity,
               onRefresh: onRefresh,

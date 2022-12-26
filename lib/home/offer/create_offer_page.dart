@@ -23,12 +23,13 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
   DateTime? startDate;
   Duration? duration;
   double? price;
-  List<SelectionElement<String>>? activities;
+  List<SelectionElement>? activities;
   LatLng? position;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: KAppBar(
         text: S.of(context).createOffer,
       ),
@@ -50,11 +51,11 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
             : index == 1
                 ? ActivitiesPicker(
                     activities: activities,
-                    onNext: (List<SelectionElement<String>> activities) => setState(() {
+                    onNext: (List<SelectionElement> activities) => setState(() {
                       this.activities = activities;
                       index++;
                     }),
-                    onBack: (List<SelectionElement<String>> activities) => setState(() {
+                    onBack: (List<SelectionElement> activities) => setState(() {
                       this.activities = activities;
                       index--;
                     }),
@@ -76,7 +77,7 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
                               price: price!,
                               activities: activities!
                                   .where((element) => element.selected)
-                                  .map<String>((e) => e.element!)
+                                  .map<String>((e) => e.name)
                                   .toList(),
                               position: this.position!,
                             ),
