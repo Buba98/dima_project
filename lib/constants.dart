@@ -1,10 +1,12 @@
+import 'package:dima_project/generated/l10n.dart';
+import 'package:dima_project/model/activities.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
-const List<String> defaultActivities = [
-  'park',
-  'swim',
-  'run',
+List<Activity> defaultActivities = [
+  Activity(name: (BuildContext context) => S.of(context).park, value: 'park'),
+  Activity(name: (BuildContext context) => S.of(context).swim, value: 'swim'),
+  Activity(name: (BuildContext context) => S.of(context).run, value: 'run'),
 ];
 
 const double spaceBetweenWidgets = 20;

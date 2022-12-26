@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import 'utils.dart';
-
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -126,11 +124,6 @@ void main() {
           await tester.tap(find.byKey(const Key('search_menu')));
 
           await tester.pumpAndSettle();
-
-          await pumpUntilFound(
-            tester,
-            find.text('Batman'),
-          );
         },
       );
     },

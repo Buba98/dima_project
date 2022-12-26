@@ -1,9 +1,9 @@
+import 'package:dima_project/authentication/sign_in/sign_in_screen.dart';
 import 'package:dima_project/authentication/sign_up/sign_up_screen.dart';
 import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:flutter/material.dart';
 
-import 'sign_in/sign_in_screen.dart';
 
 class AuthenticationScreen extends StatelessWidget {
   const AuthenticationScreen({super.key});
@@ -18,16 +18,16 @@ class AuthenticationScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
-                  children: const [
-                    Spacer(
+                  children: [
+                    const Spacer(
                       flex: 2,
                     ),
                     Center(
                       child: FittedBox(
                         fit: BoxFit.fitWidth,
                         child: Text(
-                          'Walk the dog',
-                          style: TextStyle(
+                          S.of(context).walkTheDog,
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 110,
                             fontFamily: 'Pacifico',

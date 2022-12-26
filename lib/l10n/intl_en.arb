@@ -58,5 +58,8 @@
     "acceptedOffers":"Accepted offers",
     "selectedDogs":"Selected dogs",
     "orderSummary":"Order summary",
-    "walkTheDog":"Walk the dog"
+    "walkTheDog":"Walk the dog",
+    "park":"Park",
+    "run":"Run",
+    "swim":"Swim"
 }

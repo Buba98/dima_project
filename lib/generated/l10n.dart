@@ -649,6 +649,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Park`
+  String get park {
+    return Intl.message(
+      'Park',
+      name: 'park',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Run`
+  String get run {
+    return Intl.message(
+      'Run',
+      name: 'run',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swim`
+  String get swim {
+    return Intl.message(
+      'Swim',
+      name: 'swim',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

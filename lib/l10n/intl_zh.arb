@@ -58,5 +58,8 @@
     "acceptedOffers":"接受报价",
     "selectedDogs":"选定的狗",
     "orderSummary":"订单摘要",
-    "walkTheDog":"遛狗"
+    "walkTheDog":"遛狗",
+    "park":"公园",
+    "run":"跑步",
+    "swim":"游泳"
 }

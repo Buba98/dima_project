@@ -24,7 +24,7 @@ class SearchPhoneScreen extends StatelessWidget {
   final LatLng? position;
   final Future<void> Function() onRefresh;
 
-  final Function(SelectionElement) addOtherActivity;
+  final Function(SelectionElement<String>) addOtherActivity;
   final List<SelectionElement> activities;
   final Function(int) onChangeActivity;
 
@@ -83,7 +83,7 @@ class FilterScreen extends StatelessWidget {
     required this.onChangePriceValue,
   }) : super(key: key);
 
-  final Function(SelectionElement) addOtherActivity;
+  final Function(SelectionElement<String>) addOtherActivity;
   final List<SelectionElement> activities;
   final Function(int) onChangeActivity;
   final double priceValue;

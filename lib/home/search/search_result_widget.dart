@@ -3,6 +3,7 @@ import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/search/offer_summary_page.dart';
 import 'package:dima_project/model/offer.dart';
 import 'package:dima_project/utils/utils.dart';
+import 'package:dima_project/model/activities.dart' as internal_activity;
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -177,38 +178,46 @@ class _SearchResultWidgetState extends State<SearchResultWidget> {
                   children: [
                     isShowActivities
                         ? Column(
-                            children: widget.offer.activities!
-                                .map<Widget>((e) => Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom:
-                                              widget.offer.activities!.last == e
-                                                  ? 0
-                                                  : spaceBetweenWidgets / 2),
-                                      child: Row(
-                                        children: [
-                                          const Text(
-                                            '\u2022',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black54,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: spaceBetweenWidgets,
-                                          ),
-                                          Text(
-                                            e.activity,
-                                            style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black54,
-                                            ),
-                                          ),
-                                        ],
+                            children: widget.offer.activities!.map<Widget>((e) {
+
+                              String name = e.activity;
+
+                              for (internal_activity.Activity activity in defaultActivities){
+                                if(activity.value == e.activity){
+                                  name = activity.name(context);
+                                }
+                              }
+
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: widget.offer.activities!.last == e
+                                        ? 0
+                                        : spaceBetweenWidgets / 2),
+                                child: Row(
+                                  children: [
+                                    const Text(
+                                      '\u2022',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black54,
                                       ),
-                                    ))
-                                .toList(),
+                                    ),
+                                    const SizedBox(
+                                      width: spaceBetweenWidgets,
+                                    ),
+                                    Text(
+                                      name,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
                           )
                         : Row(
                             children: [

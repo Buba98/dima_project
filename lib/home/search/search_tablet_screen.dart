@@ -22,7 +22,7 @@ class SearchTabletScreen extends StatelessWidget {
 
   final LatLng? position;
   final List<SelectionElement> activities;
-  final Function(SelectionElement) addOtherActivity;
+  final Function(SelectionElement<String>) addOtherActivity;
   final Function(int change) onChangeActivity;
   final Future<void> Function() onRefresh;
   final double priceValue;
