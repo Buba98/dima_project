@@ -92,6 +92,8 @@ class _MyAppState extends State<MyApp> {
             home = const AuthenticationScreen();
           } else if (state is AuthenticatedState) {
             home = const HomeScreen();
+            context.read<user_bloc.UserBloc>().add(user_bloc.InitUserBloc());
+            context.read<ChatBloc>().add(InitChatBloc());
           }
           setState(() {
             this.home = home;

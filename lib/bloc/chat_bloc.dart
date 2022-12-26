@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dima_project/model/chat.dart';
 import 'package:dima_project/model/dog.dart';
@@ -8,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:latlong2/latlong.dart';
 
 abstract class ChatEvent {}
+
+class InitChatBloc extends ChatEvent {}
 
 class _MyOfferEvent extends ChatEvent {
   final QuerySnapshot<Map> event;
@@ -46,40 +50,45 @@ class ChatState {
 }
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
+  StreamSubscription? myOfferSubscription;
+  StreamSubscription? acceptedOfferSubscription;
+
   ChatBloc() : super(ChatState()) {
     on<_MyOfferEvent>(_onMyOfferEvent);
     on<_AcceptedOfferEvent>(_onAcceptedOfferEvent);
     on<SendMessageEvent>(_onSendMessageEvent);
-
-    FirebaseFirestore.instance
-        .collection('orders')
-        .where('user',
-            isEqualTo: FirebaseFirestore.instance
-                .collection('users')
-                .doc(FirebaseAuth.instance.currentUser!.uid))
-        .snapshots()
-        .listen(
-          (event) => add(
-            _MyOfferEvent(
-              event: event,
+    on<InitChatBloc>((InitChatBloc event, Emitter<ChatState> emit) {
+      myOfferSubscription?.cancel();
+      myOfferSubscription = FirebaseFirestore.instance
+          .collection('orders')
+          .where('user',
+              isEqualTo: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(FirebaseAuth.instance.currentUser!.uid))
+          .snapshots()
+          .listen(
+            (event) => add(
+              _MyOfferEvent(
+                event: event,
+              ),
             ),
-          ),
-        );
-
-    FirebaseFirestore.instance
-        .collection('orders')
-        .where('client',
-            isEqualTo: FirebaseFirestore.instance
-                .collection('users')
-                .doc(FirebaseAuth.instance.currentUser!.uid))
-        .snapshots()
-        .listen(
-          (event) => add(
-            _AcceptedOfferEvent(
-              event: event,
+          );
+      acceptedOfferSubscription?.cancel();
+      acceptedOfferSubscription = FirebaseFirestore.instance
+          .collection('orders')
+          .where('client',
+              isEqualTo: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(FirebaseAuth.instance.currentUser!.uid))
+          .snapshots()
+          .listen(
+            (event) => add(
+              _AcceptedOfferEvent(
+                event: event,
+              ),
             ),
-          ),
-        );
+          );
+    });
   }
 
   _onSendMessageEvent(SendMessageEvent event, Emitter<ChatState> emit) {

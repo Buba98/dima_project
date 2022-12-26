@@ -23,7 +23,7 @@ class ChatPage extends StatelessWidget {
 
   void _scrollDown() {
     scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
+      scrollController.position.minScrollExtent,
       duration: const Duration(seconds: 1),
       curve: Curves.fastOutSlowIn,
     );
@@ -63,14 +63,18 @@ class ChatPage extends StatelessWidget {
                       .addPostFrameCallback((_) => _scrollDown());
 
                   return ListView.builder(
+                    reverse: true,
                     controller: scrollController,
                     itemBuilder: (BuildContext context, int index) => Padding(
                       padding:
                           const EdgeInsets.only(bottom: spaceBetweenWidgets),
                       child: _ChatMessage(
-                        text: chat.messages[index].text,
-                        isFromMe:
-                            chat.messages[index].isClientMessage && isClientMe,
+                        text: chat
+                            .messages[chat.messages.length - index - 1].text,
+                        isFromMe: chat
+                                .messages[chat.messages.length - index - 1]
+                                .isClientMessage &&
+                            isClientMe,
                       ),
                     ),
                     itemCount: chat.messages.length,

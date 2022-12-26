@@ -65,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Name is required"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "noFilter": MessageLookupByLibrary.simpleMessage("No filter"),
+        "orderSummary": MessageLookupByLibrary.simpleMessage("Order summary"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
@@ -88,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "startDate": MessageLookupByLibrary.simpleMessage("Start date"),
         "startTime": MessageLookupByLibrary.simpleMessage("Start time"),
         "time": MessageLookupByLibrary.simpleMessage("Time"),
+        "walkTheDog": MessageLookupByLibrary.simpleMessage("Walk the dog"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage("Wrong password")
       };

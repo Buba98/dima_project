@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,6 +50,8 @@ class ModifyDogEvent extends UserEvent {
         };
 }
 
+class InitUserBloc extends UserEvent {}
+
 abstract class UserState {}
 
 class InitializationState extends UserState {}
@@ -70,18 +73,22 @@ class CompleteState extends InitializedState {
 }
 
 class UserBloc extends Bloc<UserEvent, UserState> {
+  StreamSubscription? streamSubscription;
+
   UserBloc() : super(InitializationState()) {
     on<_ReloadEvent>(_onReloadEvent);
     on<ModifyEvent>(_onModifyEvent);
     on<ModifyDogEvent>(_onModifyDogEvent);
     on<DeleteDogEvent>(_onDeleteDogEvent);
-
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .snapshots()
-        .listen((DocumentSnapshot<Map<String, dynamic>> event) {
-      add(_ReloadEvent(event: event));
+    on<InitUserBloc>((InitUserBloc event, Emitter<UserState> emit) {
+      streamSubscription?.cancel();
+      streamSubscription = FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .snapshots()
+          .listen((DocumentSnapshot<Map<String, dynamic>> event) {
+        add(_ReloadEvent(event: event));
+      });
     });
   }
 
@@ -104,17 +111,24 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid);
 
-    if (event.uid != null) {
-      await FirebaseFirestore.instance
-          .collection('dogs')
-          .doc(event.uid)
-          .update(event.firestoreModel);
+    DocumentReference documentReference;
 
-      return;
+    if (event.uid != null) {
+      documentReference =
+          FirebaseFirestore.instance.collection('dogs').doc(event.uid);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({
+        'dogs': FieldValue.arrayRemove([documentReference]),
+      });
+
+      await documentReference.update(event.firestoreModel);
+    } else {
+      documentReference = await FirebaseFirestore.instance
+          .collection('dogs')
+          .add(event.firestoreModel);
     }
-    DocumentReference documentReference = await FirebaseFirestore.instance
-        .collection('dogs')
-        .add(event.firestoreModel);
 
     FirebaseFirestore.instance
         .collection('users')

@@ -59,6 +59,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "nameIsRequired": MessageLookupByLibrary.simpleMessage("姓名为必填项"),
         "next": MessageLookupByLibrary.simpleMessage("下一个"),
         "noFilter": MessageLookupByLibrary.simpleMessage("无过滤器"),
+        "orderSummary": MessageLookupByLibrary.simpleMessage("订单摘要"),
         "price": MessageLookupByLibrary.simpleMessage("价格"),
         "profile": MessageLookupByLibrary.simpleMessage("个人资料"),
         "search": MessageLookupByLibrary.simpleMessage("搜索"),
@@ -79,6 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "startDate": MessageLookupByLibrary.simpleMessage("开始日期"),
         "startTime": MessageLookupByLibrary.simpleMessage("开始时间"),
         "time": MessageLookupByLibrary.simpleMessage("时间"),
+        "walkTheDog": MessageLookupByLibrary.simpleMessage("遛狗"),
         "welcome": MessageLookupByLibrary.simpleMessage("欢迎"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage("密码错误")
       };

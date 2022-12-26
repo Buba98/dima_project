@@ -1,7 +1,6 @@
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
-import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
 import 'package:dima_project/input/show_text.dart';
@@ -45,8 +44,8 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const KAppBar(
-        text: 'Order summary',
+      appBar: KAppBar(
+        text: S.of(context).orderSummary,
       ),
       body: isTablet(context)
           ? _OrderSummaryTablet(

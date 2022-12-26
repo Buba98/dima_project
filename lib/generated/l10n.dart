@@ -629,6 +629,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Order summary`
+  String get orderSummary {
+    return Intl.message(
+      'Order summary',
+      name: 'orderSummary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Walk the dog`
+  String get walkTheDog {
+    return Intl.message(
+      'Walk the dog',
+      name: 'walkTheDog',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

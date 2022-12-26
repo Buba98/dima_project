@@ -56,5 +56,7 @@
     "chat":"Chat",
     "myOffers":"My offers",
     "acceptedOffers":"Accepted offers",
-    "selectedDogs":"Selected dogs"
+    "selectedDogs":"Selected dogs",
+    "orderSummary":"Order summary",
+    "walkTheDog":"Walk the dog"
 }

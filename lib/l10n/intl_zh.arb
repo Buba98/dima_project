@@ -56,5 +56,7 @@
     "chat":"聊天",
     "myOffers":"我的报价",
     "acceptedOffers":"接受报价",
-    "selectedDogs":"选定的狗"
+    "selectedDogs":"选定的狗",
+    "orderSummary":"订单摘要",
+    "walkTheDog":"遛狗"
 }
