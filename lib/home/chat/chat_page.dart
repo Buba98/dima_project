@@ -2,6 +2,7 @@ import 'package:dima_project/bloc/chat_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
+import 'package:dima_project/home/chat/order_summary_page.dart';
 import 'package:dima_project/input/text_input_button.dart';
 import 'package:dima_project/model/chat.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,17 @@ class ChatPage extends StatelessWidget {
     return Scaffold(
       appBar: KAppBar(
         text: chat.offer.user!.name,
+        actionIcon: Icons.info_rounded,
+        actionFunction: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => OrderSummaryPage(
+                chat: chat,
+              ),
+            ),
+          );
+        },
       ),
       body: Padding(
         padding: const EdgeInsets.all(spaceBetweenWidgets),

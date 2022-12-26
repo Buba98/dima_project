@@ -59,8 +59,11 @@ class ChatListWidget extends StatelessWidget {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ChatPage(chat: (isMyOffers ? state.myOffers : state.acceptedOffers)[i], isClientMe: !isMyOffers)
-              ),
+                  builder: (context) => ChatPage(
+                      chat: (isMyOffers
+                          ? state.myOffers
+                          : state.acceptedOffers)[i],
+                      isClientMe: !isMyOffers)),
             ),
           ),
           separatorBuilder: (BuildContext context, int i) => const SizedBox(

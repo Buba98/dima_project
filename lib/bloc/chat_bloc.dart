@@ -93,85 +93,106 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     });
   }
 
+  _help(List<Chat> chats, QueryDocumentSnapshot<Map> element) async {
+    if (!element.exists) {
+      return;
+    }
+
+    Map<String, dynamic> elementMap = element.data() as Map<String, dynamic>;
+
+    DocumentSnapshot offerDoc =
+        await (elementMap['offer'] as DocumentReference).get();
+
+    Map<String, dynamic> offerMap = offerDoc.data() as Map<String, dynamic>;
+
+    DocumentSnapshot userDoc =
+        await (offerMap['user'] as DocumentReference).get();
+
+    Map<String, dynamic> userMap = userDoc.data() as Map<String, dynamic>;
+
+    InternalUser user = InternalUser(
+      uid: userDoc.id,
+      name: userMap['name'],
+      dogs: ((userMap['dogs'] ?? []) as List)
+          .map((e) => Dog(uid: e.id, fetched: false))
+          .toList(),
+      fetched: true,
+    );
+
+    Offer offer = Offer(
+      id: offerDoc.id,
+      startDate: (offerMap['start_date'] as Timestamp).toDate(),
+      duration: (offerMap['end_date'] as Timestamp)
+          .toDate()
+          .difference((offerMap['start_date'] as Timestamp).toDate()),
+      price: offerMap['price'],
+      activities: [
+        for (String e in offerMap['activities'] as List) Activity(activity: e)
+      ],
+      position: LatLng(offerMap['position'][0], offerMap['position'][1]),
+      user: user,
+      fetched: true,
+    );
+
+    DocumentSnapshot clientDoc =
+        await (elementMap['client'] as DocumentReference).get();
+
+    Map<String, dynamic> clientMap = userDoc.data() as Map<String, dynamic>;
+
+    InternalUser client = InternalUser(
+      uid: clientDoc.id,
+      name: clientMap['name'],
+      dogs: ((clientMap['dogs'] ?? []) as List)
+          .map((e) => Dog(uid: e.id, fetched: false))
+          .toList(),
+      fetched: true,
+    );
+
+    List<Dog> dogs = [];
+
+    for (DocumentReference dogRef in elementMap['dogs']) {
+      DocumentSnapshot dogDoc = await dogRef.get();
+
+      Map<String, dynamic> dogMap = dogDoc.data() as Map<String, dynamic>;
+
+      dogs.add(Dog(
+        uid: dogDoc.id,
+        fetched: true,
+        sex: dogMap['sex'],
+        name: dogMap['name'],
+        owner: client,
+      ));
+    }
+
+    Chat chat = Chat(
+      id: element.id,
+      offer: offer,
+      client: client,
+      messages: [
+        for (var message in elementMap['messages'] ?? [])
+          Message(
+            text: message['message'],
+            isClientMessage: message['is_client'],
+          )
+      ],
+      dogs: dogs,
+    );
+
+    int i = chats.indexWhere((element) => element.id == chat.id);
+
+    if (i == -1) {
+      chats.add(chat);
+    } else {
+      chats[i] = chat;
+    }
+  }
+
   _onAcceptedOfferEvent(
       _AcceptedOfferEvent event, Emitter<ChatState> emit) async {
     List<Chat> chats = [...state.acceptedOffers];
 
     for (QueryDocumentSnapshot<Map> element in event.event.docs) {
-      if (!element.exists) {
-        continue;
-      }
-
-      Map<String, dynamic> elementMap = element.data() as Map<String, dynamic>;
-
-      DocumentSnapshot offerDoc =
-          await (elementMap['offer'] as DocumentReference).get();
-
-      Map<String, dynamic> offerMap = offerDoc.data() as Map<String, dynamic>;
-
-      DocumentSnapshot userDoc =
-          await (offerMap['user'] as DocumentReference).get();
-
-      Map<String, dynamic> userMap = userDoc.data() as Map<String, dynamic>;
-
-      InternalUser user = InternalUser(
-        uid: userDoc.id,
-        name: userMap['name'],
-        dogs: ((userMap['dogs'] ?? []) as List)
-            .map((e) => Dog(uid: e.id, fetched: false))
-            .toList(),
-        fetched: true,
-      );
-
-      Offer offer = Offer(
-        id: offerDoc.id,
-        startDate: (offerMap['start_date'] as Timestamp).toDate(),
-        duration: (offerMap['end_date'] as Timestamp)
-            .toDate()
-            .difference((offerMap['start_date'] as Timestamp).toDate()),
-        price: offerMap['price'],
-        activities: [
-          for (String e in offerMap['activities'] as List) Activity(activity: e)
-        ],
-        position: LatLng(offerMap['position'][0], offerMap['position'][1]),
-        user: user,
-        fetched: true,
-      );
-
-      DocumentSnapshot clientDoc =
-          await (offerMap['user'] as DocumentReference).get();
-
-      Map<String, dynamic> clientMap = userDoc.data() as Map<String, dynamic>;
-
-      InternalUser client = InternalUser(
-        uid: clientDoc.id,
-        name: clientMap['name'],
-        dogs: ((clientMap['dogs'] ?? []) as List)
-            .map((e) => Dog(uid: e.id, fetched: false))
-            .toList(),
-        fetched: true,
-      );
-
-      Chat chat = Chat(
-        id: element.id,
-        offer: offer,
-        client: client,
-        messages: [
-          for (var message in elementMap['messages'] ?? [])
-            Message(
-              text: message['message'],
-              isClientMessage: message['is_client'],
-            )
-        ],
-      );
-
-      int i = chats.indexWhere((element) => element.id == chat.id);
-
-      if (i == -1) {
-        chats.add(chat);
-      } else {
-        chats[i] = chat;
-      }
+      _help(chats, element);
     }
 
     emit(
@@ -186,80 +207,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     List<Chat> chats = [...state.myOffers];
 
     for (QueryDocumentSnapshot<Map> element in event.event.docs) {
-      if (!element.exists) {
-        continue;
-      }
-
-      Map<String, dynamic> elementMap = element.data() as Map<String, dynamic>;
-
-      DocumentSnapshot offerDoc =
-          await (elementMap['offer'] as DocumentReference).get();
-
-      Map<String, dynamic> offerMap = offerDoc.data() as Map<String, dynamic>;
-
-      DocumentSnapshot userDoc =
-          await (offerMap['user'] as DocumentReference).get();
-
-      Map<String, dynamic> userMap = userDoc.data() as Map<String, dynamic>;
-
-      InternalUser user = InternalUser(
-        uid: userDoc.id,
-        name: userMap['name'],
-        dogs: ((userMap['dogs'] ?? []) as List)
-            .map((e) => Dog(uid: e.id, fetched: false))
-            .toList(),
-        fetched: true,
-      );
-
-      Offer offer = Offer(
-        id: offerDoc.id,
-        startDate: (offerMap['start_date'] as Timestamp).toDate(),
-        duration: (offerMap['end_date'] as Timestamp)
-            .toDate()
-            .difference((offerMap['start_date'] as Timestamp).toDate()),
-        price: offerMap['price'],
-        activities: [
-          for (String e in offerMap['activities'] as List) Activity(activity: e)
-        ],
-        position: LatLng(offerMap['position'][0], offerMap['position'][1]),
-        user: user,
-        fetched: true,
-      );
-
-      DocumentSnapshot clientDoc =
-          await (offerMap['user'] as DocumentReference).get();
-
-      Map<String, dynamic> clientMap = userDoc.data() as Map<String, dynamic>;
-
-      InternalUser client = InternalUser(
-        uid: clientDoc.id,
-        name: clientMap['name'],
-        dogs: ((clientMap['dogs'] ?? []) as List)
-            .map((e) => Dog(uid: e.id, fetched: false))
-            .toList(),
-        fetched: true,
-      );
-
-      Chat chat = Chat(
-        id: element.id,
-        offer: offer,
-        client: client,
-        messages: [
-          for (var message in elementMap['messages'] ?? [])
-            Message(
-              text: message['message'],
-              isClientMessage: message['is_client'],
-            )
-        ],
-      );
-
-      int i = chats.indexWhere((element) => element.id == chat.id);
-
-      if (i == -1) {
-        chats.add(chat);
-      } else {
-        chats[i] = chat;
-      }
+      _help(chats, element);
     }
 
     emit(

@@ -78,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Select duration"),
         "selectPrice": MessageLookupByLibrary.simpleMessage("Select price"),
         "selectTime": MessageLookupByLibrary.simpleMessage("Select time"),
+        "selectedDogs": MessageLookupByLibrary.simpleMessage("Selected dogs"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "showActivities":
             MessageLookupByLibrary.simpleMessage("Show activities"),

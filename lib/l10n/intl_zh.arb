@@ -55,5 +55,6 @@
     "selectAtLeastADog":"至少选择一只狗",
     "chat":"聊天",
     "myOffers":"我的报价",
-    "acceptedOffers":"接受报价"
+    "acceptedOffers":"接受报价",
+    "selectedDogs":"选定的狗"
 }

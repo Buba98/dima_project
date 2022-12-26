@@ -70,6 +70,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectDuration": MessageLookupByLibrary.simpleMessage("选择持续时间"),
         "selectPrice": MessageLookupByLibrary.simpleMessage("选择价格"),
         "selectTime": MessageLookupByLibrary.simpleMessage("选择时间"),
+        "selectedDogs": MessageLookupByLibrary.simpleMessage("选定的狗"),
         "settings": MessageLookupByLibrary.simpleMessage("设置"),
         "showActivities": MessageLookupByLibrary.simpleMessage("显示活动"),
         "signIn": MessageLookupByLibrary.simpleMessage("登录"),

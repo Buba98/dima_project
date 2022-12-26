@@ -55,5 +55,6 @@
     "selectAtLeastADog":"Select at least a dog",
     "chat":"Chat",
     "myOffers":"My offers",
-    "acceptedOffers":"Accepted offers"
+    "acceptedOffers":"Accepted offers",
+    "selectedDogs":"Selected dogs"
 }
