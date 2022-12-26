@@ -65,9 +65,9 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
 
   _onOrderEvent(OrderEvent event, Emitter<OfferState> emit) async {
     QuerySnapshot<Map> querySnapshot = await FirebaseFirestore.instance
-        .collection('order')
+        .collection('orders')
         .where(
-          'user',
+          'client',
           isEqualTo: FirebaseFirestore.instance
               .collection('users')
               .doc(FirebaseAuth.instance.currentUser!.uid),
@@ -75,14 +75,17 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
         .get();
 
     if (querySnapshot.docs.isEmpty || !querySnapshot.docs[0].exists) {
-      await FirebaseFirestore.instance.collection('order').add(
+      await FirebaseFirestore.instance.collection('orders').add(
         {
-          'user': FirebaseFirestore.instance
+          'client': FirebaseFirestore.instance
               .collection('users')
               .doc(FirebaseAuth.instance.currentUser!.uid),
           'offer': FirebaseFirestore.instance
               .collection('offers')
               .doc(event.offer.id),
+          'user': FirebaseFirestore.instance
+              .collection('users')
+              .doc(event.offer.user!.uid),
           'dogs': [
             for (Dog dog in event.dogs)
               FirebaseFirestore.instance.collection('dogs').doc(dog.uid),
@@ -91,7 +94,7 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
       );
     } else {
       await FirebaseFirestore.instance
-          .collection('order')
+          .collection('orders')
           .doc(querySnapshot.docs[0].id)
           .update({
         'dogs': [

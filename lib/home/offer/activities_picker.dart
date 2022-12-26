@@ -3,7 +3,6 @@ import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
-import 'package:dima_project/input/text_input.dart';
 import 'package:dima_project/input/text_input_button.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';

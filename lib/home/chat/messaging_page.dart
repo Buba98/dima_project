@@ -2,7 +2,6 @@ import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/chat/chat_list_page.dart';
-import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/show_text.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
