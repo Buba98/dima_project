@@ -32,10 +32,12 @@ class _AcceptedOfferEvent extends ChatEvent {
 class SendMessageEvent extends ChatEvent {
   final Chat chat;
   final Message message;
+  final Completer? completer;
 
   SendMessageEvent({
     required this.chat,
     required this.message,
+    this.completer,
   });
 }
 
@@ -91,8 +93,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     });
   }
 
-  _onSendMessageEvent(SendMessageEvent event, Emitter<ChatState> emit) {
-    FirebaseFirestore.instance.collection('orders').doc(event.chat.id).update({
+  _onSendMessageEvent(SendMessageEvent event, Emitter<ChatState> emit) async {
+    await FirebaseFirestore.instance
+        .collection('orders')
+        .doc(event.chat.id)
+        .update({
       'messages': FieldValue.arrayUnion([
         {
           'is_client': event.message.isClientMessage,
@@ -100,6 +105,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         }
       ]),
     });
+    event.completer?.complete();
   }
 
   _help(List<Chat> chats, QueryDocumentSnapshot<Map> element) async {

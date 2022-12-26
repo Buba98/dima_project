@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dima_project/bloc/chat_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
@@ -8,7 +10,7 @@ import 'package:dima_project/model/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
   ChatPage({
     Key? key,
     required this.chat,
@@ -17,9 +19,16 @@ class ChatPage extends StatelessWidget {
 
   final Chat chat;
   final bool isClientMe;
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
   final TextEditingController messageEditingController =
       TextEditingController();
   final ScrollController scrollController = ScrollController();
+  bool loading = false;
 
   void _scrollDown() {
     scrollController.animateTo(
@@ -33,14 +42,14 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: KAppBar(
-        text: chat.offer.user!.name,
+        text: widget.chat.offer.user!.name,
         actionIcon: Icons.info_rounded,
         actionFunction: () {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (_) => OrderSummaryPage(
-                chat: chat,
+                chat: widget.chat,
               ),
             ),
           );
@@ -53,11 +62,12 @@ class ChatPage extends StatelessWidget {
             Expanded(
               child: BlocBuilder<ChatBloc, ChatState>(
                 builder: (BuildContext context, ChatState state) {
-                  Chat chat = (isClientMe
+                  Chat chat = (widget.isClientMe
+                      ? state.acceptedOffers
+                      : state.myOffers)[(widget.isClientMe
                           ? state.acceptedOffers
-                          : state.myOffers)[
-                      (isClientMe ? state.acceptedOffers : state.myOffers)
-                          .indexWhere((element) => element.id == this.chat.id)];
+                          : state.myOffers)
+                      .indexWhere((element) => element.id == widget.chat.id)];
 
                   WidgetsBinding.instance
                       .addPostFrameCallback((_) => _scrollDown());
@@ -74,7 +84,7 @@ class ChatPage extends StatelessWidget {
                         isFromMe: chat
                                 .messages[chat.messages.length - index - 1]
                                 .isClientMessage &&
-                            isClientMe,
+                            widget.isClientMe,
                       ),
                     ),
                     itemCount: chat.messages.length,
@@ -90,15 +100,28 @@ class ChatPage extends StatelessWidget {
               textInputType: TextInputType.multiline,
               textEditingController: messageEditingController,
               onTap: () {
-                context.read<ChatBloc>().add(SendMessageEvent(
-                    chat: chat,
-                    message: Message(
-                        text: messageEditingController.text,
-                        isClientMessage: isClientMe)));
-                messageEditingController.clear();
+                if (loading == true) {
+                  return;
+                }
+                Completer completer = Completer();
+                context.read<ChatBloc>().add(
+                      SendMessageEvent(
+                        chat: widget.chat,
+                        message: Message(
+                          text: messageEditingController.text,
+                          isClientMessage: widget.isClientMe,
+                        ),
+                        completer: completer,
+                      ),
+                    );
+                setState(() => loading = true);
+                completer.future.whenComplete(() {
+                  setState(() => loading = false);
+                  messageEditingController.clear();
+                });
               },
               hintText: S.of(context).enterMessage,
-              iconButton: Icons.send,
+              iconButton: loading ? Icons.downloading : Icons.send,
             ),
           ],
         ),
@@ -127,20 +150,21 @@ class _ChatMessage extends StatelessWidget {
           borderRadius: BorderRadius.circular(spaceBetweenWidgets / 2),
         ),
         child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-          return ConstrainedBox(
-            constraints: BoxConstraints(
-              minWidth: constraints.minWidth,
-              maxWidth: constraints.maxWidth * 5 / 6,
-              minHeight: constraints.minHeight,
-              maxHeight: constraints.maxHeight,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(spaceBetweenWidgets / 2),
-              child: Text(text),
-            ),
-          );
-        }),
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: constraints.minWidth,
+                maxWidth: constraints.maxWidth * 5 / 6,
+                minHeight: constraints.minHeight,
+                maxHeight: constraints.maxHeight,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(spaceBetweenWidgets / 2),
+                child: Text(text),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
