@@ -1,12 +1,14 @@
+import 'package:dima_project/bloc/chat_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/text_input_button.dart';
 import 'package:dima_project/model/chat.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({
+class ChatPage extends StatelessWidget {
+  ChatPage({
     Key? key,
     required this.chat,
     required this.isClientMe,
@@ -14,44 +16,71 @@ class ChatPage extends StatefulWidget {
 
   final Chat chat;
   final bool isClientMe;
-
-  @override
-  State<ChatPage> createState() => _ChatPageState();
-}
-
-class _ChatPageState extends State<ChatPage> {
   final TextEditingController messageEditingController =
       TextEditingController();
+  final ScrollController scrollController = ScrollController();
+
+  void _scrollDown() {
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: const Duration(seconds: 1),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: KAppBar(
-        text: widget.chat.offer.user!.name,
+        text: chat.offer.user!.name,
       ),
       body: Padding(
         padding: const EdgeInsets.all(spaceBetweenWidgets),
         child: Column(
           children: [
             Expanded(
-              child: ListView.separated(
-                itemBuilder: (BuildContext context, int index) => _ChatMessage(
-                  text: widget.chat.messages[index].text,
-                  isFromMe: widget.chat.messages[index].isClientMessage && widget.isClientMe,
-                ),
-                separatorBuilder: (BuildContext context, int index) =>
-                    const SizedBox(
-                  height: spaceBetweenWidgets,
-                ),
-                itemCount: widget.chat.messages.length,
+              child: BlocBuilder<ChatBloc, ChatState>(
+                builder: (BuildContext context, ChatState state) {
+                  Chat chat = (isClientMe
+                          ? state.acceptedOffers
+                          : state.myOffers)[
+                      (isClientMe ? state.acceptedOffers : state.myOffers)
+                          .indexWhere((element) => element.id == this.chat.id)];
+
+                  WidgetsBinding.instance
+                      .addPostFrameCallback((_) => _scrollDown());
+
+                  return ListView.builder(
+                    controller: scrollController,
+                    itemBuilder: (BuildContext context, int index) => Padding(
+                      padding:
+                          const EdgeInsets.only(bottom: spaceBetweenWidgets),
+                      child: _ChatMessage(
+                        text: chat.messages[index].text,
+                        isFromMe:
+                            chat.messages[index].isClientMessage && isClientMe,
+                      ),
+                    ),
+                    itemCount: chat.messages.length,
+                  );
+                },
               ),
             ),
-            Expanded(child: Container()),
+            const SizedBox(
+              height: spaceBetweenWidgets,
+            ),
             TextInputButton(
               maxLines: 4,
               textInputType: TextInputType.multiline,
               textEditingController: messageEditingController,
-              onTap: () {},
+              onTap: () {
+                context.read<ChatBloc>().add(SendMessageEvent(
+                    chat: chat,
+                    message: Message(
+                        text: messageEditingController.text,
+                        isClientMessage: isClientMe)));
+                messageEditingController.clear();
+              },
               hintText: S.of(context).enterMessage,
               iconButton: Icons.send,
             ),

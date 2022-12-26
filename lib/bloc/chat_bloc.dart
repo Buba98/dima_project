@@ -9,19 +9,29 @@ import 'package:latlong2/latlong.dart';
 
 abstract class ChatEvent {}
 
-class MyOfferEvent extends ChatEvent {
+class _MyOfferEvent extends ChatEvent {
   final QuerySnapshot<Map> event;
 
-  MyOfferEvent({
+  _MyOfferEvent({
     required this.event,
   });
 }
 
-class AcceptedOfferEvent extends ChatEvent {
+class _AcceptedOfferEvent extends ChatEvent {
   final QuerySnapshot<Map> event;
 
-  AcceptedOfferEvent({
+  _AcceptedOfferEvent({
     required this.event,
+  });
+}
+
+class SendMessageEvent extends ChatEvent {
+  final Chat chat;
+  final Message message;
+
+  SendMessageEvent({
+    required this.chat,
+    required this.message,
   });
 }
 
@@ -37,8 +47,9 @@ class ChatState {
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc() : super(ChatState()) {
-    on<MyOfferEvent>(_onMyOfferEvent);
-    on<AcceptedOfferEvent>(_onAcceptedOfferEvent);
+    on<_MyOfferEvent>(_onMyOfferEvent);
+    on<_AcceptedOfferEvent>(_onAcceptedOfferEvent);
+    on<SendMessageEvent>(_onSendMessageEvent);
 
     FirebaseFirestore.instance
         .collection('orders')
@@ -49,7 +60,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         .snapshots()
         .listen(
           (event) => add(
-            MyOfferEvent(
+            _MyOfferEvent(
               event: event,
             ),
           ),
@@ -64,15 +75,26 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         .snapshots()
         .listen(
           (event) => add(
-            AcceptedOfferEvent(
+            _AcceptedOfferEvent(
               event: event,
             ),
           ),
         );
   }
 
+  _onSendMessageEvent(SendMessageEvent event, Emitter<ChatState> emit) {
+    FirebaseFirestore.instance.collection('orders').doc(event.chat.id).update({
+      'messages': FieldValue.arrayUnion([
+        {
+          'is_client': event.message.isClientMessage,
+          'message': event.message.text
+        }
+      ]),
+    });
+  }
+
   _onAcceptedOfferEvent(
-      AcceptedOfferEvent event, Emitter<ChatState> emit) async {
+      _AcceptedOfferEvent event, Emitter<ChatState> emit) async {
     List<Chat> chats = [...state.acceptedOffers];
 
     for (QueryDocumentSnapshot<Map> element in event.event.docs) {
@@ -138,7 +160,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           for (var message in elementMap['messages'] ?? [])
             Message(
               text: message['message'],
-              isClientMessage: message['isClientMessage'],
+              isClientMessage: message['is_client'],
             )
         ],
       );
@@ -160,7 +182,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     );
   }
 
-  _onMyOfferEvent(MyOfferEvent event, Emitter<ChatState> emit) async {
+  _onMyOfferEvent(_MyOfferEvent event, Emitter<ChatState> emit) async {
     List<Chat> chats = [...state.myOffers];
 
     for (QueryDocumentSnapshot<Map> element in event.event.docs) {
@@ -226,7 +248,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           for (var message in elementMap['messages'] ?? [])
             Message(
               text: message['message'],
-              isClientMessage: message['isClientMessage'],
+              isClientMessage: message['is_client'],
             )
         ],
       );
