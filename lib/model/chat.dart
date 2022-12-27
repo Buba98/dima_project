@@ -1,28 +1,21 @@
-import 'package:dima_project/model/dog.dart';
-import 'package:dima_project/model/internal_user.dart';
-import 'package:dima_project/model/offer.dart';
+import 'package:dima_project/model/order.dart';
 
 class Chat {
-  Chat(
-      {required this.id,
-      required this.offer,
-      required this.client,
-      required this.messages,
-      required this.dogs});
-
-  final String id;
-  final Offer offer;
-  final InternalUser client;
+  final Order order;
   final List<Message> messages;
-  final List<Dog> dogs;
+
+  Chat({
+    required this.order,
+    required this.messages,
+  });
 }
 
 class Message {
+  final String text;
+  final bool isFromClient;
+
   Message({
     required this.text,
-    required this.isClientMessage,
+    required this.isFromClient,
   });
-
-  final String text;
-  final bool isClientMessage;
 }

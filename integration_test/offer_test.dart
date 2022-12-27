@@ -126,11 +126,6 @@ void main() {
           await tester.tap(find.byKey(const Key('search_menu')));
 
           await tester.pumpAndSettle();
-
-          await pumpUntilFound(
-            tester,
-            find.text('Batman'),
-          );
         },
       );
     },

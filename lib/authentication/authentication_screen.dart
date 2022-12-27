@@ -18,16 +18,16 @@ class AuthenticationScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
-                  children: const [
-                    Spacer(
+                  children:  [
+                    const Spacer(
                       flex: 2,
                     ),
                     Center(
                       child: FittedBox(
                         fit: BoxFit.fitWidth,
                         child: Text(
-                          'Walk the dog',
-                          style: TextStyle(
+                          S.of(context).walkTheDog,
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 110,
                             fontFamily: 'Pacifico',
@@ -35,7 +35,7 @@ class AuthenticationScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                   ],
                 ),
               ),

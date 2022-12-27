@@ -1,5 +1,5 @@
 import 'package:dima_project/authentication/authentication_screen.dart';
-import 'package:dima_project/bloc/chat_bloc.dart';
+import 'package:dima_project/bloc/order_bloc.dart';
 import 'package:dima_project/bloc/location_bloc.dart';
 import 'package:dima_project/bloc/offer_bloc.dart';
 import 'package:dima_project/bloc/user/authentication_bloc.dart';
@@ -39,7 +39,7 @@ Future<void> main() async {
           create: (BuildContext context) => LocationBloc(),
         ),
         BlocProvider(
-          create: (BuildContext context) => ChatBloc(),
+          create: (BuildContext context) => OrderBloc(),
         ),
       ],
       child: const MyApp(),
@@ -93,7 +93,7 @@ class _MyAppState extends State<MyApp> {
           } else if (state is AuthenticatedState) {
             home = const HomeScreen();
             context.read<user_bloc.UserBloc>().add(user_bloc.InitUserBloc());
-            context.read<ChatBloc>().add(InitChatBloc());
+            context.read<OrderBloc>().add(InitOrderBloc());
           }
           setState(() {
             this.home = home;

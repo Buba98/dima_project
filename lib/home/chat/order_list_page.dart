@@ -1,4 +1,4 @@
-import 'package:dima_project/bloc/chat_bloc.dart';
+import 'package:dima_project/bloc/order_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
@@ -8,8 +8,8 @@ import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChatListPage extends StatelessWidget {
-  const ChatListPage({
+class OrderListPage extends StatelessWidget {
+  const OrderListPage({
     Key? key,
     required this.isMyOffers,
   }) : super(key: key);
@@ -43,8 +43,8 @@ class ChatListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChatBloc, ChatState>(
-      builder: (BuildContext context, ChatState state) {
+    return BlocBuilder<OrderBloc, OrderState>(
+      builder: (BuildContext context, OrderState state) {
         return ListView.separated(
           itemBuilder: (BuildContext context, int i) => ShowText(
             title: isMyOffers
@@ -60,7 +60,7 @@ class ChatListWidget extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => ChatPage(
-                      chat: (isMyOffers
+                      order: (isMyOffers
                           ? state.myOffers
                           : state.acceptedOffers)[i],
                       isClientMe: !isMyOffers)),

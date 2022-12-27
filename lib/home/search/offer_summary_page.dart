@@ -137,8 +137,8 @@ class _OfferSummaryTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(
-        spaceBetweenWidgets,
+      padding: const EdgeInsets.symmetric(
+        horizontal: spaceBetweenWidgets,
       ),
       child: ListView(
         children: [
@@ -200,11 +200,22 @@ class _OfferSummaryTablet extends StatelessWidget {
             height: spaceBetweenWidgets,
           ),
           Selection(
+            elements: offer.activities!
+                .map((e) => SelectionElement(name: e.activity, selected: true))
+                .toList(),
+            title: S.of(context).activities,
+            rows: 3,
+          ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
+          Selection(
             elements: dogs,
             onChanged: onSelectDog,
             title: S.of(context).selectDogs,
             error: error,
             errorTitle: S.of(context).selectAtLeastADog,
+            rows: 3,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,
@@ -213,6 +224,9 @@ class _OfferSummaryTablet extends StatelessWidget {
             onPressed: () => onComplete(context),
             text: S.of(context).confirm,
             attention: true,
+          ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
           ),
         ],
       ),
@@ -270,6 +284,15 @@ class _OfferSummaryPhone extends StatelessWidget {
             title: S.of(context).time,
             text:
                 '${printDate(offer.startDate!)} - ${printTime(offer.startDate!)} ${S.of(context).fOr} ${printDuration(offer.duration!)}',
+          ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
+          Selection(
+            elements: offer.activities!
+                .map((e) => SelectionElement(name: e.activity, selected: true))
+                .toList(),
+            title: S.of(context).activities,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,

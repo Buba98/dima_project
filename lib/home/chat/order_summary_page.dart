@@ -4,7 +4,7 @@ import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
 import 'package:dima_project/input/show_text.dart';
-import 'package:dima_project/model/chat.dart';
+import 'package:dima_project/model/order.dart';
 import 'package:dima_project/model/dog.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ import 'package:geocode/geocode.dart';
 class OrderSummaryPage extends StatefulWidget {
   const OrderSummaryPage({super.key, required this.chat});
 
-  final Chat chat;
+  final Order chat;
 
   @override
   State<OrderSummaryPage> createState() => _OrderSummaryPageState();
@@ -67,7 +67,7 @@ class _OrderSummaryTablet extends StatelessWidget {
     required this.location,
   }) : super(key: key);
 
-  final Chat chat;
+  final Order chat;
   final String location;
 
   @override
@@ -136,11 +136,22 @@ class _OrderSummaryTablet extends StatelessWidget {
             height: spaceBetweenWidgets,
           ),
           Selection(
+            elements: chat.offer.activities!
+                .map((e) => SelectionElement(name: e.activity, selected: true))
+                .toList(),
+            title: S.of(context).activities,
+            rows: 3,
+          ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
+          Selection(
             elements: [
               for (Dog dog in chat.dogs)
                 SelectionElement(name: dog.name!, selected: true)
             ],
             title: S.of(context).selectedDogs,
+            rows: 3,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,
@@ -158,7 +169,7 @@ class _OrderSummaryPhone extends StatelessWidget {
     required this.location,
   }) : super(key: key);
 
-  final Chat chat;
+  final Order chat;
   final String location;
 
   @override
@@ -193,6 +204,15 @@ class _OrderSummaryPhone extends StatelessWidget {
             title: S.of(context).time,
             text:
                 '${printDate(chat.offer.startDate!)} - ${printTime(chat.offer.startDate!)} ${S.of(context).fOr} ${printDuration(chat.offer.duration!)}',
+          ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
+          Selection(
+            elements: chat.offer.activities!
+                .map((e) => SelectionElement(name: e.activity, selected: true))
+                .toList(),
+            title: S.of(context).activities,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,

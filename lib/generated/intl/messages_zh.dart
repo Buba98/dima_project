@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "acceptedOffers": MessageLookupByLibrary.simpleMessage("接受报价"),
+        "activities": MessageLookupByLibrary.simpleMessage("活动"),
         "add": MessageLookupByLibrary.simpleMessage("添加"),
         "addActivity": MessageLookupByLibrary.simpleMessage("添加活动"),
         "addFilter": MessageLookupByLibrary.simpleMessage("添加过滤器"),

@@ -7,17 +7,18 @@ import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/chat/order_summary_page.dart';
 import 'package:dima_project/input/text_input_button.dart';
 import 'package:dima_project/model/chat.dart';
+import 'package:dima_project/model/order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatPage extends StatefulWidget {
-  ChatPage({
+  const ChatPage({
     Key? key,
-    required this.chat,
+    required this.order,
     required this.isClientMe,
   }) : super(key: key);
 
-  final Chat chat;
+  final Order order;
   final bool isClientMe;
 
   @override
@@ -29,6 +30,13 @@ class _ChatPageState extends State<ChatPage> {
       TextEditingController();
   final ScrollController scrollController = ScrollController();
   bool loading = false;
+  late final ChatBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = ChatBloc(order: widget.order);
+  }
 
   void _scrollDown() {
     scrollController.animateTo(
@@ -42,89 +50,84 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: KAppBar(
-        text: widget.chat.offer.user!.name,
+        text: widget.order.offer.user!.name,
         actionIcon: Icons.info_rounded,
         actionFunction: () {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (_) => OrderSummaryPage(
-                chat: widget.chat,
+                chat: widget.order,
               ),
             ),
           );
         },
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(spaceBetweenWidgets),
-        child: Column(
-          children: [
-            Expanded(
-              child: BlocBuilder<ChatBloc, ChatState>(
-                builder: (BuildContext context, ChatState state) {
-                  Chat chat = (widget.isClientMe
-                      ? state.acceptedOffers
-                      : state.myOffers)[(widget.isClientMe
-                          ? state.acceptedOffers
-                          : state.myOffers)
-                      .indexWhere((element) => element.id == widget.chat.id)];
-
-                  WidgetsBinding.instance
-                      .addPostFrameCallback((_) => _scrollDown());
-
-                  return ListView.builder(
+      body: BlocBuilder<ChatBloc, ChatState>(
+        bloc: bloc,
+        builder: (BuildContext context, ChatState state) {
+          WidgetsBinding.instance.addPostFrameCallback((_) => _scrollDown());
+          return Padding(
+            padding: const EdgeInsets.all(spaceBetweenWidgets),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
                     reverse: true,
                     controller: scrollController,
                     itemBuilder: (BuildContext context, int index) => Padding(
                       padding:
                           const EdgeInsets.only(bottom: spaceBetweenWidgets),
                       child: _ChatMessage(
-                        text: chat
-                            .messages[chat.messages.length - index - 1].text,
-                        isFromMe: chat
-                                .messages[chat.messages.length - index - 1]
-                                .isClientMessage &&
+                        text: state
+                            .chat
+                            .messages[state.chat.messages.length - index - 1]
+                            .text,
+                        isFromMe: state
+                                .chat
+                                .messages[
+                                    state.chat.messages.length - index - 1]
+                                .isFromClient &&
                             widget.isClientMe,
                       ),
                     ),
-                    itemCount: chat.messages.length,
-                  );
-                },
-              ),
-            ),
-            const SizedBox(
-              height: spaceBetweenWidgets,
-            ),
-            TextInputButton(
-              maxLines: 4,
-              textInputType: TextInputType.multiline,
-              textEditingController: messageEditingController,
-              onTap: () {
-                if (loading == true) {
-                  return;
-                }
-                Completer completer = Completer();
-                context.read<ChatBloc>().add(
+                    itemCount: state.chat.messages.length,
+                  ),
+                ),
+                const SizedBox(
+                  height: spaceBetweenWidgets,
+                ),
+                TextInputButton(
+                  maxLines: 4,
+                  textInputType: TextInputType.multiline,
+                  textEditingController: messageEditingController,
+                  onTap: () {
+                    if (loading == true) {
+                      return;
+                    }
+                    Completer completer = Completer();
+                    bloc.add(
                       SendMessageEvent(
-                        chat: widget.chat,
                         message: Message(
                           text: messageEditingController.text,
-                          isClientMessage: widget.isClientMe,
+                          isFromClient: widget.isClientMe,
                         ),
                         completer: completer,
                       ),
                     );
-                setState(() => loading = true);
-                completer.future.whenComplete(() {
-                  setState(() => loading = false);
-                  messageEditingController.clear();
-                });
-              },
-              hintText: S.of(context).enterMessage,
-              iconButton: loading ? Icons.downloading : Icons.send,
+                    setState(() => loading = true);
+                    completer.future.whenComplete(() {
+                      setState(() => loading = false);
+                      messageEditingController.clear();
+                    });
+                  },
+                  hintText: S.of(context).enterMessage,
+                  iconButton: loading ? Icons.downloading : Icons.send,
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
