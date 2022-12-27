@@ -4,7 +4,7 @@ import 'package:dima_project/bloc/chat_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
-import 'package:dima_project/home/chat/order_summary_page.dart';
+import 'package:dima_project/home/order/order_summary_page.dart';
 import 'package:dima_project/input/text_input_button.dart';
 import 'package:dima_project/model/chat.dart';
 import 'package:dima_project/model/order.dart';

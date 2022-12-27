@@ -59,5 +59,7 @@
     "selectedDogs":"选定的狗",
     "orderSummary":"订单摘要",
     "walkTheDog":"遛狗",
-    "activities":"活动"
+    "activities":"活动",
+    "orders":"命令",
+    "offerSummary":"报价摘要"
 }

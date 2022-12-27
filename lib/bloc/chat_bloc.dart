@@ -75,14 +75,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     Map? elementMap = event.event.data();
 
-    if (elementMap == null) {
-      return;
-    }
-
     Chat chat = Chat(
       order: order,
       messages: [
-        for (var message in elementMap['messages'] ?? [])
+        for (var message in elementMap?['messages'] ?? [])
           Message(
             text: message['message'],
             isFromClient: message['is_from_client'],

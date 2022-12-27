@@ -1,8 +1,8 @@
 import 'package:dima_project/bloc/user/user_bloc.dart';
 import 'package:dima_project/custom_widgets/bottom_bar.dart';
-import 'package:dima_project/home/chat/messaging_page.dart';
 import 'package:dima_project/home/offer/create_offer_page.dart';
 import 'package:dima_project/bloc/offer_bloc.dart';
+import 'package:dima_project/home/order/orders_page.dart';
 import 'package:dima_project/home/search/search_screen.dart';
 import 'package:dima_project/home/settings/modify_profile/modify_profile_page.dart';
 import 'package:dima_project/home/settings/setting_page.dart';

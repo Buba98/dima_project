@@ -61,8 +61,8 @@ class BottomBarState extends State<BottomBar> {
         ),
         BottomNavigationBarItem(
           icon: const Icon(
-            Icons.message_outlined,
-            key: Key('messages_menu'),
+            Icons.shopping_cart_outlined,
+            key: Key('orders_menu'),
           ),
           label: S.of(context).chat,
         ),

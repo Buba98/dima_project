@@ -1,10 +1,14 @@
+import 'package:dima_project/bloc/offer_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
-import 'package:dima_project/home/chat/order_list_page.dart';
+import 'package:dima_project/home/order/my_order_card.dart';
+import 'package:dima_project/home/order/order_list_page.dart';
 import 'package:dima_project/input/show_text.dart';
 import 'package:dima_project/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MessagingPage extends StatelessWidget {
   const MessagingPage({Key? key}) : super(key: key);
@@ -13,7 +17,7 @@ class MessagingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: KAppBar(
-        text: S.of(context).chat,
+        text: S.of(context).orders,
       ),
       body: isTablet(context)
           ? const MessagingPageTablet()
@@ -41,7 +45,15 @@ class _MessagingPageTabletState extends State<MessagingPageTablet> {
           Expanded(
             flex: 4,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  S.of(context).chat,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Divider(),
                 ShowText(
                   text: S.of(context).myOffers,
                   trailerIcon: Icons.arrow_forward_ios_outlined,
@@ -59,6 +71,16 @@ class _MessagingPageTabletState extends State<MessagingPageTablet> {
                     () => focus = const ChatListWidget(isMyOffers: false),
                   ),
                 ),
+                const SizedBox(
+                  height: spaceBetweenWidgets,
+                ),
+                Text(
+                  S.of(context).myOffers,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Divider(),
               ],
             ),
           ),
@@ -88,7 +110,15 @@ class _MessagingPagePhoneState extends State<_MessagingPagePhone> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: spaceBetweenWidgets),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            S.of(context).chat,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Divider(),
           ShowText(
             text: S.of(context).myOffers,
             trailerIcon: Icons.arrow_forward_ios_outlined,
@@ -120,6 +150,28 @@ class _MessagingPagePhoneState extends State<_MessagingPagePhone> {
               );
             },
           ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
+          Text(
+            S.of(context).myOffers,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Divider(),
+          ...context
+              .read<OfferBloc>()
+              .state
+              .offers
+              .where((element) =>
+                  element.user!.uid == FirebaseAuth.instance.currentUser!.uid)
+              .map<MyOrderCard>(
+                (e) => MyOrderCard(
+                  offer: e,
+                ),
+              )
+              .toList()
         ],
       ),
     );

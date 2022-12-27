@@ -12,6 +12,7 @@ import 'package:dima_project/input/show_text.dart';
 import 'package:dima_project/model/dog.dart';
 import 'package:dima_project/model/offer.dart';
 import 'package:dima_project/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocode/geocode.dart';
@@ -29,9 +30,13 @@ class _OfferSummaryPageState extends State<OfferSummaryPage> {
   late final List<SelectionElement<Dog>> dogs;
   String location = '';
   bool error = false;
+  late final bool isMyOffer;
 
   @override
   void initState() {
+    isMyOffer =
+        widget.offer.user!.uid == FirebaseAuth.instance.currentUser!.uid;
+
     dogs = ((context.read<UserBloc>().state) as InitializedState)
         .internalUser
         .dogs!
@@ -63,8 +68,8 @@ class _OfferSummaryPageState extends State<OfferSummaryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const KAppBar(
-        text: 'Offer summary',
+      appBar: KAppBar(
+        text: S.of(context).offerSummary,
       ),
       body: isTablet(context)
           ? _OfferSummaryTablet(
@@ -74,6 +79,7 @@ class _OfferSummaryPageState extends State<OfferSummaryPage> {
               dogs: dogs,
               location: location,
               error: error,
+              isMyOffer: isMyOffer,
             )
           : _OfferSummaryPhone(
               offer: widget.offer,
@@ -82,6 +88,7 @@ class _OfferSummaryPageState extends State<OfferSummaryPage> {
               dogs: dogs,
               location: location,
               error: error,
+              isMyOffer: isMyOffer,
             ),
     );
   }
@@ -125,6 +132,7 @@ class _OfferSummaryTablet extends StatelessWidget {
     required this.dogs,
     required this.location,
     required this.error,
+    required this.isMyOffer,
   }) : super(key: key);
 
   final Offer offer;
@@ -133,6 +141,7 @@ class _OfferSummaryTablet extends StatelessWidget {
   final List<SelectionElement> dogs;
   final String location;
   final bool error;
+  final bool isMyOffer;
 
   @override
   Widget build(BuildContext context) {
@@ -209,25 +218,29 @@ class _OfferSummaryTablet extends StatelessWidget {
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
-          Selection(
-            elements: dogs,
-            onChanged: onSelectDog,
-            title: S.of(context).selectDogs,
-            error: error,
-            errorTitle: S.of(context).selectAtLeastADog,
-            rows: 3,
-          ),
-          const SizedBox(
-            height: spaceBetweenWidgets,
-          ),
-          Button(
-            onPressed: () => onComplete(context),
-            text: S.of(context).confirm,
-            attention: true,
-          ),
-          const SizedBox(
-            height: spaceBetweenWidgets,
-          ),
+          if (!isMyOffer)
+            Selection(
+              elements: dogs,
+              onChanged: onSelectDog,
+              title: S.of(context).selectDogs,
+              error: error,
+              errorTitle: S.of(context).selectAtLeastADog,
+              rows: 3,
+            ),
+          if (!isMyOffer)
+            const SizedBox(
+              height: spaceBetweenWidgets,
+            ),
+          if (!isMyOffer)
+            Button(
+              onPressed: () => onComplete(context),
+              text: S.of(context).confirm,
+              attention: true,
+            ),
+          if (!isMyOffer)
+            const SizedBox(
+              height: spaceBetweenWidgets,
+            ),
         ],
       ),
     );
@@ -243,6 +256,7 @@ class _OfferSummaryPhone extends StatelessWidget {
     required this.dogs,
     required this.location,
     required this.error,
+    required this.isMyOffer,
   }) : super(key: key);
 
   final Offer offer;
@@ -251,6 +265,7 @@ class _OfferSummaryPhone extends StatelessWidget {
   final List<SelectionElement> dogs;
   final String location;
   final bool error;
+  final bool isMyOffer;
 
   @override
   Widget build(BuildContext context) {
@@ -297,24 +312,28 @@ class _OfferSummaryPhone extends StatelessWidget {
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
-          Selection(
-            elements: dogs,
-            onChanged: onSelectDog,
-            title: S.of(context).selectDogs,
-            error: error,
-            errorTitle: S.of(context).selectAtLeastADog,
-          ),
-          const SizedBox(
-            height: spaceBetweenWidgets,
-          ),
-          Button(
-            onPressed: () => onComplete(context),
-            text: S.of(context).confirm,
-            attention: true,
-          ),
-          const SizedBox(
-            height: spaceBetweenWidgets,
-          ),
+          if (!isMyOffer)
+            Selection(
+              elements: dogs,
+              onChanged: onSelectDog,
+              title: S.of(context).selectDogs,
+              error: error,
+              errorTitle: S.of(context).selectAtLeastADog,
+            ),
+          if (!isMyOffer)
+            const SizedBox(
+              height: spaceBetweenWidgets,
+            ),
+          if (!isMyOffer)
+            Button(
+              onPressed: () => onComplete(context),
+              text: S.of(context).confirm,
+              attention: true,
+            ),
+          if (!isMyOffer)
+            const SizedBox(
+              height: spaceBetweenWidgets,
+            ),
         ],
       ),
     );

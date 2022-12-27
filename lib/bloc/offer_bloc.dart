@@ -140,7 +140,7 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
           DocumentSnapshot documentSnapshot =
               await (element['user'] as DocumentReference).get();
 
-          if (!documentSnapshot.exists || documentSnapshot.id == FirebaseAuth.instance.currentUser!.uid) {
+          if (!documentSnapshot.exists) {
             continue;
           }
 

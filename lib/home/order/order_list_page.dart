@@ -2,7 +2,7 @@ import 'package:dima_project/bloc/order_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
-import 'package:dima_project/home/chat/chat_page.dart';
+import 'package:dima_project/home/order/chat_page.dart';
 import 'package:dima_project/input/show_text.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';

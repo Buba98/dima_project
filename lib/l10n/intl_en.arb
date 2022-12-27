@@ -59,5 +59,7 @@
     "selectedDogs":"Selected dogs",
     "orderSummary":"Order summary",
     "walkTheDog":"Walk the dog",
-    "activities":"Activities"
+    "activities":"Activities",
+    "orders":"Orders",
+    "offerSummary":"Offer summary"
 }

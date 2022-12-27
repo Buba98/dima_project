@@ -73,8 +73,8 @@ class _OrderSummaryTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(
-        spaceBetweenWidgets,
+      padding: const EdgeInsets.symmetric(
+        horizontal: spaceBetweenWidgets,
       ),
       child: ListView(
         children: [

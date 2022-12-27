@@ -10,6 +10,7 @@ import 'package:dima_project/home/search/search_tablet_screen.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
 import 'package:dima_project/model/offer.dart';
 import 'package:dima_project/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:latlong2/latlong.dart';
@@ -104,6 +105,10 @@ class _SearchScreenState extends State<SearchScreen> {
             }
 
             if (offer.price! > priceValue) {
+              return false;
+            }
+
+            if (offer.user!.uid == FirebaseAuth.instance.currentUser!.uid) {
               return false;
             }
 

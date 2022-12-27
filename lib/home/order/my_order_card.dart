@@ -4,24 +4,42 @@ import 'package:dima_project/home/search/offer_summary_page.dart';
 import 'package:dima_project/model/offer.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:geocode/geocode.dart';
 import 'package:latlong2/latlong.dart';
 
-class SearchResultWidget extends StatefulWidget {
-  const SearchResultWidget({
+class MyOrderCard extends StatefulWidget {
+  const MyOrderCard({
     required this.offer,
-    required this.position,
     super.key,
   });
 
   final Offer offer;
-  final LatLng? position;
 
   @override
-  State<SearchResultWidget> createState() => _SearchResultWidgetState();
+  State<MyOrderCard> createState() => _MyOrderCardState();
 }
 
-class _SearchResultWidgetState extends State<SearchResultWidget> {
+class _MyOrderCardState extends State<MyOrderCard> {
   bool isShowActivities = false;
+  String location = '';
+
+  @override
+  initState() {
+    super.initState();
+
+    init();
+  }
+
+  init() async {
+    Address address = await GeoCode().reverseGeocoding(
+        latitude: widget.offer.position!.latitude,
+        longitude: widget.offer.position!.longitude);
+
+    setState(() {
+      location =
+          '${address.streetAddress ?? ''} ${address.streetNumber ?? ''} ${address.city ?? ''}';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,33 +65,6 @@ class _SearchResultWidgetState extends State<SearchResultWidget> {
                 decoration: const BoxDecoration(color: Colors.transparent),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              widget.offer.user!.name!,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 25.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          '\$${widget.offer.price}',
-                          style: const TextStyle(
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.w600,
-                            color: primaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: spaceBetweenWidgets,
-                    ),
                     Row(
                       children: [
                         Expanded(
@@ -140,23 +131,25 @@ class _SearchResultWidgetState extends State<SearchResultWidget> {
                         Expanded(
                           child: Row(
                             children: [
-                              const Icon(Icons.location_on_outlined),
+                              const Icon(Icons.money),
                               const SizedBox(
                                 width: spaceBetweenWidgets,
                               ),
-                              if (widget.position != null)
-                                Text(
-                                  '${(distanceInMeters(widget.position!, widget.offer.position!) / 1000).toStringAsFixed(2)}${S.of(context).km}',
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black54,
-                                  ),
+                              Text(
+                                '\$${widget.offer.price}',
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black54,
                                 ),
+                              ),
                             ],
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(
+                      height: spaceBetweenWidgets / 2,
                     ),
                   ],
                 ),
