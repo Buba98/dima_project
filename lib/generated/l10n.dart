@@ -679,6 +679,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Delete offer`
+  String get deleteOffer {
+    return Intl.message(
+      'Delete offer',
+      name: 'deleteOffer',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -48,6 +48,16 @@ class OrderEvent extends OfferEvent {
   });
 }
 
+class DeleteOfferEvent extends OfferEvent {
+  final Offer offer;
+  final Completer? completer;
+
+  DeleteOfferEvent({
+    required this.offer,
+    this.completer,
+  });
+}
+
 class OfferState {
   final List<Offer> offers;
 
@@ -61,6 +71,27 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
     on<AddOfferEvent>(_onAddOfferEvent);
     on<LoadEvent>(_onLoadEvent);
     on<OrderEvent>(_onOrderEvent);
+    on<DeleteOfferEvent>(_onDeleteOfferEvent);
+  }
+
+  _onDeleteOfferEvent(DeleteOfferEvent event, Emitter<OfferState> emit) async {
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection('offers').doc(event.offer.id);
+
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('orders')
+        .where('order', isEqualTo: documentReference)
+        .get();
+
+    for (var element in querySnapshot.docs) {
+      await FirebaseFirestore.instance
+          .collection('chats')
+          .doc(element.id)
+          .delete();
+      await element.reference.delete();
+    }
+
+    await documentReference.delete();
   }
 
   _onOrderEvent(OrderEvent event, Emitter<OfferState> emit) async {

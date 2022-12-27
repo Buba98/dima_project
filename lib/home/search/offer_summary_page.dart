@@ -93,7 +93,14 @@ class _OfferSummaryPageState extends State<OfferSummaryPage> {
     );
   }
 
-  void onComplete(BuildContext context) {
+  void onComplete() {
+    if (isMyOffer) {
+      context.read<OfferBloc>().add(DeleteOfferEvent(offer: widget.offer));
+      Navigator.pop(context);
+
+      return;
+    }
+
     if (dogs.where((element) => element.selected).isEmpty) {
       setState(() {
         error = true;
@@ -136,7 +143,7 @@ class _OfferSummaryTablet extends StatelessWidget {
   }) : super(key: key);
 
   final Offer offer;
-  final Function(BuildContext) onComplete;
+  final Function() onComplete;
   final Function(int) onSelectDog;
   final List<SelectionElement> dogs;
   final String location;
@@ -231,16 +238,14 @@ class _OfferSummaryTablet extends StatelessWidget {
             const SizedBox(
               height: spaceBetweenWidgets,
             ),
-          if (!isMyOffer)
-            Button(
-              onPressed: () => onComplete(context),
-              text: S.of(context).confirm,
-              attention: true,
-            ),
-          if (!isMyOffer)
-            const SizedBox(
-              height: spaceBetweenWidgets,
-            ),
+          Button(
+            onPressed: onComplete,
+            text: isMyOffer ? S.of(context).deleteOffer : S.of(context).confirm,
+            attention: true,
+          ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
         ],
       ),
     );
@@ -260,7 +265,7 @@ class _OfferSummaryPhone extends StatelessWidget {
   }) : super(key: key);
 
   final Offer offer;
-  final Function(BuildContext) onComplete;
+  final Function() onComplete;
   final Function(int) onSelectDog;
   final List<SelectionElement> dogs;
   final String location;
@@ -324,16 +329,14 @@ class _OfferSummaryPhone extends StatelessWidget {
             const SizedBox(
               height: spaceBetweenWidgets,
             ),
-          if (!isMyOffer)
-            Button(
-              onPressed: () => onComplete(context),
-              text: S.of(context).confirm,
-              attention: true,
-            ),
-          if (!isMyOffer)
-            const SizedBox(
-              height: spaceBetweenWidgets,
-            ),
+          Button(
+            onPressed: onComplete,
+            text: isMyOffer ? S.of(context).deleteOffer : S.of(context).confirm,
+            attention: true,
+          ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
         ],
       ),
     );

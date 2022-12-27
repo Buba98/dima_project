@@ -32,8 +32,12 @@ class ModifyEvent extends UserEvent {
 
 class DeleteDogEvent extends UserEvent {
   final String uid;
+  final Completer? completer;
 
-  DeleteDogEvent({required this.uid});
+  DeleteDogEvent({
+    required this.uid,
+    this.completer,
+  });
 }
 
 class ModifyDogEvent extends UserEvent {
@@ -92,7 +96,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
   }
 
-  _onDeleteDogEvent(DeleteDogEvent event, Emitter<UserState> emit) {
+  _onDeleteDogEvent(DeleteDogEvent event, Emitter<UserState> emit) async {
     DocumentReference documentReference =
         FirebaseFirestore.instance.collection('dogs').doc(event.uid);
 
@@ -103,7 +107,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       'dogs': FieldValue.arrayRemove([documentReference]),
     });
 
-    documentReference.delete();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('orders')
+        .where('dogs', arrayContains: documentReference)
+        .get();
+
+    for (var element in querySnapshot.docs) {
+      await FirebaseFirestore.instance
+          .collection('chats')
+          .doc(element.reference.id)
+          .delete();
+      await element.reference.delete();
+    }
+
+    await documentReference.delete();
+
+    event.completer?.complete();
   }
 
   _onModifyDogEvent(ModifyDogEvent event, Emitter<UserState> emit) async {
@@ -168,7 +187,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             .get()
             .then((DocumentSnapshot dogDocument) {
           Map<String, dynamic> dogData =
-              dogDocument.data()! as Map<String, dynamic>;
+              (dogDocument.data() as Map<String, dynamic>?) ?? {};
           internalUser.dogs!.add(
             Dog(
               uid: dogDocument.id,

@@ -61,5 +61,6 @@
     "walkTheDog":"Walk the dog",
     "activities":"Activities",
     "orders":"Orders",
-    "offerSummary":"Offer summary"
+    "offerSummary":"Offer summary",
+    "deleteOffer":"Delete offer"
 }

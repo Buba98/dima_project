@@ -29,9 +29,10 @@ void main() {
 
           expect(emailTextInput, findsOneWidget);
 
-          await tester.enterText(emailTextInput, 'nv.fg.dima@gmail.com');
+          await tester.enterText(emailTextInput, testingAccount['email']!);
 
-          await tester.enterText(passwordTextInput, 'strongPassword666');
+          await tester.enterText(
+              passwordTextInput, testingAccount['password']!);
 
           await tester.tap(find.byKey(const Key('sign_in_button')));
 

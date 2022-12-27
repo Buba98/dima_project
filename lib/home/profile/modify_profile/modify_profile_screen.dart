@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dima_project/bloc/user/user_bloc.dart';
 import 'package:dima_project/generated/l10n.dart';
-import 'package:dima_project/home/settings/profile_picture.dart';
+import 'package:dima_project/home/profile/profile_picture.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/text_input.dart';
 import 'package:dima_project/model/internal_user.dart';

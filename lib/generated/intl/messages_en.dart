@@ -35,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "createOffer": MessageLookupByLibrary.simpleMessage("Create offer"),
         "deleteDog": MessageLookupByLibrary.simpleMessage("Delete dog"),
+        "deleteOffer": MessageLookupByLibrary.simpleMessage("Delete offer"),
         "dog": MessageLookupByLibrary.simpleMessage("Dog"),
         "dogProfile": MessageLookupByLibrary.simpleMessage("Dog profile"),
         "duration": MessageLookupByLibrary.simpleMessage("Duration"),

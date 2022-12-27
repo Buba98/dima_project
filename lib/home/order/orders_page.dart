@@ -2,7 +2,7 @@ import 'package:dima_project/bloc/offer_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
-import 'package:dima_project/home/order/my_order_card.dart';
+import 'package:dima_project/home/order/my_offer_card.dart';
 import 'package:dima_project/home/order/order_list_page.dart';
 import 'package:dima_project/input/show_text.dart';
 import 'package:dima_project/utils/utils.dart';
@@ -166,8 +166,8 @@ class _MessagingPagePhoneState extends State<_MessagingPagePhone> {
               .offers
               .where((element) =>
                   element.user!.uid == FirebaseAuth.instance.currentUser!.uid)
-              .map<MyOrderCard>(
-                (e) => MyOrderCard(
+              .map<MyOfferCard>(
+                (e) => MyOfferCard(
                   offer: e,
                 ),
               )

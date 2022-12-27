@@ -142,6 +142,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     for (DocumentReference dogRef in elementMap['dogs']) {
       DocumentSnapshot dogDoc = await dogRef.get();
 
+      if (!dogDoc.exists) {
+        continue;
+      }
+
       Map<String, dynamic> dogMap = dogDoc.data() as Map<String, dynamic>;
 
       dogs.add(Dog(

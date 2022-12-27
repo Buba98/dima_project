@@ -36,7 +36,19 @@ void main() {
           await tester.enterText(
               emailTextInput, 'test${Random().nextDouble()}@gmail.com');
 
+          await tester.pumpAndSettle();
+
+          await tester.testTextInput.receiveAction(TextInputAction.done);
+
+          await tester.pumpAndSettle();
+
           await tester.enterText(passwordTextInput, 'test1234');
+
+          await tester.pumpAndSettle();
+
+          await tester.testTextInput.receiveAction(TextInputAction.done);
+
+          await tester.pumpAndSettle();
 
           await tester.tap(find.byKey(const Key('sign_up_button')));
 

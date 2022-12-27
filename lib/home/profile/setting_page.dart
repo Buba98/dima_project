@@ -1,7 +1,7 @@
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
-import 'package:dima_project/home/settings/modify_dog_screen.dart';
-import 'package:dima_project/home/settings/setting_screen.dart';
+import 'package:dima_project/home/profile/modify_dog_screen.dart';
+import 'package:dima_project/home/profile/setting_screen.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
 

@@ -50,6 +50,7 @@ class _ModifyDogScreenState extends State<ModifyDogScreen> {
               height: 20,
             ),
             TextInput(
+              key: const Key('dog_name_input'),
               errorText: emptyName ? S.of(context).nameCannotBeEmpty : null,
               textEditingController: name,
               hintText: S.of(context).name,
@@ -86,6 +87,7 @@ class _ModifyDogScreenState extends State<ModifyDogScreen> {
                 ),
               ),
             Button(
+              key: const Key('finalize_button'),
               onPressed: () {
                 if (name.text.isEmpty) {
                   setState(() => emptyName = true);

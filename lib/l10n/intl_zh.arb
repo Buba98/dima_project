@@ -61,5 +61,6 @@
     "walkTheDog":"遛狗",
     "activities":"活动",
     "orders":"命令",
-    "offerSummary":"报价摘要"
+    "offerSummary":"报价摘要",
+    "deleteOffer":"删除报价"
 }

@@ -1,9 +1,9 @@
 import 'package:dima_project/bloc/user/authentication_bloc.dart';
 import 'package:dima_project/bloc/user/user_bloc.dart';
 import 'package:dima_project/generated/l10n.dart';
-import 'package:dima_project/home/settings/modify_dog_screen.dart';
-import 'package:dima_project/home/settings/modify_profile/modify_profile_screen.dart';
-import 'package:dima_project/home/settings/profile_picture.dart';
+import 'package:dima_project/home/profile/modify_dog_screen.dart';
+import 'package:dima_project/home/profile/modify_profile/modify_profile_screen.dart';
+import 'package:dima_project/home/profile/profile_picture.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/show_text.dart';
 import 'package:dima_project/model/dog.dart';

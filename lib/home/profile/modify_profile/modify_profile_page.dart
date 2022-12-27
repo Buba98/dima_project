@@ -1,7 +1,7 @@
 import 'package:dima_project/bloc/user/user_bloc.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
-import 'package:dima_project/home/settings/modify_profile/modify_profile_screen.dart';
+import 'package:dima_project/home/profile/modify_profile/modify_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

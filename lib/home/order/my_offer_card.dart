@@ -4,11 +4,9 @@ import 'package:dima_project/home/search/offer_summary_page.dart';
 import 'package:dima_project/model/offer.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:geocode/geocode.dart';
-import 'package:latlong2/latlong.dart';
 
-class MyOrderCard extends StatefulWidget {
-  const MyOrderCard({
+class MyOfferCard extends StatefulWidget {
+  const MyOfferCard({
     required this.offer,
     super.key,
   });
@@ -16,30 +14,11 @@ class MyOrderCard extends StatefulWidget {
   final Offer offer;
 
   @override
-  State<MyOrderCard> createState() => _MyOrderCardState();
+  State<MyOfferCard> createState() => _MyOfferCardState();
 }
 
-class _MyOrderCardState extends State<MyOrderCard> {
+class _MyOfferCardState extends State<MyOfferCard> {
   bool isShowActivities = false;
-  String location = '';
-
-  @override
-  initState() {
-    super.initState();
-
-    init();
-  }
-
-  init() async {
-    Address address = await GeoCode().reverseGeocoding(
-        latitude: widget.offer.position!.latitude,
-        longitude: widget.offer.position!.longitude);
-
-    setState(() {
-      location =
-          '${address.streetAddress ?? ''} ${address.streetNumber ?? ''} ${address.city ?? ''}';
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
