@@ -205,11 +205,9 @@ class _OfferSummaryTablet extends StatelessWidget {
             const SizedBox(
               height: spaceBetweenWidgets,
             ),
-            Expanded(
-              child: ShowText(
-                title: S.of(context).biography,
-                text: offer.user!.bio!,
-              ),
+            ShowText(
+              title: S.of(context).biography,
+              text: offer.user!.bio!,
             ),
           ],
           const SizedBox(
@@ -344,11 +342,9 @@ class _OfferSummaryPhone extends StatelessWidget {
             const SizedBox(
               height: spaceBetweenWidgets,
             ),
-            Expanded(
-              child: ShowText(
-                title: S.of(context).biography,
-                text: offer.user!.bio!,
-              ),
+            ShowText(
+              title: S.of(context).biography,
+              text: offer.user!.bio!,
             ),
           ],
           const SizedBox(

@@ -100,11 +100,9 @@ class _OrderSummaryTablet extends StatelessWidget {
             const SizedBox(
               height: spaceBetweenWidgets,
             ),
-            Expanded(
-              child: ShowText(
-                title: S.of(context).biography,
-                text: chat.offer.user!.bio!,
-              ),
+            ShowText(
+              title: S.of(context).biography,
+              text: chat.offer.user!.bio!,
             ),
           ],
           const SizedBox(
@@ -215,6 +213,15 @@ class _OrderSummaryPhone extends StatelessWidget {
               );
             },
           ),
+          if (chat.offer.user!.bio != null) ...[
+            const SizedBox(
+              height: spaceBetweenWidgets,
+            ),
+            ShowText(
+              title: S.of(context).biography,
+              text: chat.offer.user!.bio!,
+            ),
+          ],
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
