@@ -109,7 +109,7 @@ class _MyOfferCardState extends State<MyOfferCard> {
                                 width: spaceBetweenWidgets / 2,
                               ),
                               Text(
-                                '\$${widget.offer.price}',
+                                '\$${widget.offer.price!.toStringAsFixed(2)}',
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,

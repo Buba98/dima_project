@@ -58,7 +58,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                           ),
                         ),
                         Text(
-                          '\$${widget.offer.price}',
+                          '\$${widget.offer.price!.toStringAsFixed(2)}',
                           style: const TextStyle(
                             fontSize: 25.0,
                             fontWeight: FontWeight.w600,
