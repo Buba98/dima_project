@@ -84,6 +84,7 @@ class _ModifyDogScreenState extends State<ModifyDogScreen> {
                   },
                   text: S.of(context).deleteDog,
                   primary: false,
+                  attention: true,
                 ),
               ),
             Button(

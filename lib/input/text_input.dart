@@ -16,9 +16,8 @@ class TextInput extends StatelessWidget {
   const TextInput.email({
     super.key,
     required this.textEditingController,
-    bool? error,
-    this.errorText,
     this.textFieldKey = const Key('email_text_input'),
+    this.errorText,
   })  : hintText = 'Enter email',
         icon = Icons.email_outlined,
         obscureText = false,
@@ -28,9 +27,8 @@ class TextInput extends StatelessWidget {
   const TextInput.password({
     super.key,
     required this.textEditingController,
-    bool? error,
-    this.errorText,
     this.textFieldKey = const Key('password_text_input'),
+    this.errorText,
   })  : hintText = 'Enter password',
         icon = Icons.lock_outline,
         obscureText = true,

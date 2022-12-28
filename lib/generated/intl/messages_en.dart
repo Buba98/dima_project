@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addFilter": MessageLookupByLibrary.simpleMessage("Add filter"),
         "addNewDog": MessageLookupByLibrary.simpleMessage("Add new dog"),
         "back": MessageLookupByLibrary.simpleMessage("Back"),
+        "biography": MessageLookupByLibrary.simpleMessage("Biography"),
         "chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "complete": MessageLookupByLibrary.simpleMessage("Complete"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -39,6 +40,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "dog": MessageLookupByLibrary.simpleMessage("Dog"),
         "dogProfile": MessageLookupByLibrary.simpleMessage("Dog profile"),
         "duration": MessageLookupByLibrary.simpleMessage("Duration"),
+        "emailAlreadyRegistered":
+            MessageLookupByLibrary.simpleMessage("Email already registered"),
+        "emailOrPasswordError":
+            MessageLookupByLibrary.simpleMessage("Email or password error"),
+        "enterBiography":
+            MessageLookupByLibrary.simpleMessage("Enter biography"),
         "enterMessage": MessageLookupByLibrary.simpleMessage("Enter message"),
         "enterYourName":
             MessageLookupByLibrary.simpleMessage("Enter your name"),
@@ -70,6 +77,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "offerSummary": MessageLookupByLibrary.simpleMessage("Offer summary"),
         "orderSummary": MessageLookupByLibrary.simpleMessage("Order summary"),
         "orders": MessageLookupByLibrary.simpleMessage("Orders"),
+        "passwordTooWeak":
+            MessageLookupByLibrary.simpleMessage("Password too weak"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),

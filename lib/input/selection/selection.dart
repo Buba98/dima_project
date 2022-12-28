@@ -49,21 +49,19 @@ class Selection extends StatelessWidget {
             spacing: spacing,
             children: elements.map(
               (element) {
-                return GestureDetector(
-                  onTap: () {
+                return ShowText(
+                  wight: (constraints.maxWidth - spacing * (rows - 1)) / rows,
+                  onPressed: () {
                     if (onChanged == null) return;
                     onChanged!(elements.indexOf(element));
                   },
-                  child: ShowText(
-                    wight: (constraints.maxWidth - spacing * (rows - 1)) / rows,
-                    centerText: true,
-                    backgroundColor: (error
-                            ? Theme.of(context).errorColor
-                            : Theme.of(context).primaryColor)
-                        .withOpacity(element.selected ? .26 : .12),
-                    trailerIcon: element.icon,
-                    text: element.name,
-                  ),
+                  centerText: true,
+                  backgroundColor: (error
+                          ? Theme.of(context).errorColor
+                          : Theme.of(context).primaryColor)
+                      .withOpacity(element.selected ? .26 : .12),
+                  trailerIcon: element.icon,
+                  text: element.name,
                 );
               },
             ).toList(),

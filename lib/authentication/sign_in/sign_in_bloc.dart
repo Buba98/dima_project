@@ -17,9 +17,7 @@ abstract class SignInState {}
 
 class InitialState extends SignInState {}
 
-class UserNotFoundState extends SignInState {}
-
-class WrongPasswordState extends SignInState {}
+class EmailOrPasswordErrorState extends SignInState {}
 
 class GenericErrorState extends SignInState {}
 
@@ -37,10 +35,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           email: event.email, password: event.password);
       emit(SignedInState());
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        emit(UserNotFoundState());
-      } else if (e.code == 'wrong-password') {
-        emit(WrongPasswordState());
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        emit(EmailOrPasswordErrorState());
       } else {
         emit(GenericErrorState());
       }

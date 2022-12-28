@@ -40,7 +40,7 @@ class SignInScreen extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.fitWidth,
                             child: Text(
-                              S.of(context).welcome,
+                              S.of(context).signIn,
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 110,
@@ -59,19 +59,26 @@ class SignInScreen extends StatelessWidget {
                             Text(
                               S.of(context).genericError,
                               style: TextStyle(
-                                  color: Theme.of(context).errorColor),
+                                color: Theme.of(context).errorColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20
+                              ),
                             ),
                           const Spacer(),
                           TextInput.email(
                             textEditingController: email,
-                            error: state is UserNotFoundState,
+                            errorText: state is EmailOrPasswordErrorState
+                                ? S.of(context).emailOrPasswordError
+                                : null,
                           ),
                           const SizedBox(
                             height: spaceBetweenWidgets,
                           ),
                           TextInput.password(
                             textEditingController: password,
-                            error: state is WrongPasswordState,
+                            errorText: state is EmailOrPasswordErrorState
+                                ? S.of(context).emailOrPasswordError
+                                : null,
                           ),
                           const SizedBox(
                             height: spaceBetweenWidgets,

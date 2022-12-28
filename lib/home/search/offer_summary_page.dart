@@ -5,6 +5,7 @@ import 'package:dima_project/bloc/user/user_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
+import 'package:dima_project/home/profile/profile_picture.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
@@ -183,15 +184,34 @@ class _OfferSummaryTablet extends StatelessWidget {
       ),
       child: ListView(
         children: [
-          Row(
-            children: [
-              const Spacer(),
-              Expanded(
-                child: Image.asset('assets/images/yes.png'),
-              ),
-              const Spacer(),
-            ],
+          LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return FutureBuilder<String>(
+                future: offer.user!.profilePicture,
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  return ProfilePicture(
+                    radius: constraints.maxWidth / 6,
+                    image: snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData
+                        ? NetworkImage(snapshot.data!)
+                        : null,
+                  );
+                },
+              );
+            },
           ),
+          if (offer.user!.bio != null) ...[
+            const SizedBox(
+              height: spaceBetweenWidgets,
+            ),
+            Expanded(
+              child: ShowText(
+                title: S.of(context).biography,
+                text: offer.user!.bio!,
+              ),
+            ),
+          ],
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
@@ -303,7 +323,34 @@ class _OfferSummaryPhone extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: spaceBetweenWidgets),
       child: ListView(
         children: [
-          Image.asset('assets/images/yes.png'),
+          LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return FutureBuilder<String>(
+                future: offer.user!.profilePicture,
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  return ProfilePicture(
+                    radius: constraints.maxWidth / 4,
+                    image: snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData
+                        ? NetworkImage(snapshot.data!)
+                        : null,
+                  );
+                },
+              );
+            },
+          ),
+          if (offer.user!.bio != null) ...[
+            const SizedBox(
+              height: spaceBetweenWidgets,
+            ),
+            Expanded(
+              child: ShowText(
+                title: S.of(context).biography,
+                text: offer.user!.bio!,
+              ),
+            ),
+          ],
           const SizedBox(
             height: spaceBetweenWidgets,
           ),

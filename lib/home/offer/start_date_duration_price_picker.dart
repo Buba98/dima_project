@@ -26,7 +26,8 @@ class StartDateDurationPricePicker extends StatefulWidget {
       _StartDateDurationPricePickerState();
 }
 
-class _StartDateDurationPricePickerState extends State<StartDateDurationPricePicker> {
+class _StartDateDurationPricePickerState
+    extends State<StartDateDurationPricePicker> {
   bool startDateError = false;
   bool durationError = false;
   bool priceError = false;
@@ -47,10 +48,10 @@ class _StartDateDurationPricePickerState extends State<StartDateDurationPricePic
 
   @override
   Widget build(BuildContext context) {
-    return ScrollExpandable(
-      child: Column(
+    return Center(
+      child: ListView(
+        shrinkWrap: true,
         children: [
-          const Spacer(),
           DatePicker(
             error: startDateError,
             startDate: DateTime.now(),
@@ -86,7 +87,9 @@ class _StartDateDurationPricePickerState extends State<StartDateDurationPricePic
             textEditingController: priceEditingController,
             icon: Icons.attach_money,
           ),
-          const Spacer(),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
           Button(
             onPressed: () {
               if (startDate == null || startDate!.isBefore(DateTime.now())) {

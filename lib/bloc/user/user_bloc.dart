@@ -24,9 +24,11 @@ class ModifyEvent extends UserEvent {
 
   ModifyEvent({
     String? name,
+    String? bio,
     this.image,
   }) : firestoreModel = {
           'name': name,
+          'bio': bio,
         };
 }
 
@@ -175,6 +177,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     InternalUser internalUser = InternalUser(
       uid: FirebaseAuth.instance.currentUser!.uid,
       name: data['name'],
+      bio: data['bio'],
       dogs: [],
       fetched: true,
     );

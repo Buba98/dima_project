@@ -1,3 +1,4 @@
+import 'package:dima_project/constants.dart';
 import 'package:flutter/material.dart';
 
 class ShowText extends StatelessWidget {
@@ -28,15 +29,17 @@ class ShowText extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         alignment: Alignment.centerLeft,
-        height: 68,
-        width: wight,
+        constraints: BoxConstraints(
+          maxWidth: wight ?? double.infinity,
+          minHeight: 68,
+        ),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(
-            Radius.circular(20),
+            Radius.circular(spaceBetweenWidgets),
           ),
           color: backgroundColor,
         ),
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(spaceBetweenWidgets / 2),
         child: Row(
           children: [
             if (leadingIcon != null)
@@ -47,24 +50,32 @@ class ShowText extends StatelessWidget {
               const SizedBox(
                 width: 12,
               ),
-            Column(
-              crossAxisAlignment: centerText
-                  ? CrossAxisAlignment.center
-                  : CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (title != null)
-                  Text(
-                    title!,
-                    style: const TextStyle(color: Colors.black45),
-                  ),
-                Text(
-                  text,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: centerText
+                    ? CrossAxisAlignment.center
+                    : CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (title != null)
+                    Text(
+                      title!,
+                      style: const TextStyle(color: Colors.black45),
+                    ),
+                  LayoutBuilder(builder:
+                      (BuildContext context, BoxConstraints constraints) {
+                    // print(constraints);
+
+                    return SizedBox(
+                      child: Text(
+                        text,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  }),
+                ],
+              ),
             ),
-            const Spacer(),
             if (trailerIcon != null)
               const SizedBox(
                 width: 12,

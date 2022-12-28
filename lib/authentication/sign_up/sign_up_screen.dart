@@ -40,7 +40,7 @@ class SignUpScreen extends StatelessWidget {
                             child: FittedBox(
                               fit: BoxFit.fitWidth,
                               child: Text(
-                                S.of(context).welcome,
+                                S.of(context).signUp,
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 110,
@@ -60,18 +60,25 @@ class SignUpScreen extends StatelessWidget {
                             Text(
                               S.of(context).genericError,
                               style: TextStyle(
-                                  color: Theme.of(context).errorColor),
+                                  color: Theme.of(context).errorColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
                             ),
+                          const Spacer(),
                           TextInput.email(
                             textEditingController: email,
-                            error: state is UserAlreadyExistsState,
+                            errorText: state is UserAlreadyExistsState
+                                ? S.of(context).emailAlreadyRegistered
+                                : null,
                           ),
                           const SizedBox(
                             height: 25,
                           ),
                           TextInput.password(
                             textEditingController: password,
-                            error: state is WeekPasswordState,
+                            errorText: state is WeekPasswordState
+                                ? S.of(context).passwordTooWeak
+                                : null,
                           ),
                           const SizedBox(
                             height: spaceBetweenWidgets,

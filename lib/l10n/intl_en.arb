@@ -62,5 +62,10 @@
     "activities":"Activities",
     "orders":"Orders",
     "offerSummary":"Offer summary",
-    "deleteOffer":"Delete offer"
+    "deleteOffer":"Delete offer",
+    "biography":"Biography",
+    "enterBiography":"Enter biography",
+    "emailOrPasswordError":"Email or password error",
+    "emailAlreadyRegistered":"Email already registered",
+    "passwordTooWeak":"Password too weak"
 }

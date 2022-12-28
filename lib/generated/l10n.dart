@@ -689,6 +689,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Biography`
+  String get biography {
+    return Intl.message(
+      'Biography',
+      name: 'biography',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter biography`
+  String get enterBiography {
+    return Intl.message(
+      'Enter biography',
+      name: 'enterBiography',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email or password error`
+  String get emailOrPasswordError {
+    return Intl.message(
+      'Email or password error',
+      name: 'emailOrPasswordError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email already registered`
+  String get emailAlreadyRegistered {
+    return Intl.message(
+      'Email already registered',
+      name: 'emailAlreadyRegistered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password too weak`
+  String get passwordTooWeak {
+    return Intl.message(
+      'Password too weak',
+      name: 'passwordTooWeak',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -26,6 +26,7 @@ class ModifyProfileScreen extends StatefulWidget {
 
 class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
   final TextEditingController name = TextEditingController();
+  final TextEditingController bio = TextEditingController();
 
   bool emptyName = false;
   File? image;
@@ -34,6 +35,9 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
   void initState() {
     if (widget.internalUser.name != null) {
       name.text = widget.internalUser.name!;
+    }
+    if (widget.internalUser.bio != null) {
+      name.text = widget.internalUser.bio!;
     }
     super.initState();
   }
@@ -93,6 +97,14 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
             const SizedBox(
               height: 20,
             ),
+            TextInput(
+              hintText: S.of(context).enterBiography,
+              textEditingController: bio,
+              icon: Icons.description,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             Button(
               onPressed: () {
                 if (name.text.isEmpty) {
@@ -102,6 +114,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
                 context.read<UserBloc>().add(
                       ModifyEvent(
                         name: name.text,
+                        bio: bio.text,
                         image: image,
                       ),
                     );

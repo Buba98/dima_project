@@ -1,5 +1,6 @@
 import 'package:dima_project/bloc/user/authentication_bloc.dart';
 import 'package:dima_project/bloc/user/user_bloc.dart';
+import 'package:dima_project/constants.dart';
 import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/profile/modify_dog_screen.dart';
 import 'package:dima_project/home/profile/modify_profile/modify_profile_screen.dart';
@@ -22,7 +23,8 @@ class SettingScreen extends StatelessWidget {
         state as CompleteState;
         return Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding:
+                const EdgeInsets.symmetric(horizontal: spaceBetweenWidgets),
             child: ListView(
               children: [
                 LayoutBuilder(
@@ -50,6 +52,15 @@ class SettingScreen extends StatelessWidget {
                   title: S.of(context).name,
                   text: state.internalUser.name!,
                 ),
+                if (state.internalUser.bio != null) ...[
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ShowText(
+                    title: S.of(context).biography,
+                    text: state.internalUser.bio!,
+                  ),
+                ],
                 const SizedBox(
                   height: 20,
                 ),

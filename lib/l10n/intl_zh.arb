@@ -62,5 +62,10 @@
     "activities":"活动",
     "orders":"命令",
     "offerSummary":"报价摘要",
-    "deleteOffer":"删除报价"
+    "deleteOffer":"删除报价",
+    "biography":"传",
+    "enterBiography":"进入传记",
+    "emailOrPasswordError":"邮箱或密码错误",
+    "emailAlreadyRegistered":"邮箱已经注册",
+    "passwordTooWeak":"密码太弱"
 }
