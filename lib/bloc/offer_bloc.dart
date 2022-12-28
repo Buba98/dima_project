@@ -28,12 +28,12 @@ class AddOfferEvent extends OfferEvent {
         };
 }
 
-class LoadEvent extends OfferEvent {
-  final Completer? completer;
+class InitOfferBloc extends OfferEvent {}
 
-  LoadEvent({
-    this.completer,
-  });
+class _LoadEvent extends OfferEvent {
+  QuerySnapshot<Map> querySnapshot;
+
+  _LoadEvent(this.querySnapshot);
 }
 
 class OrderEvent extends OfferEvent {
@@ -67,11 +67,27 @@ class OfferState {
 }
 
 class OfferBloc extends Bloc<OfferEvent, OfferState> {
+  StreamSubscription? streamSubscription;
+
   OfferBloc() : super(OfferState()) {
     on<AddOfferEvent>(_onAddOfferEvent);
-    on<LoadEvent>(_onLoadEvent);
+    on<_LoadEvent>(_onLoadEvent);
     on<OrderEvent>(_onOrderEvent);
     on<DeleteOfferEvent>(_onDeleteOfferEvent);
+    on<InitOfferBloc>((InitOfferBloc event, Emitter<OfferState> emit) {
+      streamSubscription?.cancel();
+      streamSubscription = FirebaseFirestore.instance
+          .collection('offers')
+          .where(
+            'start_date',
+            isGreaterThan: Timestamp.now(),
+          )
+          .orderBy('start_date')
+          .snapshots()
+          .listen((event) {
+        add(_LoadEvent(event));
+      });
+    });
   }
 
   _onDeleteOfferEvent(DeleteOfferEvent event, Emitter<OfferState> emit) async {
@@ -148,69 +164,52 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
         .add(event.firestoreModel);
   }
 
-  _onLoadEvent(LoadEvent event, Emitter<OfferState> emit) async {
+  _onLoadEvent(_LoadEvent event, Emitter<OfferState> emit) async {
     List<Offer> offers = [];
 
-    Query<Map<String, dynamic>> collection =
-        FirebaseFirestore.instance.collection('offers');
+    for (QueryDocumentSnapshot<Map> element in event.querySnapshot.docs) {
+      if (!element.exists) {
+        continue;
+      }
 
-    collection = collection.where(
-      'start_date',
-      isGreaterThan: Timestamp.now(),
-    );
+      DocumentSnapshot documentSnapshot =
+          await (element['user'] as DocumentReference).get();
 
-    collection = collection.orderBy('start_date');
+      if (!documentSnapshot.exists) {
+        continue;
+      }
 
-    await collection.get().then(
-      (QuerySnapshot<Map<String, dynamic>> doc) async {
-        for (var element in doc.docs) {
-          if (!element.exists) {
-            continue;
-          }
+      Map<String, dynamic> map =
+          documentSnapshot.data()! as Map<String, dynamic>;
 
-          DocumentSnapshot documentSnapshot =
-              await (element['user'] as DocumentReference).get();
+      InternalUser user = InternalUser(
+        uid: documentSnapshot.id,
+        name: map['name'],
+        dogs: ((map['dogs'] ?? []) as List)
+            .map((e) => Dog(uid: e.id, fetched: false))
+            .toList(),
+        fetched: true,
+      );
 
-          if (!documentSnapshot.exists) {
-            continue;
-          }
-
-          Map<String, dynamic> map =
-              documentSnapshot.data()! as Map<String, dynamic>;
-
-          InternalUser user = InternalUser(
-            uid: documentSnapshot.id,
-            name: map['name'],
-            dogs: ((map['dogs'] ?? []) as List)
-                .map((e) => Dog(uid: e.id, fetched: false))
-                .toList(),
-            fetched: true,
-          );
-
-          offers.add(
-            Offer(
-              id: element.id,
-              startDate: (element['start_date'] as Timestamp).toDate(),
-              duration: (element['end_date'] as Timestamp)
-                  .toDate()
-                  .difference((element['start_date'] as Timestamp).toDate()),
-              price: element['price'],
-              activities: [
-                for (String e in element['activities'] as List)
-                  Activity(activity: e)
-              ],
-              position: LatLng(element['position'][0], element['position'][1]),
-              user: user,
-              fetched: true,
-            ),
-          );
-        }
-      },
-      onError: (e) => throw Exception(e),
-    );
+      offers.add(
+        Offer(
+          id: element.id,
+          startDate: (element['start_date'] as Timestamp).toDate(),
+          duration: (element['end_date'] as Timestamp)
+              .toDate()
+              .difference((element['start_date'] as Timestamp).toDate()),
+          price: element['price'],
+          activities: [
+            for (String e in element['activities'] as List)
+              Activity(activity: e)
+          ],
+          position: LatLng(element['position'][0], element['position'][1]),
+          user: user,
+          fetched: true,
+        ),
+      );
+    }
 
     emit(OfferState(offers: offers));
-
-    event.completer?.complete();
   }
 }

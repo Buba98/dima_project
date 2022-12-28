@@ -93,6 +93,7 @@ class _MyAppState extends State<MyApp> {
           } else if (state is AuthenticatedState) {
             home = const HomeScreen();
             context.read<user_bloc.UserBloc>().add(user_bloc.InitUserBloc());
+            context.read<OfferBloc>().add(InitOfferBloc());
             context.read<OrderBloc>().add(InitOrderBloc());
           }
           setState(() {

@@ -46,9 +46,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   OrderBloc() : super(OrderState()) {
     on<_MyOfferEvent>(_onMyOfferEvent);
     on<_AcceptedOfferEvent>(_onAcceptedOfferEvent);
-    // on<SendMessageEvent>(_onSendMessageEvent);
     on<InitOrderBloc>((InitOrderBloc event, Emitter<OrderState> emit) {
       myOfferSubscription?.cancel();
+      acceptedOfferSubscription?.cancel();
       myOfferSubscription = FirebaseFirestore.instance
           .collection('orders')
           .where('user',
@@ -63,7 +63,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
               ),
             ),
           );
-      acceptedOfferSubscription?.cancel();
       acceptedOfferSubscription = FirebaseFirestore.instance
           .collection('orders')
           .where('client',

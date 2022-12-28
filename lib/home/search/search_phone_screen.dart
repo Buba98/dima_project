@@ -13,16 +13,15 @@ class SearchPhoneScreen extends StatelessWidget {
   const SearchPhoneScreen({
     Key? key,
     required this.position,
-    required this.onRefresh,
     required this.addOtherActivity,
     required this.activities,
     required this.onChangeActivity,
     required this.priceValue,
-    required this.onChangePriceValue, required this.offers,
+    required this.onChangePriceValue,
+    required this.offers,
   }) : super(key: key);
 
   final LatLng? position;
-  final Future<void> Function() onRefresh;
 
   final Function(SelectionElement) addOtherActivity;
   final List<SelectionElement> activities;
@@ -63,7 +62,6 @@ class SearchPhoneScreen extends StatelessWidget {
           Expanded(
             child: OffersView(
               position: position,
-              onRefresh: onRefresh,
               offers: offers,
             ),
           ),

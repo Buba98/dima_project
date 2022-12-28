@@ -17,16 +17,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocode/geocode.dart';
 
-class OfferSummaryPage extends StatefulWidget {
-  const OfferSummaryPage({super.key, required this.offer});
+class OfferSummaryPage extends StatelessWidget {
+  const OfferSummaryPage({
+    super.key,
+    required this.offer,
+  });
 
   final Offer offer;
 
   @override
-  State<OfferSummaryPage> createState() => _OfferSummaryPageState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: KAppBar(
+        text: S.of(context).offerSummary,
+      ),
+      body: OfferSummaryWidget(
+        offer: offer,
+      ),
+    );
+  }
 }
 
-class _OfferSummaryPageState extends State<OfferSummaryPage> {
+class OfferSummaryWidget extends StatefulWidget {
+  const OfferSummaryWidget({
+    super.key,
+    required this.offer,
+  });
+
+  final Offer offer;
+
+  @override
+  State<OfferSummaryWidget> createState() => _OfferSummaryWidgetState();
+}
+
+class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
   late final List<SelectionElement<Dog>> dogs;
   String location = '';
   bool error = false;
@@ -67,11 +91,9 @@ class _OfferSummaryPageState extends State<OfferSummaryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: KAppBar(
-        text: S.of(context).offerSummary,
-      ),
-      body: isTablet(context)
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return isWide(context, constraints)
           ? _OfferSummaryTablet(
               offer: widget.offer,
               onComplete: onComplete,
@@ -89,26 +111,29 @@ class _OfferSummaryPageState extends State<OfferSummaryPage> {
               location: location,
               error: error,
               isMyOffer: isMyOffer,
-            ),
-    );
+            );
+    });
   }
 
   void onComplete() {
+    Completer completer = Completer();
+
     if (isMyOffer) {
-      context.read<OfferBloc>().add(DeleteOfferEvent(offer: widget.offer));
+      context
+          .read<OfferBloc>()
+          .add(DeleteOfferEvent(offer: widget.offer, completer: completer));
       Navigator.pop(context);
 
       return;
     }
 
     if (dogs.where((element) => element.selected).isEmpty) {
+      completer.complete();
       setState(() {
         error = true;
       });
       return;
     }
-
-    Completer completer = Completer();
 
     context.read<OfferBloc>().add(
           OrderEvent(

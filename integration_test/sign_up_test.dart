@@ -56,6 +56,8 @@ void main() {
             tester,
             find.text('Finalize'),
           );
+
+          expect(tester.tap(find.text('Finalize')), findsAtLeastNWidgets(1));
         },
       );
     },

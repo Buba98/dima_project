@@ -10,6 +10,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../search/offer_summary_page.dart';
+
 class MessagingPage extends StatelessWidget {
   const MessagingPage({Key? key}) : super(key: key);
 
@@ -43,52 +45,68 @@ class _MessagingPageTabletState extends State<MessagingPageTablet> {
       child: Row(
         children: [
           Expanded(
-            flex: 4,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  S.of(context).chat,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Divider(),
-                ShowText(
-                  text: S.of(context).myOffers,
-                  trailerIcon: Icons.arrow_forward_ios_outlined,
-                  onPressed: () => setState(
-                    () => focus = const ChatListWidget(isMyOffers: true),
-                  ),
-                ),
-                const SizedBox(
-                  height: spaceBetweenWidgets,
-                ),
-                ShowText(
-                  text: S.of(context).acceptedOffers,
-                  trailerIcon: Icons.arrow_forward_ios_outlined,
-                  onPressed: () => setState(
-                    () => focus = const ChatListWidget(isMyOffers: false),
-                  ),
-                ),
-                const SizedBox(
-                  height: spaceBetweenWidgets,
-                ),
-                Text(
-                  S.of(context).myOffers,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Divider(),
-              ],
+            flex: 1,
+            child: BlocBuilder<OfferBloc, OfferState>(
+              builder: (BuildContext context, OfferState state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).chat,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Divider(),
+                    ShowText(
+                      text: S.of(context).myOffers,
+                      trailerIcon: Icons.arrow_forward_ios_outlined,
+                      onPressed: () => setState(
+                        () => focus = const ChatListWidget(isMyOffers: true),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: spaceBetweenWidgets,
+                    ),
+                    ShowText(
+                      text: S.of(context).acceptedOffers,
+                      trailerIcon: Icons.arrow_forward_ios_outlined,
+                      onPressed: () => setState(
+                        () => focus = const ChatListWidget(isMyOffers: false),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: spaceBetweenWidgets,
+                    ),
+                    Text(
+                      S.of(context).myOffers,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Divider(),
+                    ...state.offers
+                        .where((element) =>
+                            element.user!.uid ==
+                            FirebaseAuth.instance.currentUser!.uid)
+                        .map<MyOfferCard>(
+                          (e) => MyOfferCard(
+                            offer: e,
+                            onTap: () => setState(
+                              () => focus = OfferSummaryWidget(offer: e),
+                            ),
+                          ),
+                        )
+                  ],
+                );
+              },
             ),
           ),
           const SizedBox(
             width: spaceBetweenWidgets,
           ),
           Expanded(
-            flex: 7,
+            flex: 1,
             child: focus ?? Container(),
           )
         ],
@@ -97,82 +115,86 @@ class _MessagingPageTabletState extends State<MessagingPageTablet> {
   }
 }
 
-class _MessagingPagePhone extends StatefulWidget {
+class _MessagingPagePhone extends StatelessWidget {
   const _MessagingPagePhone({Key? key}) : super(key: key);
 
-  @override
-  State<_MessagingPagePhone> createState() => _MessagingPagePhoneState();
-}
-
-class _MessagingPagePhoneState extends State<_MessagingPagePhone> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: spaceBetweenWidgets),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            S.of(context).chat,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const Divider(),
-          ShowText(
-            text: S.of(context).myOffers,
-            trailerIcon: Icons.arrow_forward_ios_outlined,
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const OrderListPage(
-                    isMyOffers: true,
-                  ),
+      child: BlocBuilder<OfferBloc, OfferState>(
+        builder: (BuildContext context, OfferState state) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                S.of(context).chat,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
                 ),
-              );
-            },
-          ),
-          const SizedBox(
-            height: spaceBetweenWidgets,
-          ),
-          ShowText(
-            text: S.of(context).acceptedOffers,
-            trailerIcon: Icons.arrow_forward_ios_outlined,
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const OrderListPage(
-                    isMyOffers: false,
-                  ),
+              ),
+              const Divider(),
+              ShowText(
+                text: S.of(context).myOffers,
+                trailerIcon: Icons.arrow_forward_ios_outlined,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OrderListPage(
+                        isMyOffers: true,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: spaceBetweenWidgets,
+              ),
+              ShowText(
+                text: S.of(context).acceptedOffers,
+                trailerIcon: Icons.arrow_forward_ios_outlined,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OrderListPage(
+                        isMyOffers: false,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: spaceBetweenWidgets,
+              ),
+              Text(
+                S.of(context).myOffers,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
                 ),
-              );
-            },
-          ),
-          const SizedBox(
-            height: spaceBetweenWidgets,
-          ),
-          Text(
-            S.of(context).myOffers,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const Divider(),
-          ...context
-              .read<OfferBloc>()
-              .state
-              .offers
-              .where((element) =>
-                  element.user!.uid == FirebaseAuth.instance.currentUser!.uid)
-              .map<MyOfferCard>(
-                (e) => MyOfferCard(
-                  offer: e,
-                ),
-              )
-              .toList()
-        ],
+              ),
+              const Divider(),
+              ...state.offers
+                  .where((element) =>
+                      element.user!.uid ==
+                      FirebaseAuth.instance.currentUser!.uid)
+                  .map<MyOfferCard>(
+                    (e) => MyOfferCard(
+                      offer: e,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => OfferSummaryPage(
+                            offer: e,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+            ],
+          );
+        },
       ),
     );
   }

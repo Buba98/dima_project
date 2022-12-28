@@ -50,5 +50,8 @@ String printTime(DateTime dateTime) =>
 bool isTablet(BuildContext context) =>
     MediaQuery.of(context).size.shortestSide > 600;
 
+bool isWide(BuildContext context,BoxConstraints constraints) =>
+    constraints.maxWidth > 600;
+
 LatLng locationDataToLatLng(LocationData locationData) =>
     LatLng(locationData.latitude!, locationData.longitude!);

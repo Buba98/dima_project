@@ -77,7 +77,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                             children: [
                               const Icon(Icons.calendar_month_outlined),
                               const SizedBox(
-                                width: spaceBetweenWidgets,
+                                width: spaceBetweenWidgets / 2,
                               ),
                               Text(
                                 printDate(widget.offer.startDate!),
@@ -95,7 +95,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                             children: [
                               const Icon(Icons.access_time),
                               const SizedBox(
-                                width: spaceBetweenWidgets,
+                                width: spaceBetweenWidgets / 2,
                               ),
                               Text(
                                 printTime(widget.offer.startDate!),
@@ -120,7 +120,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                             children: [
                               const Icon(Icons.timer_outlined),
                               const SizedBox(
-                                width: spaceBetweenWidgets,
+                                width: spaceBetweenWidgets / 2,
                               ),
                               Text(
                                 printDuration(widget.offer.duration!),
@@ -138,7 +138,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                             children: [
                               const Icon(Icons.location_on_outlined),
                               const SizedBox(
-                                width: spaceBetweenWidgets,
+                                width: spaceBetweenWidgets / 2,
                               ),
                               if (widget.position != null)
                                 Text(
@@ -210,7 +210,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                             children: [
                               const Icon(Icons.local_activity_outlined),
                               const SizedBox(
-                                width: spaceBetweenWidgets,
+                                width: spaceBetweenWidgets / 2,
                               ),
                               Text(
                                 isShowActivities

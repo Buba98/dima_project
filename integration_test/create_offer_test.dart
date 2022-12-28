@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dima_project/main.dart' as app;
+import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -23,16 +24,23 @@ void main() {
 
           await tester.pumpAndSettle();
 
-          final emailTextInput = find.byKey(const Key('email_text_input'));
-          final passwordTextInput =
-              find.byKey(const Key('password_text_input'));
+          await tester.enterText(find.byKey(const Key('email_text_input')),
+              testingAccount['email']!);
 
-          expect(emailTextInput, findsOneWidget);
+          await tester.pumpAndSettle();
 
-          await tester.enterText(emailTextInput, testingAccount['email']!);
+          await tester.testTextInput.receiveAction(TextInputAction.done);
 
-          await tester.enterText(
-              passwordTextInput, testingAccount['password']!);
+          await tester.pumpAndSettle();
+
+          await tester.enterText(find.byKey(const Key('password_text_input')),
+              testingAccount['password']!);
+
+          await tester.pumpAndSettle();
+
+          await tester.testTextInput.receiveAction(TextInputAction.done);
+
+          await tester.pumpAndSettle();
 
           await tester.tap(find.byKey(const Key('sign_in_button')));
 
@@ -88,6 +96,12 @@ void main() {
             '1',
           );
 
+          await tester.pumpAndSettle();
+
+          await tester.testTextInput.receiveAction(TextInputAction.done);
+
+          await tester.pumpAndSettle();
+
           await tester.tap(find.text('Next'));
 
           await tester.pumpAndSettle();
@@ -116,17 +130,17 @@ void main() {
 
           await tester.pumpAndSettle();
 
-          timerDone = false;
-          Timer(const Duration(seconds: 2), () => timerDone = true);
-          while (timerDone != true) {
-            await tester.pump();
-          }
+          await pumpUntilFound(tester, find.byKey(const Key('orders_menu')));
 
           await tester.pumpAndSettle();
 
-          await tester.tap(find.byKey(const Key('search_menu')));
+          await tester.tap(find.byKey(const Key('orders_menu')));
 
           await tester.pumpAndSettle();
+
+          await pumpUntilFound(tester, find.text(printDate(DateTime.now())));
+
+          expect(find.text(printDate(DateTime.now())), findsAtLeastNWidgets(1));
         },
       );
     },

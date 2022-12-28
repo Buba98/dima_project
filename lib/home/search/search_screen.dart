@@ -56,14 +56,6 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  Future<void> onRefresh() {
-    Completer completer = Completer();
-    context.read<OfferBloc>().add(LoadEvent(
-          completer: completer,
-        ));
-    return completer.future;
-  }
-
   onChangeActivity(int change) {
     setState(() {
       activities[change].selected = !activities[change].selected;
@@ -121,7 +113,6 @@ class _SearchScreenState extends State<SearchScreen> {
               activities: activities,
               addOtherActivity: addOtherActivity,
               onChangeActivity: onChangeActivity,
-              onRefresh: onRefresh,
               priceValue: priceValue,
               onChangePriceValue: onChangePriceValue,
               offers: offers,
@@ -132,7 +123,6 @@ class _SearchScreenState extends State<SearchScreen> {
               activities: activities,
               addOtherActivity: addOtherActivity,
               onChangeActivity: onChangeActivity,
-              onRefresh: onRefresh,
               priceValue: priceValue,
               onChangePriceValue: onChangePriceValue,
               offers: offers,

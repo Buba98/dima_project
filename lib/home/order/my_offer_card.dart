@@ -1,6 +1,5 @@
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/generated/l10n.dart';
-import 'package:dima_project/home/search/offer_summary_page.dart';
 import 'package:dima_project/model/offer.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +7,12 @@ import 'package:flutter/material.dart';
 class MyOfferCard extends StatefulWidget {
   const MyOfferCard({
     required this.offer,
+    required this.onTap,
     super.key,
   });
 
   final Offer offer;
+  final Function() onTap;
 
   @override
   State<MyOfferCard> createState() => _MyOfferCardState();
@@ -32,14 +33,7 @@ class _MyOfferCardState extends State<MyOfferCard> {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => OfferSummaryPage(
-                    offer: widget.offer,
-                  ),
-                ),
-              ),
+              onTap: widget.onTap,
               child: Container(
                 decoration: const BoxDecoration(color: Colors.transparent),
                 child: Column(
@@ -51,7 +45,7 @@ class _MyOfferCardState extends State<MyOfferCard> {
                             children: [
                               const Icon(Icons.calendar_month_outlined),
                               const SizedBox(
-                                width: spaceBetweenWidgets,
+                                width: spaceBetweenWidgets / 2,
                               ),
                               Text(
                                 printDate(widget.offer.startDate!),
@@ -69,7 +63,7 @@ class _MyOfferCardState extends State<MyOfferCard> {
                             children: [
                               const Icon(Icons.access_time),
                               const SizedBox(
-                                width: spaceBetweenWidgets,
+                                width: spaceBetweenWidgets / 2,
                               ),
                               Text(
                                 printTime(widget.offer.startDate!),
@@ -94,7 +88,7 @@ class _MyOfferCardState extends State<MyOfferCard> {
                             children: [
                               const Icon(Icons.timer_outlined),
                               const SizedBox(
-                                width: spaceBetweenWidgets,
+                                width: spaceBetweenWidgets / 2,
                               ),
                               Text(
                                 printDuration(widget.offer.duration!),
@@ -112,7 +106,7 @@ class _MyOfferCardState extends State<MyOfferCard> {
                             children: [
                               const Icon(Icons.money),
                               const SizedBox(
-                                width: spaceBetweenWidgets,
+                                width: spaceBetweenWidgets / 2,
                               ),
                               Text(
                                 '\$${widget.offer.price}',
@@ -186,7 +180,7 @@ class _MyOfferCardState extends State<MyOfferCard> {
                             children: [
                               const Icon(Icons.local_activity_outlined),
                               const SizedBox(
-                                width: spaceBetweenWidgets,
+                                width: spaceBetweenWidgets / 2,
                               ),
                               Text(
                                 isShowActivities

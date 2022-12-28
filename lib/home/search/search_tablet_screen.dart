@@ -14,7 +14,6 @@ class SearchTabletScreen extends StatelessWidget {
     required this.activities,
     required this.addOtherActivity,
     required this.onChangeActivity,
-    required this.onRefresh,
     required this.priceValue,
     required this.onChangePriceValue,
     required this.offers,
@@ -24,7 +23,6 @@ class SearchTabletScreen extends StatelessWidget {
   final List<SelectionElement> activities;
   final Function(SelectionElement) addOtherActivity;
   final Function(int change) onChangeActivity;
-  final Future<void> Function() onRefresh;
   final double priceValue;
   final Function(double) onChangePriceValue;
   final List<Offer> offers;
@@ -76,7 +74,6 @@ class SearchTabletScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: spaceBetweenWidgets),
             child: OffersView(
               position: position,
-              onRefresh: onRefresh,
               offers: offers,
             ),
           ),

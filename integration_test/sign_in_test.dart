@@ -19,24 +19,27 @@ void main() {
           await app.main();
           await tester.pumpAndSettle();
 
-          final signUpButton = find.byKey(const Key('sign_in_button'));
-
-          expect(signUpButton, findsOneWidget);
-
-          await tester.tap(signUpButton);
+          await tester.tap(find.byKey(const Key('sign_in_button')));
 
           await tester.pumpAndSettle();
 
-          final emailTextInput = find.byKey(const Key('email_text_input'));
-          final passwordTextInput =
-              find.byKey(const Key('password_text_input'));
+          await tester.enterText(find.byKey(const Key('email_text_input')),
+              testingAccount['email']!);
 
-          expect(emailTextInput, findsOneWidget);
+          await tester.pumpAndSettle();
 
-          await tester.enterText(emailTextInput, testingAccount['email']!);
+          await tester.testTextInput.receiveAction(TextInputAction.done);
 
-          await tester.enterText(
-              passwordTextInput, testingAccount['password']!);
+          await tester.pumpAndSettle();
+
+          await tester.enterText(find.byKey(const Key('password_text_input')),
+              testingAccount['password']!);
+
+          await tester.pumpAndSettle();
+
+          await tester.testTextInput.receiveAction(TextInputAction.done);
+
+          await tester.pumpAndSettle();
 
           await tester.tap(find.byKey(const Key('sign_in_button')));
 
@@ -44,6 +47,8 @@ void main() {
             tester,
             find.text('Search'),
           );
+
+          expect(tester.tap(find.text('Search')), findsAtLeastNWidgets(1));
         },
       );
     },
