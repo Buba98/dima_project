@@ -215,3 +215,32 @@ Future<int> createOfferSteps(WidgetTester tester) async {
 
   return price;
 }
+
+Future<String> createOrderSteps(WidgetTester tester) async {
+
+  const String name = 'Beautiful Guy';
+
+  await tester.pumpAndSettle();
+
+  await tester.tap(find.byKey(const Key('search_menu')));
+
+  await tester.pumpAndSettle();
+
+  await tester.tap(find.text(name));
+
+  await tester.pumpAndSettle();
+
+  await tester.dragUntilVisible(find.text("Confirm"),
+      find.byType(ListView), const Offset(0, 500) // delta to move
+  );
+
+  await tester.pumpAndSettle();
+
+  await tester.tap(find.text('Good boy'));
+
+  await tester.pumpAndSettle();
+
+  await tester.tap(find.text('Confirm'));
+
+  return name;
+}

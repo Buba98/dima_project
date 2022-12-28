@@ -73,6 +73,7 @@ class _StartDateDurationPricePickerState extends State<StartDateDurationPricePic
               });
             },
             duration: duration,
+            error: durationError,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,

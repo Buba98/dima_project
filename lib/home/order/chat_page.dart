@@ -115,10 +115,10 @@ class _ChatPageState extends State<ChatPage> {
                         completer: completer,
                       ),
                     );
+                    messageEditingController.clear();
                     setState(() => loading = true);
                     completer.future.whenComplete(() {
                       setState(() => loading = false);
-                      messageEditingController.clear();
                     });
                   },
                   hintText: S.of(context).enterMessage,
