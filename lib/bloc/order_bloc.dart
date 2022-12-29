@@ -126,7 +126,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     DocumentSnapshot clientDoc =
         await (elementMap['client'] as DocumentReference).get();
 
-    Map<String, dynamic> clientMap = userDoc.data() as Map<String, dynamic>;
+    Map<String, dynamic> clientMap = clientDoc.data() as Map<String, dynamic>;
 
     InternalUser client = InternalUser(
       uid: clientDoc.id,
@@ -176,7 +176,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   _onAcceptedOfferEvent(
       _AcceptedOfferEvent event, Emitter<OrderState> emit) async {
-    List<internal_order.Order> chats = [...state.acceptedOffers];
+    List<internal_order.Order> chats = [];
 
     for (QueryDocumentSnapshot<Map> element in event.event.docs) {
       _help(chats, element);
@@ -191,7 +191,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   }
 
   _onMyOfferEvent(_MyOfferEvent event, Emitter<OrderState> emit) async {
-    List<internal_order.Order> chats = [...state.myOffers];
+    List<internal_order.Order> chats = [];
 
     for (QueryDocumentSnapshot<Map> element in event.event.docs) {
       _help(chats, element);

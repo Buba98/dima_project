@@ -12,9 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:geocode/geocode.dart';
 
 class OrderSummaryPage extends StatefulWidget {
-  const OrderSummaryPage({super.key, required this.chat});
+  const OrderSummaryPage({
+    super.key,
+    required this.chat,
+    required this.isClientMe,
+  });
 
   final Order chat;
+  final bool isClientMe;
 
   @override
   State<OrderSummaryPage> createState() => _OrderSummaryPageState();
@@ -52,10 +57,12 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
           ? _OrderSummaryTablet(
               chat: widget.chat,
               location: location,
+              isClientMe: widget.isClientMe,
             )
           : _OrderSummaryPhone(
               chat: widget.chat,
               location: location,
+              isClientMe: widget.isClientMe,
             ),
     );
   }
@@ -66,10 +73,12 @@ class _OrderSummaryTablet extends StatelessWidget {
     Key? key,
     required this.chat,
     required this.location,
+    required this.isClientMe,
   }) : super(key: key);
 
   final Order chat;
   final String location;
+  final bool isClientMe;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +91,9 @@ class _OrderSummaryTablet extends StatelessWidget {
           LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               return FutureBuilder<String>(
-                future: chat.offer.user!.profilePicture,
+                future: isClientMe
+                    ? chat.offer.user!.profilePicture
+                    : chat.client.profilePicture,
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return ProfilePicture(
@@ -96,13 +107,14 @@ class _OrderSummaryTablet extends StatelessWidget {
               );
             },
           ),
-          if (chat.offer.user!.bio != null) ...[
+          if ((!isClientMe && (chat.client.bio != null)) ||
+              (isClientMe && (chat.offer.user!.bio != null))) ...[
             const SizedBox(
               height: spaceBetweenWidgets,
             ),
             ShowText(
               title: S.of(context).biography,
-              text: chat.offer.user!.bio!,
+              text: isClientMe ? chat.offer.user!.bio! : chat.client.bio!,
             ),
           ],
           const SizedBox(
@@ -113,7 +125,7 @@ class _OrderSummaryTablet extends StatelessWidget {
               Expanded(
                 child: ShowText(
                   title: S.of(context).name,
-                  text: chat.offer.user!.name!,
+                  text: isClientMe ? chat.offer.user!.name! : chat.client.name!,
                 ),
               ),
               const SizedBox(
@@ -185,10 +197,12 @@ class _OrderSummaryPhone extends StatelessWidget {
     Key? key,
     required this.chat,
     required this.location,
+    required this.isClientMe,
   }) : super(key: key);
 
   final Order chat;
   final String location;
+  final bool isClientMe;
 
   @override
   Widget build(BuildContext context) {
@@ -199,13 +213,15 @@ class _OrderSummaryPhone extends StatelessWidget {
           LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               return FutureBuilder<String>(
-                future: chat.offer.user!.profilePicture,
+                future: isClientMe
+                    ? chat.offer.user!.profilePicture
+                    : chat.client.profilePicture,
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return ProfilePicture(
                     radius: constraints.maxWidth / 4,
                     image: snapshot.connectionState == ConnectionState.done &&
-                            snapshot.hasData
+                        snapshot.hasData
                         ? NetworkImage(snapshot.data!)
                         : null,
                   );
@@ -213,13 +229,14 @@ class _OrderSummaryPhone extends StatelessWidget {
               );
             },
           ),
-          if (chat.offer.user!.bio != null) ...[
+          if ((!isClientMe && (chat.client.bio != null)) ||
+              (isClientMe && (chat.offer.user!.bio != null))) ...[
             const SizedBox(
               height: spaceBetweenWidgets,
             ),
             ShowText(
               title: S.of(context).biography,
-              text: chat.offer.user!.bio!,
+              text: isClientMe ? chat.offer.user!.bio! : chat.client.bio!,
             ),
           ],
           const SizedBox(
@@ -227,7 +244,7 @@ class _OrderSummaryPhone extends StatelessWidget {
           ),
           ShowText(
             title: S.of(context).name,
-            text: chat.offer.user!.name!,
+            text: isClientMe ? chat.offer.user!.name! : chat.client.name!,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,

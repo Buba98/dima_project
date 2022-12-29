@@ -64,8 +64,6 @@ class ShowText extends StatelessWidget {
                     ),
                   LayoutBuilder(builder:
                       (BuildContext context, BoxConstraints constraints) {
-                    // print(constraints);
-
                     return SizedBox(
                       child: Text(
                         text,

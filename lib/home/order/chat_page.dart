@@ -50,7 +50,9 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: KAppBar(
-        text: widget.order.offer.user!.name,
+        text: widget.isClientMe
+            ? widget.order.offer.user!.name
+            : widget.order.client.name!,
         actionIcon: Icons.info_rounded,
         actionFunction: () {
           Navigator.push(
@@ -58,6 +60,7 @@ class _ChatPageState extends State<ChatPage> {
             MaterialPageRoute(
               builder: (_) => OrderSummaryPage(
                 chat: widget.order,
+                isClientMe: widget.isClientMe,
               ),
             ),
           );
@@ -83,12 +86,18 @@ class _ChatPageState extends State<ChatPage> {
                             .chat
                             .messages[state.chat.messages.length - index - 1]
                             .text,
-                        isFromMe: state
-                                .chat
-                                .messages[
-                                    state.chat.messages.length - index - 1]
-                                .isFromClient &&
-                            widget.isClientMe,
+                        isFromMe: (state
+                                    .chat
+                                    .messages[
+                                        state.chat.messages.length - index - 1]
+                                    .isFromClient &&
+                                widget.isClientMe) ||
+                            (!state
+                                    .chat
+                                    .messages[
+                                        state.chat.messages.length - index - 1]
+                                    .isFromClient &&
+                                !widget.isClientMe),
                       ),
                     ),
                     itemCount: state.chat.messages.length,
