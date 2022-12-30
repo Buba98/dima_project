@@ -96,10 +96,10 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
 
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('orders')
-        .where('order', isEqualTo: documentReference)
+        .where('offer', isEqualTo: documentReference)
         .get();
 
-    for (var element in querySnapshot.docs) {
+    for (QueryDocumentSnapshot element in querySnapshot.docs) {
       await FirebaseFirestore.instance
           .collection('chats')
           .doc(element.id)
@@ -167,26 +167,22 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
   _onLoadEvent(_LoadEvent event, Emitter<OfferState> emit) async {
     List<Offer> offers = [];
 
-    for (QueryDocumentSnapshot<Map> element in event.querySnapshot.docs) {
-      if (!element.exists) {
+    for (QueryDocumentSnapshot<Map> offerDocument in event.querySnapshot.docs) {
+      if (!offerDocument.exists) {
         continue;
       }
 
-      DocumentSnapshot documentSnapshot =
-          await (element['user'] as DocumentReference).get();
+      DocumentSnapshot<Map> userDocument = await offerDocument['user'].get();
 
-      if (!documentSnapshot.exists) {
+      if (!userDocument.exists) {
         continue;
       }
-
-      Map<String, dynamic> map =
-          documentSnapshot.data()! as Map<String, dynamic>;
 
       InternalUser user = InternalUser(
-        uid: documentSnapshot.id,
-        name: map['name'],
-        bio: map['bio'],
-        dogs: ((map['dogs'] ?? []) as List)
+        uid: userDocument.id,
+        name: userDocument['name'],
+        bio: userDocument['bio'],
+        dogs: ((userDocument['dogs'] ?? []) as List)
             .map((e) => Dog(uid: e.id, fetched: false))
             .toList(),
         fetched: true,
@@ -194,17 +190,18 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
 
       offers.add(
         Offer(
-          id: element.id,
-          startDate: (element['start_date'] as Timestamp).toDate(),
-          duration: (element['end_date'] as Timestamp)
+          id: offerDocument.id,
+          startDate: (offerDocument['start_date'] as Timestamp).toDate(),
+          duration: (offerDocument['end_date'] as Timestamp)
               .toDate()
-              .difference((element['start_date'] as Timestamp).toDate()),
-          price: element['price'],
+              .difference((offerDocument['start_date'] as Timestamp).toDate()),
+          price: offerDocument['price'],
           activities: [
-            for (String e in element['activities'] as List)
+            for (String e in offerDocument['activities'] as List)
               Activity(activity: e)
           ],
-          position: LatLng(element['position'][0], element['position'][1]),
+          position: LatLng(
+              offerDocument['position'][0], offerDocument['position'][1]),
           user: user,
           fetched: true,
         ),
