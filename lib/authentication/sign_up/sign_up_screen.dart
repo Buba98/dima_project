@@ -18,9 +18,7 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: KAppBar(
-        backBehaviour: () => Navigator.pop(context),
-      ),
+      appBar: const KAppBar(),
       body: BlocBuilder<SignUpBloc, SignUpState>(
         bloc: signUpBloc,
         builder: (BuildContext context, SignUpState state) {

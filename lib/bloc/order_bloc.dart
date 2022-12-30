@@ -80,7 +80,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     });
   }
 
-  _help(List<internal_order.Order> chats,
+  _fromFirestoreOrderToModel(List<internal_order.Order> chats,
       QueryDocumentSnapshot<Map> orderDocument) async {
     if (!orderDocument.exists) {
       return;
@@ -166,14 +166,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       client: client,
       dogs: dogs,
     );
-
-    // int i = chats.indexWhere((element) => element.id == chat.id);
-
-    // if (i == -1) {
     chats.add(chat);
-    // } else {
-    //   chats[i] = chat;
-    // }
   }
 
   _onAcceptedOfferEvent(
@@ -181,7 +174,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     List<internal_order.Order> chats = [];
 
     for (QueryDocumentSnapshot<Map> element in event.event.docs) {
-      _help(chats, element);
+      _fromFirestoreOrderToModel(chats, element);
     }
 
     emit(
@@ -196,7 +189,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     List<internal_order.Order> chats = [];
 
     for (QueryDocumentSnapshot<Map> element in event.event.docs) {
-      _help(chats, element);
+      _fromFirestoreOrderToModel(chats, element);
     }
 
     emit(

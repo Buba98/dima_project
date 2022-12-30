@@ -17,40 +17,51 @@ class KAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      actions: [
-        if (actionIcon != null && actionFunction != null)
-          Padding(
-            padding: const EdgeInsets.only(right: spaceBetweenWidgets / 2),
-            child: GestureDetector(
-              onTap: actionFunction,
-              child: Icon(
-                actionIcon!,
-                color: Colors.black,
+    return WillPopScope(
+      onWillPop: () {
+        if (backBehaviour != null) {
+          backBehaviour!();
+          Navigator.of(context).pop(false);
+          return Future.value(false);
+        } else {
+          return Future.value(true);
+        }
+      },
+      child: AppBar(
+        actions: [
+          if (actionIcon != null && actionFunction != null)
+            Padding(
+              padding: const EdgeInsets.only(right: spaceBetweenWidgets / 2),
+              child: GestureDetector(
+                onTap: actionFunction,
+                child: Icon(
+                  actionIcon!,
+                  color: Colors.black,
+                ),
               ),
             ),
-          ),
-      ],
-      leading: backBehaviour != null
-          ? GestureDetector(
-              child: const Icon(
-                Icons.arrow_back_ios,
-                color: Colors.black,
-              ),
-              onTap: () => backBehaviour!(),
-            )
-          : null,
-      centerTitle: true,
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      title: text != null
-          ? Text(
-              text!,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            )
-          : null,
+        ],
+        leading: backBehaviour != null
+            ? GestureDetector(
+                child: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+                onTap: () => backBehaviour!(),
+              )
+            : null,
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: text != null
+            ? Text(
+                text!,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            : null,
+      ),
     );
   }
 

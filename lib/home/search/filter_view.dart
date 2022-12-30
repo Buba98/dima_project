@@ -1,7 +1,6 @@
 import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
-import 'package:dima_project/input/show_text.dart';
 import 'package:dima_project/input/text_input_button.dart';
 import 'package:flutter/material.dart';
 
@@ -25,19 +24,23 @@ class FilterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ShowText(
-          text: S.of(context).maxPrice,
-          backgroundColor: Colors.transparent,
+        Text(
+          S.of(context).maxPrice,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).primaryColor,
+          ),
         ),
         Slider(
           value: priceValue,
           max: 100,
           min: 0,
-          divisions: 100 * 2,
-          label: priceValue == 0
+          divisions: 100,
+          label: priceValue == 0 || priceValue == 100
               ? S.of(context).noFilter
-              : priceValue.toStringAsFixed(1),
+              : '\$${priceValue.toInt()}',
           onChanged: onChangePriceValue,
         ),
         Expanded(
@@ -45,6 +48,7 @@ class FilterView extends StatelessWidget {
             child: Selection(
               onChanged: onChangeActivity,
               elements: activities,
+              title: S.of(context).activities,
             ),
           ),
         ),
@@ -69,7 +73,7 @@ class FilterView extends StatelessWidget {
 
             otherActivity.clear();
           },
-          hintText: S.of(context).addFilter,
+          hintText: S.of(context).addActivity,
           iconButton: Icons.add,
         ),
       ],

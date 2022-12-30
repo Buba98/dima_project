@@ -1,10 +1,6 @@
-import 'dart:async';
-
 import 'package:dima_project/bloc/location_bloc.dart';
 import 'package:dima_project/bloc/offer_bloc.dart';
 import 'package:dima_project/constants.dart';
-import 'package:dima_project/custom_widgets/app_bar.dart';
-import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/search/search_phone_screen.dart';
 import 'package:dima_project/home/search/search_tablet_screen.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
@@ -79,57 +75,52 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: KAppBar(
-        text: S.of(context).search,
-      ),
-      body: Center(child: BlocBuilder<OfferBloc, OfferState>(
-        builder: (BuildContext context, OfferState state) {
-          List<Offer> offers = state.offers.where((offer) {
-            for (String activity in activities
-                .where((element) => element.selected)
-                .map((e) => e.name)) {
-              if (!offer.activities!
-                  .map((e) => e.activity)
-                  .contains(activity)) {
-                return false;
-              }
-            }
-
-            if (offer.price! > priceValue) {
+    return BlocBuilder<OfferBloc, OfferState>(
+      builder: (BuildContext context, OfferState state) {
+        List<Offer> offers = state.offers.where((offer) {
+          for (String activity in activities
+              .where((element) => element.selected)
+              .map((e) => e.name)) {
+            if (!offer.activities!.map((e) => e.activity).contains(activity)) {
               return false;
             }
-
-            if (offer.user!.uid == FirebaseAuth.instance.currentUser!.uid) {
-              return false;
-            }
-
-            return true;
-          }).toList();
-
-          if (isTablet(context)) {
-            return SearchTabletScreen(
-              position: position,
-              activities: activities,
-              addOtherActivity: addOtherActivity,
-              onChangeActivity: onChangeActivity,
-              priceValue: priceValue,
-              onChangePriceValue: onChangePriceValue,
-              offers: offers,
-            );
-          } else {
-            return SearchPhoneScreen(
-              position: position,
-              activities: activities,
-              addOtherActivity: addOtherActivity,
-              onChangeActivity: onChangeActivity,
-              priceValue: priceValue,
-              onChangePriceValue: onChangePriceValue,
-              offers: offers,
-            );
           }
-        },
-      )),
+
+          if (priceValue != 100 &&
+              priceValue != 0 &&
+              offer.price! > priceValue) {
+            return false;
+          }
+
+          if (offer.user!.uid == FirebaseAuth.instance.currentUser!.uid) {
+            return false;
+          }
+
+          return true;
+        }).toList();
+
+        if (isTablet(context)) {
+          return SearchTabletScreen(
+            position: position,
+            activities: activities,
+            addOtherActivity: addOtherActivity,
+            onChangeActivity: onChangeActivity,
+            priceValue: priceValue,
+            onChangePriceValue: onChangePriceValue,
+            offers: offers,
+          );
+        } else {
+          return SearchPhoneScreen(
+            position: position,
+            activities: activities,
+            addOtherActivity: addOtherActivity,
+            onChangeActivity: onChangeActivity,
+            priceValue: priceValue,
+            onChangePriceValue: onChangePriceValue,
+            offers: offers,
+          );
+        }
+      },
     );
   }
 }

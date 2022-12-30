@@ -9,7 +9,7 @@ import 'package:dima_project/model/offer.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
-class SearchPhoneScreen extends StatelessWidget {
+class SearchPhoneScreen extends StatefulWidget {
   const SearchPhoneScreen({
     Key? key,
     required this.position,
@@ -22,87 +22,99 @@ class SearchPhoneScreen extends StatelessWidget {
   }) : super(key: key);
 
   final LatLng? position;
-
-  final Function(SelectionElement) addOtherActivity;
   final List<SelectionElement> activities;
-  final Function(int) onChangeActivity;
-
+  final Function(SelectionElement) addOtherActivity;
+  final Function(int change) onChangeActivity;
   final double priceValue;
   final Function(double) onChangePriceValue;
-
   final List<Offer> offers;
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: spaceBetweenWidgets),
-      child: Column(
-        children: [
-          Button(
-            icon: Icons.filter_list,
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FilterScreen(
-                    addOtherActivity: addOtherActivity,
-                    activities: activities,
-                    onChangeActivity: onChangeActivity,
-                    priceValue: priceValue,
-                    onChangePriceValue: onChangePriceValue,
-                  ),
-                ),
-              );
-            },
-            text: S.of(context).filter,
-          ),
-          const SizedBox(
-            height: spaceBetweenWidgets,
-          ),
-          Expanded(
-            child: OffersView(
-              position: position,
-              offers: offers,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  State<SearchPhoneScreen> createState() => _SearchPhoneScreenState();
 }
 
-class FilterScreen extends StatelessWidget {
-  const FilterScreen({
-    Key? key,
-    required this.addOtherActivity,
-    required this.activities,
-    required this.onChangeActivity,
-    required this.priceValue,
-    required this.onChangePriceValue,
-  }) : super(key: key);
+class _SearchPhoneScreenState extends State<SearchPhoneScreen> {
+  bool isFilterView = false;
 
-  final Function(SelectionElement) addOtherActivity;
-  final List<SelectionElement> activities;
-  final Function(int) onChangeActivity;
-  final double priceValue;
-  final Function(double) onChangePriceValue;
+  onChangeView() {
+    setState(() {
+      isFilterView = !isFilterView;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: KAppBar(
-        text: S.of(context).filter,
+        text: isFilterView ? S.of(context).filter : S.of(context).search,
+        backBehaviour: isFilterView ? onChangeView : null,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(spaceBetweenWidgets),
-        child: FilterView(
-          addOtherActivity: addOtherActivity,
-          activities: activities,
-          onChangeActivity: onChangeActivity,
-          onChangePriceValue: onChangePriceValue,
-          priceValue: priceValue,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: spaceBetweenWidgets),
+        child: isFilterView
+            ? FilterView(
+                addOtherActivity: widget.addOtherActivity,
+                activities: widget.activities,
+                onChangeActivity: widget.onChangeActivity,
+                priceValue: widget.priceValue,
+                onChangePriceValue: widget.onChangePriceValue,
+              )
+            : _SearchPhoneScreen(
+                position: widget.position,
+                addOtherActivity: widget.addOtherActivity,
+                activities: widget.activities,
+                onChangeActivity: widget.onChangeActivity,
+                priceValue: widget.priceValue,
+                onChangePriceValue: widget.onChangePriceValue,
+                offers: widget.offers,
+                onChangeView: onChangeView,
+              ),
       ),
+    );
+  }
+}
+
+class _SearchPhoneScreen extends StatelessWidget {
+  const _SearchPhoneScreen({
+    Key? key,
+    required this.position,
+    required this.addOtherActivity,
+    required this.activities,
+    required this.onChangeActivity,
+    required this.priceValue,
+    required this.onChangePriceValue,
+    required this.offers,
+    required this.onChangeView,
+  }) : super(key: key);
+
+  final LatLng? position;
+  final List<SelectionElement> activities;
+  final Function(SelectionElement) addOtherActivity;
+  final Function(int change) onChangeActivity;
+  final double priceValue;
+  final Function(double) onChangePriceValue;
+  final List<Offer> offers;
+  final Function() onChangeView;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Button(
+          icon: Icons.filter_list,
+          onPressed: onChangeView,
+          text: S.of(context).filter,
+        ),
+        const SizedBox(
+          height: spaceBetweenWidgets,
+        ),
+        Expanded(
+          child: OffersView(
+            position: position,
+            offers: offers,
+          ),
+        ),
+      ],
     );
   }
 }

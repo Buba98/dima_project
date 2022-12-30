@@ -19,9 +19,7 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: KAppBar(
-        backBehaviour: () => Navigator.pop(context),
-      ),
+      appBar: const KAppBar(),
       body: BlocBuilder<SignInBloc, SignInState>(
         bloc: signInBloc,
         builder: (BuildContext context, SignInState state) {
@@ -59,10 +57,9 @@ class SignInScreen extends StatelessWidget {
                             Text(
                               S.of(context).genericError,
                               style: TextStyle(
-                                color: Theme.of(context).errorColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20
-                              ),
+                                  color: Theme.of(context).errorColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
                             ),
                           const Spacer(),
                           TextInput.email(
