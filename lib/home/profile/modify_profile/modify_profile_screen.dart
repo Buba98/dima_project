@@ -37,7 +37,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
       name.text = widget.internalUser.name!;
     }
     if (widget.internalUser.bio != null) {
-      name.text = widget.internalUser.bio!;
+      bio.text = widget.internalUser.bio!;
     }
     super.initState();
   }
