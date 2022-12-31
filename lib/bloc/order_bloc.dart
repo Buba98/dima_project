@@ -21,6 +21,14 @@ class _MyOfferEvent extends OrderEvent {
   });
 }
 
+class DeleteOrderEvent extends OrderEvent {
+  final internal_order.Order order;
+
+  DeleteOrderEvent({
+    required this.order,
+  });
+}
+
 class _AcceptedOfferEvent extends OrderEvent {
   final QuerySnapshot<Map> event;
 
@@ -46,6 +54,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   OrderBloc() : super(OrderState()) {
     on<_MyOfferEvent>(_onMyOfferEvent);
     on<_AcceptedOfferEvent>(_onAcceptedOfferEvent);
+    on<DeleteOrderEvent>(_onDeleteOrderEvent);
     on<InitOrderBloc>((InitOrderBloc event, Emitter<OrderState> emit) {
       myOfferSubscription?.cancel();
       acceptedOfferSubscription?.cancel();
@@ -201,5 +210,16 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         acceptedOffers: state.acceptedOffers,
       ),
     );
+  }
+
+  _onDeleteOrderEvent(DeleteOrderEvent event, Emitter<OrderState> emit) async {
+    await FirebaseFirestore.instance
+        .collection('chats')
+        .doc(event.order.id)
+        .delete();
+    await FirebaseFirestore.instance
+        .collection('orders')
+        .doc(event.order.id)
+        .delete();
   }
 }

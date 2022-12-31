@@ -75,5 +75,6 @@
     "shareLiveLocation":"分享实时位置",
     "liveLocationIsNotAvailable":"现场位置不可用",
     "cantShareLocationYet":"还不能分享位置",
-    "pickALocation":"选择一个位置"
+    "pickALocation":"选择一个位置",
+    "deleteOrder":"删除订单"
 }

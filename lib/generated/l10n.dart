@@ -819,6 +819,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Delete order`
+  String get deleteOrder {
+    return Intl.message(
+      'Delete order',
+      name: 'deleteOrder',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -75,5 +75,6 @@
     "shareLiveLocation":"Share live location",
     "liveLocationIsNotAvailable":"Live location is not available",
     "cantShareLocationYet":"Can't share location yet",
-    "pickALocation":"Pick a location"
+    "pickALocation":"Pick a location",
+    "deleteOrder":"Delete order"
 }

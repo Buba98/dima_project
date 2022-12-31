@@ -1,3 +1,4 @@
+import 'package:dima_project/bloc/order_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
@@ -10,6 +11,7 @@ import 'package:dima_project/model/order.dart';
 import 'package:dima_project/model/dog.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'live_location/live_location_page.dart';
 
@@ -30,6 +32,11 @@ class OrderSummaryPage extends StatefulWidget {
 class _OrderSummaryPageState extends State<OrderSummaryPage> {
   late final List<SelectionElement<Dog>> dogs;
 
+  void deleteOrder() {
+    context.read<OrderBloc>().add(DeleteOrderEvent(order: widget.order));
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,10 +47,12 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
           ? _OrderSummaryTablet(
               order: widget.order,
               isClientMe: widget.isClientMe,
+              deleteOrder: deleteOrder,
             )
           : _OrderSummaryPhone(
               order: widget.order,
               isClientMe: widget.isClientMe,
+              deleteOrder: deleteOrder,
             ),
     );
   }
@@ -54,10 +63,12 @@ class _OrderSummaryTablet extends StatelessWidget {
     Key? key,
     required this.order,
     required this.isClientMe,
+    required this.deleteOrder,
   }) : super(key: key);
 
   final Order order;
   final bool isClientMe;
+  final Function() deleteOrder;
 
   @override
   Widget build(BuildContext context) {
@@ -186,6 +197,14 @@ class _OrderSummaryTablet extends StatelessWidget {
               height: spaceBetweenWidgets,
             ),
           ],
+          Button(
+            onPressed: deleteOrder,
+            text: S.of(context).deleteOrder,
+            attention: true,
+          ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
         ],
       ),
     );
@@ -197,10 +216,12 @@ class _OrderSummaryPhone extends StatelessWidget {
     Key? key,
     required this.order,
     required this.isClientMe,
+    required this.deleteOrder,
   }) : super(key: key);
 
   final Order order;
   final bool isClientMe;
+  final Function() deleteOrder;
 
   @override
   Widget build(BuildContext context) {
@@ -308,6 +329,14 @@ class _OrderSummaryPhone extends StatelessWidget {
               height: spaceBetweenWidgets,
             ),
           ],
+          Button(
+            onPressed: deleteOrder,
+            text: S.of(context).deleteOrder,
+            attention: true,
+          ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
         ],
       ),
     );
