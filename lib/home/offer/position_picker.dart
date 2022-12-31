@@ -32,6 +32,7 @@ class _PositionPickerState extends State<PositionPicker> {
   LatLng? livePosition;
   StreamSubscription? streamSubscription;
   final MapController mapController = MapController();
+  bool error = false;
 
   @override
   void initState() {
@@ -71,47 +72,72 @@ class _PositionPickerState extends State<PositionPicker> {
     return Column(
       children: [
         Expanded(
-          child: FlutterMap(
-            key: const Key('position_picker_map'),
-            mapController: mapController,
-            options: MapOptions(
-              center: polimi,
-              zoom: 15,
-              maxZoom: 19,
-              minZoom: 3,
-              onTap: (_, position) => setState(() => this.position = position),
-            ),
+          child: Stack(
             children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-              ),
-              MarkerLayer(
-                rotate: true,
-                markers: [
-                  if (position != null)
-                    Marker(
-                      width: 50,
-                      height: 50,
-                      point: position!,
-                      builder: (ctx) => const Icon(
-                        Icons.location_searching,
-                        size: 50,
-                      ),
-                    ),
-                  if (livePosition != null)
-                    Marker(
-                      width: 30,
-                      height: 30,
-                      point: livePosition!,
-                      builder: (ctx) => Container(
-                        decoration: BoxDecoration(
-                            color: Colors.lightBlue,
-                            border: Border.all(color: Colors.blue, width: 3),
-                            borderRadius: BorderRadius.circular(40)),
-                      ),
-                    ),
+              FlutterMap(
+                key: const Key('position_picker_map'),
+                mapController: mapController,
+                options: MapOptions(
+                  center: polimi,
+                  zoom: 15,
+                  maxZoom: 19,
+                  minZoom: 3,
+                  onTap: (_, position) =>
+                      setState(() => this.position = position),
+                ),
+                children: [
+                  TileLayer(
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  ),
+                  MarkerLayer(
+                    rotate: true,
+                    markers: [
+                      if (position != null)
+                        Marker(
+                          width: 50,
+                          height: 50,
+                          point: position!,
+                          builder: (ctx) => const Icon(
+                            Icons.location_searching,
+                            size: 50,
+                          ),
+                        ),
+                      if (livePosition != null)
+                        Marker(
+                          width: 30,
+                          height: 30,
+                          point: livePosition!,
+                          builder: (ctx) => Container(
+                            decoration: BoxDecoration(
+                                color: Colors.lightBlue,
+                                border:
+                                    Border.all(color: Colors.blue, width: 3),
+                                borderRadius: BorderRadius.circular(40)),
+                          ),
+                        ),
+                    ],
+                  ),
                 ],
               ),
+              if (error)
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(spaceBetweenWidgets),
+                    child: Card(
+                      color: Colors.white24,
+                      child: Text(
+                        S.of(context).liveLocationIsNotAvailable,
+                        style: TextStyle(
+                          color: Theme.of(context).errorColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 40,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
@@ -125,8 +151,14 @@ class _PositionPickerState extends State<PositionPicker> {
                 primary: false,
                 onPressed: () {
                   if (position == null) {
+                    setState(() {
+                      error = true;
+                    });
                     return;
                   }
+                  setState(() {
+                    error = false;
+                  });
                   widget.onBack(position!);
                 },
                 text: S.of(context).back,
@@ -139,8 +171,14 @@ class _PositionPickerState extends State<PositionPicker> {
               child: Button(
                 onPressed: () {
                   if (position == null) {
+                    setState(() {
+                      error = true;
+                    });
                     return;
                   }
+                  setState(() {
+                    error = false;
+                  });
                   widget.onComplete(position!);
                 },
                 text: S.of(context).complete,
