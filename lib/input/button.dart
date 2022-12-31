@@ -1,3 +1,4 @@
+import 'package:dima_project/input/show_text.dart';
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
@@ -9,15 +10,15 @@ class Button extends StatelessWidget {
     this.attention = false,
     this.width,
     this.icon,
-    this.disabled = false,
-  }) : onPressed = disabled ? null : onPressed;
+    this.disabled,
+  }) : onPressed = disabled != null ? null : onPressed;
 
   final Function()? onPressed;
   final String text;
   final bool primary;
   final double? width;
   final IconData? icon;
-  final bool disabled;
+  final String? disabled;
   final bool attention;
 
   @override
@@ -44,7 +45,7 @@ class Button extends StatelessWidget {
                 ),
               ),
             Text(
-              text,
+              disabled ?? text,
               textAlign: TextAlign.center,
             ),
           ],
@@ -79,7 +80,7 @@ class Button extends StatelessWidget {
               ),
             Expanded(
               child: Text(
-                text,
+                disabled ?? text,
                 textAlign: TextAlign.center,
               ),
             ),

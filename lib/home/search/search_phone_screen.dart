@@ -19,6 +19,8 @@ class SearchPhoneScreen extends StatefulWidget {
     required this.priceValue,
     required this.onChangePriceValue,
     required this.offers,
+    required this.distanceValue,
+    required this.onChangeDistanceValue,
   }) : super(key: key);
 
   final LatLng? position;
@@ -26,8 +28,10 @@ class SearchPhoneScreen extends StatefulWidget {
   final Function(SelectionElement) addOtherActivity;
   final Function(int change) onChangeActivity;
   final double priceValue;
+  final double distanceValue;
   final Function(double) onChangePriceValue;
   final List<Offer> offers;
+  final Function(double) onChangeDistanceValue;
 
   @override
   State<SearchPhoneScreen> createState() => _SearchPhoneScreenState();
@@ -58,6 +62,8 @@ class _SearchPhoneScreenState extends State<SearchPhoneScreen> {
                 onChangeActivity: widget.onChangeActivity,
                 priceValue: widget.priceValue,
                 onChangePriceValue: widget.onChangePriceValue,
+                distanceValue: widget.distanceValue,
+                onChangeDistanceValue: widget.onChangeDistanceValue,
               )
             : _SearchPhoneScreen(
                 position: widget.position,

@@ -156,13 +156,17 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
   }
 
   _onAddOfferEvent(AddOfferEvent event, Emitter<OfferState> emit) async {
-    Address address = await GeoCode().reverseGeocoding(
-      latitude: event.firestoreModel['position'][0],
-      longitude: event.firestoreModel['position'][1],
-    );
+    try {
+      Address address = await GeoCode().reverseGeocoding(
+        latitude: event.firestoreModel['position'][0],
+        longitude: event.firestoreModel['position'][1],
+      );
 
-    event.firestoreModel['location'] =
-        '${address.streetAddress ?? ''} ${address.streetNumber ?? ''} ${address.city ?? ''}';
+      event.firestoreModel['location'] =
+          '${address.streetAddress ?? ''} ${address.streetNumber ?? ''} ${address.city ?? ''}';
+    } catch (e) {
+      event.firestoreModel['location'] = 'Unknown location';
+    }
 
     event.firestoreModel['user'] = FirebaseFirestore.instance
         .collection('users')

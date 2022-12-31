@@ -21,7 +21,6 @@ class KAppBar extends StatelessWidget implements PreferredSizeWidget {
       onWillPop: () {
         if (backBehaviour != null) {
           backBehaviour!();
-          Navigator.of(context).pop(false);
           return Future.value(false);
         } else {
           return Future.value(true);

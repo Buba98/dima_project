@@ -739,6 +739,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Max distance`
+  String get maxDistance {
+    return Intl.message(
+      'Max distance',
+      name: 'maxDistance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `m`
+  String get m {
+    return Intl.message(
+      'm',
+      name: 'm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View live location`
+  String get viewLiveLocation {
+    return Intl.message(
+      'View live location',
+      name: 'viewLiveLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Live location`
+  String get liveLocation {
+    return Intl.message(
+      'Live location',
+      name: 'liveLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share live location`
+  String get shareLiveLocation {
+    return Intl.message(
+      'Share live location',
+      name: 'shareLiveLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Live location is not available`
+  String get liveLocationIsNotAvailable {
+    return Intl.message(
+      'Live location is not available',
+      name: 'liveLocationIsNotAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Can't share location yet`
+  String get cantShareLocationYet {
+    return Intl.message(
+      'Can\'t share location yet',
+      name: 'cantShareLocationYet',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

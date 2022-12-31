@@ -31,6 +31,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addNewDog": MessageLookupByLibrary.simpleMessage("Add new dog"),
         "back": MessageLookupByLibrary.simpleMessage("Back"),
         "biography": MessageLookupByLibrary.simpleMessage("Biography"),
+        "cantShareLocationYet":
+            MessageLookupByLibrary.simpleMessage("Can\'t share location yet"),
         "chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "complete": MessageLookupByLibrary.simpleMessage("Complete"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -60,9 +62,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "insertValidPrice":
             MessageLookupByLibrary.simpleMessage("Insert valid price"),
         "km": MessageLookupByLibrary.simpleMessage("km"),
+        "liveLocation": MessageLookupByLibrary.simpleMessage("Live location"),
+        "liveLocationIsNotAvailable": MessageLookupByLibrary.simpleMessage(
+            "Live location is not available"),
         "loading": MessageLookupByLibrary.simpleMessage("Loading"),
         "location": MessageLookupByLibrary.simpleMessage("Location"),
+        "m": MessageLookupByLibrary.simpleMessage("m"),
         "male": MessageLookupByLibrary.simpleMessage("Male"),
+        "maxDistance": MessageLookupByLibrary.simpleMessage("Max distance"),
         "maxPrice": MessageLookupByLibrary.simpleMessage("Max price"),
         "modify": MessageLookupByLibrary.simpleMessage("Modify"),
         "modifyProfile": MessageLookupByLibrary.simpleMessage("Modify profile"),
@@ -94,6 +101,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectTime": MessageLookupByLibrary.simpleMessage("Select time"),
         "selectedDogs": MessageLookupByLibrary.simpleMessage("Selected dogs"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "shareLiveLocation":
+            MessageLookupByLibrary.simpleMessage("Share live location"),
         "showActivities":
             MessageLookupByLibrary.simpleMessage("Show activities"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),
@@ -102,6 +111,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "startDate": MessageLookupByLibrary.simpleMessage("Start date"),
         "startTime": MessageLookupByLibrary.simpleMessage("Start time"),
         "time": MessageLookupByLibrary.simpleMessage("Time"),
+        "viewLiveLocation":
+            MessageLookupByLibrary.simpleMessage("View live location"),
         "walkTheDog": MessageLookupByLibrary.simpleMessage("Walk the dog"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage("Wrong password")

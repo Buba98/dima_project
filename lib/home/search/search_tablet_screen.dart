@@ -18,6 +18,8 @@ class SearchTabletScreen extends StatelessWidget {
     required this.priceValue,
     required this.onChangePriceValue,
     required this.offers,
+    required this.distanceValue,
+    required this.onChangeDistanceValue,
   }) : super(key: key);
 
   final LatLng? position;
@@ -27,6 +29,8 @@ class SearchTabletScreen extends StatelessWidget {
   final double priceValue;
   final Function(double) onChangePriceValue;
   final List<Offer> offers;
+  final double distanceValue;
+  final Function(double) onChangeDistanceValue;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +68,8 @@ class SearchTabletScreen extends StatelessWidget {
                       onChangeActivity: onChangeActivity,
                       priceValue: priceValue,
                       onChangePriceValue: onChangePriceValue,
+                      distanceValue: distanceValue,
+                      onChangeDistanceValue: onChangeDistanceValue,
                     ),
                   ),
                 ],

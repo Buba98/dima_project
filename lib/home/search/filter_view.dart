@@ -12,6 +12,8 @@ class FilterView extends StatelessWidget {
     required this.onChangeActivity,
     required this.priceValue,
     required this.onChangePriceValue,
+    required this.distanceValue,
+    required this.onChangeDistanceValue,
   });
 
   final TextEditingController otherActivity = TextEditingController();
@@ -20,12 +22,31 @@ class FilterView extends StatelessWidget {
   final Function(int change) onChangeActivity;
   final double priceValue;
   final Function(double) onChangePriceValue;
+  final double distanceValue;
+  final Function(double) onChangeDistanceValue;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          S.of(context).maxDistance,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        Slider(
+          value: distanceValue,
+          max: 2000,
+          min: 0,
+          divisions: 20,
+          label: distanceValue == 0 || distanceValue == 2000
+              ? S.of(context).noFilter
+              : '${distanceValue.toInt()}${S.of(context).m}',
+          onChanged: onChangeDistanceValue,
+        ),
         Text(
           S.of(context).maxPrice,
           style: TextStyle(

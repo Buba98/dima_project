@@ -26,6 +26,7 @@ class _SearchScreenState extends State<SearchScreen> {
       .toList();
 
   double priceValue = 100;
+  double distanceValue = 2000;
 
   List<Offer> offers = [];
 
@@ -73,6 +74,12 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  onChangeDistanceValue(double distanceValue) {
+    setState(() {
+      this.distanceValue = distanceValue;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OfferBloc, OfferState>(
@@ -92,6 +99,14 @@ class _SearchScreenState extends State<SearchScreen> {
             return false;
           }
 
+          if (position != null) {
+            if (distanceValue != 2000 &&
+                distanceValue != 0 &&
+                distanceInMeters(position!, offer.position!) > distanceValue) {
+              return false;
+            }
+          }
+
           if (offer.user!.uid == FirebaseAuth.instance.currentUser!.uid) {
             return false;
           }
@@ -108,6 +123,8 @@ class _SearchScreenState extends State<SearchScreen> {
             priceValue: priceValue,
             onChangePriceValue: onChangePriceValue,
             offers: offers,
+            distanceValue: distanceValue,
+            onChangeDistanceValue: onChangeDistanceValue,
           );
         } else {
           return SearchPhoneScreen(
@@ -118,6 +135,8 @@ class _SearchScreenState extends State<SearchScreen> {
             priceValue: priceValue,
             onChangePriceValue: onChangePriceValue,
             offers: offers,
+            distanceValue: distanceValue,
+            onChangeDistanceValue: onChangeDistanceValue,
           );
         }
       },

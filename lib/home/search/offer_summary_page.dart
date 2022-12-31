@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dima_project/bloc/location_bloc.dart';
 import 'package:dima_project/bloc/offer_bloc.dart';
 import 'package:dima_project/bloc/user/user_bloc.dart';
 import 'package:dima_project/constants.dart';
@@ -16,7 +17,6 @@ import 'package:dima_project/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geocode/geocode.dart';
 
 class OfferSummaryPage extends StatelessWidget {
   const OfferSummaryPage({
@@ -88,6 +88,7 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
               dogs: dogs,
               error: error,
               isMyOffer: isMyOffer,
+              shareLiveLocation: shareLiveLocation,
             )
           : _OfferSummaryPhone(
               offer: widget.offer,
@@ -96,8 +97,14 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
               dogs: dogs,
               error: error,
               isMyOffer: isMyOffer,
+              shareLiveLocation: shareLiveLocation,
             );
     });
+  }
+
+  void shareLiveLocation() {
+    context.read<LocationBloc>().add(ShareLocationEvent(offer: widget.offer));
+    Navigator.pop(context);
   }
 
   void onComplete() {
@@ -149,6 +156,7 @@ class _OfferSummaryTablet extends StatelessWidget {
     required this.dogs,
     required this.error,
     required this.isMyOffer,
+    required this.shareLiveLocation,
   }) : super(key: key);
 
   final Offer offer;
@@ -157,6 +165,7 @@ class _OfferSummaryTablet extends StatelessWidget {
   final List<SelectionElement> dogs;
   final bool error;
   final bool isMyOffer;
+  final Function() shareLiveLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -250,23 +259,43 @@ class _OfferSummaryTablet extends StatelessWidget {
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
-          if (!isMyOffer)
-            Selection(
-              elements: dogs,
-              onChanged: onSelectDog,
-              title: S.of(context).selectDogs,
-              error: error,
-              errorTitle: S.of(context).selectAtLeastADog,
-              rows: 3,
-            ),
-          if (!isMyOffer)
-            const SizedBox(
-              height: spaceBetweenWidgets,
-            ),
-          Button(
-            onPressed: onComplete,
-            text: isMyOffer ? S.of(context).deleteOffer : S.of(context).confirm,
-            attention: true,
+          Row(
+            children: [
+              Expanded(
+                child: isMyOffer
+                    ? Button(
+                        disabled: DateTime.now().isBefore(offer.startDate!) ||
+                                DateTime.now().isAfter(
+                                    offer.startDate!.add(offer.duration!))
+                            ? S.of(context).cantShareLocationYet
+                            : null,
+                        onPressed: shareLiveLocation,
+                        text: S.of(context).shareLiveLocation,
+                        attention: true,
+                        primary: false,
+                      )
+                    : Selection(
+                        elements: dogs,
+                        onChanged: onSelectDog,
+                        title: S.of(context).selectDogs,
+                        error: error,
+                        errorTitle: S.of(context).selectAtLeastADog,
+                        rows: 3,
+                      ),
+              ),
+              const SizedBox(
+                width: spaceBetweenWidgets,
+              ),
+              Expanded(
+                child: Button(
+                  onPressed: onComplete,
+                  text: isMyOffer
+                      ? S.of(context).deleteOffer
+                      : S.of(context).confirm,
+                  attention: true,
+                ),
+              ),
+            ],
           ),
           const SizedBox(
             height: spaceBetweenWidgets,
@@ -286,6 +315,7 @@ class _OfferSummaryPhone extends StatelessWidget {
     required this.dogs,
     required this.error,
     required this.isMyOffer,
+    required this.shareLiveLocation,
   }) : super(key: key);
 
   final Offer offer;
@@ -294,6 +324,7 @@ class _OfferSummaryPhone extends StatelessWidget {
   final List<SelectionElement> dogs;
   final bool error;
   final bool isMyOffer;
+  final Function() shareLiveLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -368,18 +399,29 @@ class _OfferSummaryPhone extends StatelessWidget {
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
-          if (!isMyOffer)
-            Selection(
-              elements: dogs,
-              onChanged: onSelectDog,
-              title: S.of(context).selectDogs,
-              error: error,
-              errorTitle: S.of(context).selectAtLeastADog,
-            ),
-          if (!isMyOffer)
-            const SizedBox(
-              height: spaceBetweenWidgets,
-            ),
+          isMyOffer
+              ? Button(
+                  disabled: DateTime.now().isBefore(offer.startDate!) ||
+                          DateTime.now()
+                              .isAfter(offer.startDate!.add(offer.duration!))
+                      ? S.of(context).cantShareLocationYet
+                      : null,
+                  onPressed: shareLiveLocation,
+                  text: S.of(context).shareLiveLocation,
+                  attention: true,
+                  primary: false,
+                )
+              : Selection(
+                  elements: dogs,
+                  onChanged: onSelectDog,
+                  title: S.of(context).selectDogs,
+                  error: error,
+                  errorTitle: S.of(context).selectAtLeastADog,
+                  rows: 3,
+                ),
+          const SizedBox(
+            height: spaceBetweenWidgets,
+          ),
           Button(
             onPressed: onComplete,
             text: isMyOffer ? S.of(context).deleteOffer : S.of(context).confirm,

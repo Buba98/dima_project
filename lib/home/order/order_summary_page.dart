@@ -2,6 +2,7 @@ import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/profile/profile_picture.dart';
+import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
 import 'package:dima_project/input/show_text.dart';
@@ -9,16 +10,17 @@ import 'package:dima_project/model/order.dart';
 import 'package:dima_project/model/dog.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:geocode/geocode.dart';
+
+import 'live_location/live_location_page.dart';
 
 class OrderSummaryPage extends StatefulWidget {
   const OrderSummaryPage({
     super.key,
-    required this.chat,
+    required this.order,
     required this.isClientMe,
   });
 
-  final Order chat;
+  final Order order;
   final bool isClientMe;
 
   @override
@@ -36,11 +38,11 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
       ),
       body: isTablet(context)
           ? _OrderSummaryTablet(
-              chat: widget.chat,
+              order: widget.order,
               isClientMe: widget.isClientMe,
             )
           : _OrderSummaryPhone(
-              chat: widget.chat,
+              order: widget.order,
               isClientMe: widget.isClientMe,
             ),
     );
@@ -50,11 +52,11 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
 class _OrderSummaryTablet extends StatelessWidget {
   const _OrderSummaryTablet({
     Key? key,
-    required this.chat,
+    required this.order,
     required this.isClientMe,
   }) : super(key: key);
 
-  final Order chat;
+  final Order order;
   final bool isClientMe;
 
   @override
@@ -69,8 +71,8 @@ class _OrderSummaryTablet extends StatelessWidget {
             builder: (BuildContext context, BoxConstraints constraints) {
               return FutureBuilder<String>(
                 future: isClientMe
-                    ? chat.offer.user!.profilePicture
-                    : chat.client.profilePicture,
+                    ? order.offer.user!.profilePicture
+                    : order.client.profilePicture,
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return ProfilePicture(
@@ -84,14 +86,14 @@ class _OrderSummaryTablet extends StatelessWidget {
               );
             },
           ),
-          if ((!isClientMe && (chat.client.bio != null)) ||
-              (isClientMe && (chat.offer.user!.bio != null))) ...[
+          if ((!isClientMe && (order.client.bio != null)) ||
+              (isClientMe && (order.offer.user!.bio != null))) ...[
             const SizedBox(
               height: spaceBetweenWidgets,
             ),
             ShowText(
               title: S.of(context).biography,
-              text: isClientMe ? chat.offer.user!.bio! : chat.client.bio!,
+              text: isClientMe ? order.offer.user!.bio! : order.client.bio!,
             ),
           ],
           const SizedBox(
@@ -102,7 +104,8 @@ class _OrderSummaryTablet extends StatelessWidget {
               Expanded(
                 child: ShowText(
                   title: S.of(context).name,
-                  text: isClientMe ? chat.offer.user!.name! : chat.client.name!,
+                  text:
+                      isClientMe ? order.offer.user!.name! : order.client.name!,
                 ),
               ),
               const SizedBox(
@@ -111,7 +114,7 @@ class _OrderSummaryTablet extends StatelessWidget {
               Expanded(
                 child: ShowText(
                   title: S.of(context).location,
-                  text: chat.offer.location!,
+                  text: order.offer.location!,
                 ),
               )
             ],
@@ -124,7 +127,7 @@ class _OrderSummaryTablet extends StatelessWidget {
               Expanded(
                 child: ShowText(
                   title: S.of(context).price,
-                  text: chat.offer.price!.toStringAsFixed(2),
+                  text: order.offer.price!.toStringAsFixed(2),
                 ),
               ),
               const SizedBox(
@@ -134,7 +137,7 @@ class _OrderSummaryTablet extends StatelessWidget {
                 child: ShowText(
                   title: S.of(context).time,
                   text:
-                      '${printDate(chat.offer.startDate!)} - ${printTime(chat.offer.startDate!)} ${S.of(context).fOr} ${printDuration(chat.offer.duration!)}',
+                      '${printDate(order.offer.startDate!)} - ${printTime(order.offer.startDate!)} ${S.of(context).fOr} ${printDuration(order.offer.duration!)}',
                 ),
               ),
             ],
@@ -143,7 +146,7 @@ class _OrderSummaryTablet extends StatelessWidget {
             height: spaceBetweenWidgets,
           ),
           Selection(
-            elements: chat.offer.activities!
+            elements: order.offer.activities!
                 .map((e) => SelectionElement(name: e.activity, selected: true))
                 .toList(),
             title: S.of(context).activities,
@@ -154,7 +157,7 @@ class _OrderSummaryTablet extends StatelessWidget {
           ),
           Selection(
             elements: [
-              for (Dog dog in chat.dogs)
+              for (Dog dog in order.dogs)
                 SelectionElement(name: dog.name!, selected: true)
             ],
             title: S.of(context).selectedDogs,
@@ -163,6 +166,23 @@ class _OrderSummaryTablet extends StatelessWidget {
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
+          if (isClientMe) ...[
+            Button(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => LiveLocationPage(
+                    order: order,
+                  ),
+                ),
+              ),
+              text: S.of(context).viewLiveLocation,
+              attention: true,
+            ),
+            const SizedBox(
+              height: spaceBetweenWidgets,
+            ),
+          ],
         ],
       ),
     );
@@ -172,11 +192,11 @@ class _OrderSummaryTablet extends StatelessWidget {
 class _OrderSummaryPhone extends StatelessWidget {
   const _OrderSummaryPhone({
     Key? key,
-    required this.chat,
+    required this.order,
     required this.isClientMe,
   }) : super(key: key);
 
-  final Order chat;
+  final Order order;
   final bool isClientMe;
 
   @override
@@ -189,8 +209,8 @@ class _OrderSummaryPhone extends StatelessWidget {
             builder: (BuildContext context, BoxConstraints constraints) {
               return FutureBuilder<String>(
                 future: isClientMe
-                    ? chat.offer.user!.profilePicture
-                    : chat.client.profilePicture,
+                    ? order.offer.user!.profilePicture
+                    : order.client.profilePicture,
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return ProfilePicture(
@@ -204,14 +224,14 @@ class _OrderSummaryPhone extends StatelessWidget {
               );
             },
           ),
-          if ((!isClientMe && (chat.client.bio != null)) ||
-              (isClientMe && (chat.offer.user!.bio != null))) ...[
+          if ((!isClientMe && (order.client.bio != null)) ||
+              (isClientMe && (order.offer.user!.bio != null))) ...[
             const SizedBox(
               height: spaceBetweenWidgets,
             ),
             ShowText(
               title: S.of(context).biography,
-              text: isClientMe ? chat.offer.user!.bio! : chat.client.bio!,
+              text: isClientMe ? order.offer.user!.bio! : order.client.bio!,
             ),
           ],
           const SizedBox(
@@ -219,21 +239,21 @@ class _OrderSummaryPhone extends StatelessWidget {
           ),
           ShowText(
             title: S.of(context).name,
-            text: isClientMe ? chat.offer.user!.name! : chat.client.name!,
+            text: isClientMe ? order.offer.user!.name! : order.client.name!,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
           ShowText(
             title: S.of(context).price,
-            text: chat.offer.price!.toStringAsFixed(2),
+            text: order.offer.price!.toStringAsFixed(2),
           ),
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
           ShowText(
             title: S.of(context).location,
-            text: chat.offer.location!,
+            text: order.offer.location!,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,
@@ -241,13 +261,13 @@ class _OrderSummaryPhone extends StatelessWidget {
           ShowText(
             title: S.of(context).time,
             text:
-                '${printDate(chat.offer.startDate!)} - ${printTime(chat.offer.startDate!)} ${S.of(context).fOr} ${printDuration(chat.offer.duration!)}',
+                '${printDate(order.offer.startDate!)} - ${printTime(order.offer.startDate!)} ${S.of(context).fOr} ${printDuration(order.offer.duration!)}',
           ),
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
           Selection(
-            elements: chat.offer.activities!
+            elements: order.offer.activities!
                 .map((e) => SelectionElement(name: e.activity, selected: true))
                 .toList(),
             title: S.of(context).activities,
@@ -257,7 +277,7 @@ class _OrderSummaryPhone extends StatelessWidget {
           ),
           Selection(
             elements: [
-              for (Dog dog in chat.dogs)
+              for (Dog dog in order.dogs)
                 SelectionElement(name: dog.name!, selected: true)
             ],
             title: S.of(context).selectedDogs,
@@ -265,6 +285,23 @@ class _OrderSummaryPhone extends StatelessWidget {
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
+          if (isClientMe) ...[
+            Button(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => LiveLocationPage(
+                    order: order,
+                  ),
+                ),
+              ),
+              text: S.of(context).viewLiveLocation,
+              attention: true,
+            ),
+            const SizedBox(
+              height: spaceBetweenWidgets,
+            ),
+          ],
         ],
       ),
     );

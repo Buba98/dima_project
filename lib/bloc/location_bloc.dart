@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dima_project/model/offer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location/location.dart';
 
@@ -5,12 +9,16 @@ abstract class LocationEvent {}
 
 class InitializeEvent extends LocationEvent {}
 
-class LocationState {
-  final Location _location;
+class ShareLocationEvent extends LocationEvent {
+  final Offer offer;
 
-  LocationState({
-    required Location location,
-  }) : _location = location;
+  ShareLocationEvent({
+    required this.offer,
+  });
+}
+
+class LocationState {
+  final Location _location = Location.instance;
 
   Future<Location?> get location async {
     bool serviceEnabled;
@@ -36,5 +44,29 @@ class LocationState {
 }
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
-  LocationBloc() : super(LocationState(location: Location()));
+  LocationBloc() : super(LocationState()) {
+    on<ShareLocationEvent>(_onShareLocationEvent);
+  }
+
+  _onShareLocationEvent(ShareLocationEvent event, Emitter<LocationState> emit) {
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection('live_location')
+        .doc(event.offer.id);
+
+    Timer.periodic(const Duration(seconds: 30), (timer) async {
+      LocationData locationData = await Location.instance.getLocation();
+
+      documentReference.set({
+        'latitude': locationData.latitude,
+        'longitude': locationData.longitude,
+      });
+
+      if (DateTime.now()
+          .isAfter(event.offer.startDate!.add(event.offer.duration!))) {
+        timer.cancel();
+      }
+    });
+
+    documentReference.delete();
+  }
 }

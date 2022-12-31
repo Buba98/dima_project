@@ -59,7 +59,7 @@ class _ChatPageState extends State<ChatPage> {
             context,
             MaterialPageRoute(
               builder: (_) => OrderSummaryPage(
-                chat: widget.order,
+                order: widget.order,
                 isClientMe: widget.isClientMe,
               ),
             ),
