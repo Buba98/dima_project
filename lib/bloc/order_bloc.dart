@@ -119,10 +119,13 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         for (String e in offerDocument['activities'] as List)
           Activity(activity: e)
       ],
-      position:
-          LatLng(offerDocument['position'][0], offerDocument['position'][1]),
+      position: LatLng(
+        offerDocument['position'][0],
+        offerDocument['position'][1],
+      ),
       user: user,
       fetched: true,
+      location: offerDocument['location'],
     );
 
     DocumentSnapshot<Map> clientDocument = await orderDocument['client'].get();

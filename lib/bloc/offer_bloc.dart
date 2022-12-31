@@ -6,6 +6,7 @@ import 'package:dima_project/model/internal_user.dart';
 import 'package:dima_project/model/offer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocode/geocode.dart';
 import 'package:latlong2/latlong.dart';
 
 abstract class OfferEvent {}
@@ -155,6 +156,14 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
   }
 
   _onAddOfferEvent(AddOfferEvent event, Emitter<OfferState> emit) async {
+    Address address = await GeoCode().reverseGeocoding(
+      latitude: event.firestoreModel['position'][0],
+      longitude: event.firestoreModel['position'][1],
+    );
+
+    event.firestoreModel['location'] =
+        '${address.streetAddress ?? ''} ${address.streetNumber ?? ''} ${address.city ?? ''}';
+
     event.firestoreModel['user'] = FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid);
@@ -204,6 +213,7 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
               offerDocument['position'][0], offerDocument['position'][1]),
           user: user,
           fetched: true,
+          location: offerDocument['location'],
         ),
       );
     }

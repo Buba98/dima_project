@@ -53,7 +53,6 @@ class OfferSummaryWidget extends StatefulWidget {
 
 class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
   late final List<SelectionElement<Dog>> dogs;
-  String location = '';
   bool error = false;
   late final bool isMyOffer;
 
@@ -74,20 +73,7 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
         )
         .toList();
 
-    init();
-
     super.initState();
-  }
-
-  init() async {
-    Address address = await GeoCode().reverseGeocoding(
-        latitude: widget.offer.position!.latitude,
-        longitude: widget.offer.position!.longitude);
-
-    setState(() {
-      location =
-          '${address.streetAddress ?? ''} ${address.streetNumber ?? ''} ${address.city ?? ''}';
-    });
   }
 
   @override
@@ -100,7 +86,6 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
               onComplete: onComplete,
               onSelectDog: onSelectDog,
               dogs: dogs,
-              location: location,
               error: error,
               isMyOffer: isMyOffer,
             )
@@ -109,7 +94,6 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
               onComplete: onComplete,
               onSelectDog: onSelectDog,
               dogs: dogs,
-              location: location,
               error: error,
               isMyOffer: isMyOffer,
             );
@@ -163,7 +147,6 @@ class _OfferSummaryTablet extends StatelessWidget {
     required this.onComplete,
     required this.onSelectDog,
     required this.dogs,
-    required this.location,
     required this.error,
     required this.isMyOffer,
   }) : super(key: key);
@@ -172,7 +155,6 @@ class _OfferSummaryTablet extends StatelessWidget {
   final Function() onComplete;
   final Function(int) onSelectDog;
   final List<SelectionElement> dogs;
-  final String location;
   final bool error;
   final bool isMyOffer;
 
@@ -227,7 +209,7 @@ class _OfferSummaryTablet extends StatelessWidget {
               Expanded(
                 child: ShowText(
                   title: S.of(context).location,
-                  text: location,
+                  text: offer.location!,
                 ),
               )
             ],
@@ -302,7 +284,6 @@ class _OfferSummaryPhone extends StatelessWidget {
     required this.onComplete,
     required this.onSelectDog,
     required this.dogs,
-    required this.location,
     required this.error,
     required this.isMyOffer,
   }) : super(key: key);
@@ -311,7 +292,6 @@ class _OfferSummaryPhone extends StatelessWidget {
   final Function() onComplete;
   final Function(int) onSelectDog;
   final List<SelectionElement> dogs;
-  final String location;
   final bool error;
   final bool isMyOffer;
 
@@ -364,7 +344,10 @@ class _OfferSummaryPhone extends StatelessWidget {
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
-          ShowText(title: S.of(context).location, text: location),
+          ShowText(
+            title: S.of(context).location,
+            text: offer.location!,
+          ),
           const SizedBox(
             height: spaceBetweenWidgets,
           ),

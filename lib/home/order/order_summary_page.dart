@@ -27,25 +27,6 @@ class OrderSummaryPage extends StatefulWidget {
 
 class _OrderSummaryPageState extends State<OrderSummaryPage> {
   late final List<SelectionElement<Dog>> dogs;
-  String location = '';
-
-  @override
-  initState() {
-    super.initState();
-
-    init();
-  }
-
-  init() async {
-    Address address = await GeoCode().reverseGeocoding(
-        latitude: widget.chat.offer.position!.latitude,
-        longitude: widget.chat.offer.position!.longitude);
-
-    setState(() {
-      location =
-          '${address.streetAddress ?? ''} ${address.streetNumber ?? ''} ${address.city ?? ''}';
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +37,10 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
       body: isTablet(context)
           ? _OrderSummaryTablet(
               chat: widget.chat,
-              location: location,
               isClientMe: widget.isClientMe,
             )
           : _OrderSummaryPhone(
               chat: widget.chat,
-              location: location,
               isClientMe: widget.isClientMe,
             ),
     );
@@ -72,12 +51,10 @@ class _OrderSummaryTablet extends StatelessWidget {
   const _OrderSummaryTablet({
     Key? key,
     required this.chat,
-    required this.location,
     required this.isClientMe,
   }) : super(key: key);
 
   final Order chat;
-  final String location;
   final bool isClientMe;
 
   @override
@@ -134,7 +111,7 @@ class _OrderSummaryTablet extends StatelessWidget {
               Expanded(
                 child: ShowText(
                   title: S.of(context).location,
-                  text: location,
+                  text: chat.offer.location!,
                 ),
               )
             ],
@@ -196,12 +173,10 @@ class _OrderSummaryPhone extends StatelessWidget {
   const _OrderSummaryPhone({
     Key? key,
     required this.chat,
-    required this.location,
     required this.isClientMe,
   }) : super(key: key);
 
   final Order chat;
-  final String location;
   final bool isClientMe;
 
   @override
@@ -221,7 +196,7 @@ class _OrderSummaryPhone extends StatelessWidget {
                   return ProfilePicture(
                     radius: constraints.maxWidth / 4,
                     image: snapshot.connectionState == ConnectionState.done &&
-                        snapshot.hasData
+                            snapshot.hasData
                         ? NetworkImage(snapshot.data!)
                         : null,
                   );
@@ -256,7 +231,10 @@ class _OrderSummaryPhone extends StatelessWidget {
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
-          ShowText(title: S.of(context).location, text: location),
+          ShowText(
+            title: S.of(context).location,
+            text: chat.offer.location!,
+          ),
           const SizedBox(
             height: spaceBetweenWidgets,
           ),

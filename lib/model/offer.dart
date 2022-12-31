@@ -9,6 +9,7 @@ class Offer {
   List<Activity>? activities;
   LatLng? position;
   InternalUser? user;
+  String? location;
   bool fetched;
 
   Offer({
@@ -19,6 +20,7 @@ class Offer {
     this.activities,
     this.position,
     this.user,
+    this.location,
     required this.fetched,
   });
 }
