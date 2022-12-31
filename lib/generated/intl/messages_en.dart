@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addActivity": MessageLookupByLibrary.simpleMessage("Add activity"),
         "addFilter": MessageLookupByLibrary.simpleMessage("Add filter"),
         "addNewDog": MessageLookupByLibrary.simpleMessage("Add new dog"),
+        "asClient": MessageLookupByLibrary.simpleMessage("As client"),
+        "asOfferor": MessageLookupByLibrary.simpleMessage("As offeror"),
         "back": MessageLookupByLibrary.simpleMessage("Back"),
         "biography": MessageLookupByLibrary.simpleMessage("Biography"),
         "cantShareLocationYet":

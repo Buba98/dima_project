@@ -28,6 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addActivity": MessageLookupByLibrary.simpleMessage("添加活动"),
         "addFilter": MessageLookupByLibrary.simpleMessage("添加过滤器"),
         "addNewDog": MessageLookupByLibrary.simpleMessage("添加新狗"),
+        "asOfferor": MessageLookupByLibrary.simpleMessage("作为客户"),
         "back": MessageLookupByLibrary.simpleMessage("返回"),
         "biography": MessageLookupByLibrary.simpleMessage("传"),
         "cantShareLocationYet": MessageLookupByLibrary.simpleMessage("还不能分享位置"),

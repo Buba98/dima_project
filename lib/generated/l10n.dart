@@ -829,6 +829,26 @@ class S {
       args: [],
     );
   }
+
+  /// `As offeror`
+  String get asOfferor {
+    return Intl.message(
+      'As offeror',
+      name: 'asOfferor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `As client`
+  String get asClient {
+    return Intl.message(
+      'As client',
+      name: 'asClient',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

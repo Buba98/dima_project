@@ -21,7 +21,7 @@ class OrderListPage extends StatelessWidget {
     return Scaffold(
       appBar: KAppBar(
         text:
-            isMyOffers ? S.of(context).myOffers : S.of(context).acceptedOffers,
+            isMyOffers ? S.of(context).asOfferor : S.of(context).asClient,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: spaceBetweenWidgets),

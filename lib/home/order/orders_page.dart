@@ -59,7 +59,7 @@ class _MessagingPageTabletState extends State<MessagingPageTablet> {
                     ),
                     const Divider(),
                     ShowText(
-                      text: S.of(context).myOffers,
+                      text: S.of(context).asOfferor,
                       trailerIcon: Icons.arrow_forward_ios_outlined,
                       onPressed: () => setState(
                         () => focus = const ChatListWidget(isMyOffers: true),
@@ -69,7 +69,7 @@ class _MessagingPageTabletState extends State<MessagingPageTablet> {
                       height: spaceBetweenWidgets,
                     ),
                     ShowText(
-                      text: S.of(context).acceptedOffers,
+                      text: S.of(context).asClient,
                       trailerIcon: Icons.arrow_forward_ios_outlined,
                       onPressed: () => setState(
                         () => focus = const ChatListWidget(isMyOffers: false),
@@ -135,7 +135,7 @@ class _MessagingPagePhone extends StatelessWidget {
               ),
               const Divider(),
               ShowText(
-                text: S.of(context).myOffers,
+                text: S.of(context).asOfferor,
                 trailerIcon: Icons.arrow_forward_ios_outlined,
                 onPressed: () {
                   Navigator.push(
@@ -152,7 +152,7 @@ class _MessagingPagePhone extends StatelessWidget {
                 height: spaceBetweenWidgets,
               ),
               ShowText(
-                text: S.of(context).acceptedOffers,
+                text: S.of(context).asClient,
                 trailerIcon: Icons.arrow_forward_ios_outlined,
                 onPressed: () {
                   Navigator.push(
