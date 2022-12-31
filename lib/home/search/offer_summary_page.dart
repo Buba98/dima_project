@@ -80,7 +80,7 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      return isWide(context, constraints)
+      return isWide(constraints)
           ? _OfferSummaryTablet(
               offer: widget.offer,
               onComplete: onComplete,

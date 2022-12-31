@@ -68,9 +68,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   _onLoadChat(_LoadChat event, Emitter<ChatState> emit) {
     if (!event.event.exists) {
-      FirebaseFirestore.instance.collection('chats').doc(order.id).set({
-        'order': FirebaseFirestore.instance.collection('orders').doc(order.id),
-      });
+      return;
     }
 
     Map? elementMap = event.event.data();

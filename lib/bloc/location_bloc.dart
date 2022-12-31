@@ -44,6 +44,8 @@ class LocationState {
 }
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
+  Timer? timer;
+
   LocationBloc() : super(LocationState()) {
     on<ShareLocationEvent>(_onShareLocationEvent);
   }
@@ -53,7 +55,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         .collection('live_location')
         .doc(event.offer.id);
 
-    Timer.periodic(const Duration(seconds: 30), (timer) async {
+    timer?.cancel();
+    timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
       LocationData locationData = await Location.instance.getLocation();
 
       documentReference.set({

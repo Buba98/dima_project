@@ -21,7 +21,7 @@ class MessagingPage extends StatelessWidget {
       appBar: KAppBar(
         text: S.of(context).orders,
       ),
-      body: isTablet(context)
+      body: isTablet()
           ? const MessagingPageTablet()
           : const _MessagingPagePhone(),
     );

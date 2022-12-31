@@ -114,7 +114,7 @@ class _SearchScreenState extends State<SearchScreen> {
           return true;
         }).toList();
 
-        if (isTablet(context)) {
+        if (isTablet()) {
           return SearchTabletScreen(
             position: position,
             activities: activities,

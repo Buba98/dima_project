@@ -30,7 +30,7 @@ class _SettingPageState extends State<SettingPage> {
                 ? S.of(context).dogProfile
                 : S.of(context).modifyProfile,
       ),
-      body: isTablet(context)
+      body: isTablet()
           ? Row(
               children: [
                 Flexible(

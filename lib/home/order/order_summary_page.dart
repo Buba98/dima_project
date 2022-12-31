@@ -36,7 +36,7 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
       appBar: KAppBar(
         text: S.of(context).orderSummary,
       ),
-      body: isTablet(context)
+      body: isTablet()
           ? _OrderSummaryTablet(
               order: widget.order,
               isClientMe: widget.isClientMe,
@@ -168,6 +168,9 @@ class _OrderSummaryTablet extends StatelessWidget {
           ),
           if (isClientMe) ...[
             Button(
+              disabled: DateTime.now().isBefore(order.offer.startDate!)
+                  ? S.of(context).cantShareLocationYet
+                  : null,
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -287,6 +290,9 @@ class _OrderSummaryPhone extends StatelessWidget {
           ),
           if (isClientMe) ...[
             Button(
+              disabled: DateTime.now().isBefore(order.offer.startDate!)
+                  ? S.of(context).cantShareLocationYet
+                  : null,
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -108,6 +108,11 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
       await element.reference.delete();
     }
 
+    await FirebaseFirestore.instance
+        .collection('live_location')
+        .doc(event.offer.id)
+        .delete();
+
     await documentReference.delete();
   }
 
@@ -123,7 +128,8 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
         .get();
 
     if (querySnapshot.docs.isEmpty || !querySnapshot.docs[0].exists) {
-      await FirebaseFirestore.instance.collection('orders').add(
+      DocumentReference<Map> order =
+          await FirebaseFirestore.instance.collection('orders').add(
         {
           'client': FirebaseFirestore.instance
               .collection('users')
@@ -140,6 +146,9 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
           ],
         },
       );
+      await FirebaseFirestore.instance.collection('chats').doc(order.id).set({
+        'order': order,
+      });
     } else {
       await FirebaseFirestore.instance
           .collection('orders')
@@ -182,6 +191,15 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
 
     for (QueryDocumentSnapshot<Map> offerDocument in event.querySnapshot.docs) {
       if (!offerDocument.exists) {
+        continue;
+      }
+      if (DateTime.now()
+          .isAfter((offerDocument['end_date'] as Timestamp).toDate())) {
+        add(DeleteOfferEvent(
+            offer: Offer(
+          id: offerDocument.id,
+          fetched: false,
+        )));
         continue;
       }
 
