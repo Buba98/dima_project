@@ -1,5 +1,4 @@
 import 'package:dima_project/constants.dart';
-import 'package:dima_project/custom_widgets/scroll_expandable.dart';
 import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/offer/date_picker.dart';
 import 'package:dima_project/home/offer/duration_picker.dart';

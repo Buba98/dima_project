@@ -76,6 +76,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "orderSummary": MessageLookupByLibrary.simpleMessage("订单摘要"),
         "orders": MessageLookupByLibrary.simpleMessage("命令"),
         "passwordTooWeak": MessageLookupByLibrary.simpleMessage("密码太弱"),
+        "pickALocation": MessageLookupByLibrary.simpleMessage("选择一个位置"),
         "price": MessageLookupByLibrary.simpleMessage("价格"),
         "profile": MessageLookupByLibrary.simpleMessage("个人资料"),
         "search": MessageLookupByLibrary.simpleMessage("搜索"),

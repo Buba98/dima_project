@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dima_project/main.dart' as app;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';

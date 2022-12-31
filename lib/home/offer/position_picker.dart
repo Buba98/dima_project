@@ -121,13 +121,14 @@ class _PositionPickerState extends State<PositionPicker> {
                 ],
               ),
               if (error)
-                Center(
+                Align(
+                  alignment: Alignment.topCenter,
                   child: Padding(
                     padding: const EdgeInsets.all(spaceBetweenWidgets),
                     child: Card(
                       color: Colors.white24,
                       child: Text(
-                        S.of(context).liveLocationIsNotAvailable,
+                        S.of(context).pickALocation,
                         style: TextStyle(
                           color: Theme.of(context).errorColor,
                           fontWeight: FontWeight.bold,

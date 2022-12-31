@@ -809,6 +809,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Pick a location`
+  String get pickALocation {
+    return Intl.message(
+      'Pick a location',
+      name: 'pickALocation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

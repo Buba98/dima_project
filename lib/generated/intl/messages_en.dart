@@ -86,6 +86,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "orders": MessageLookupByLibrary.simpleMessage("Orders"),
         "passwordTooWeak":
             MessageLookupByLibrary.simpleMessage("Password too weak"),
+        "pickALocation":
+            MessageLookupByLibrary.simpleMessage("Pick a location"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),

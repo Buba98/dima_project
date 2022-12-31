@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/home/search/search_result_card.dart';
 import 'package:dima_project/model/offer.dart';
