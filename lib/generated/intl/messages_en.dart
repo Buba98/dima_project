@@ -87,12 +87,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "offerSummary": MessageLookupByLibrary.simpleMessage("Offer summary"),
         "orderSummary": MessageLookupByLibrary.simpleMessage("Order summary"),
         "orders": MessageLookupByLibrary.simpleMessage("Orders"),
+        "park": MessageLookupByLibrary.simpleMessage("Park"),
         "passwordTooWeak":
             MessageLookupByLibrary.simpleMessage("Password too weak"),
         "pickALocation":
             MessageLookupByLibrary.simpleMessage("Pick a location"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "run": MessageLookupByLibrary.simpleMessage("Run"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "selectAtLeastADog":
             MessageLookupByLibrary.simpleMessage("Select at least a dog"),
@@ -115,6 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "signUp": MessageLookupByLibrary.simpleMessage("Sign up"),
         "startDate": MessageLookupByLibrary.simpleMessage("Start date"),
         "startTime": MessageLookupByLibrary.simpleMessage("Start time"),
+        "swim": MessageLookupByLibrary.simpleMessage("Swim"),
         "time": MessageLookupByLibrary.simpleMessage("Time"),
         "viewLiveLocation":
             MessageLookupByLibrary.simpleMessage("View live location"),

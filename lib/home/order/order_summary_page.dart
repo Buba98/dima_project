@@ -7,6 +7,7 @@ import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/selection/selection.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
 import 'package:dima_project/input/show_text.dart';
+import 'package:dima_project/model/offer.dart';
 import 'package:dima_project/model/order.dart';
 import 'package:dima_project/model/dog.dart';
 import 'package:dima_project/utils/utils.dart';
@@ -87,7 +88,7 @@ class _OrderSummaryTablet extends StatelessWidget {
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return ProfilePicture(
-                    radius: constraints.maxWidth / 6,
+                    radius: constraints.maxWidth / 8,
                     image: snapshot.connectionState == ConnectionState.done &&
                             snapshot.hasData
                         ? NetworkImage(snapshot.data!)
@@ -157,9 +158,21 @@ class _OrderSummaryTablet extends StatelessWidget {
             height: spaceBetweenWidgets,
           ),
           Selection(
-            elements: order.offer.activities!
-                .map((e) => SelectionElement(name: e.activity, selected: true))
-                .toList(),
+            elements: order.offer.activities!.map((Activity activity) {
+              String? name;
+
+              for (Map<String, String> a in defaultActivities(context)) {
+                if (a['value']! == activity.activity) {
+                  name = a['name']!;
+                  break;
+                }
+              }
+
+              return SelectionElement(
+                name: name ?? activity.activity,
+                selected: true,
+              );
+            }).toList(),
             title: S.of(context).activities,
             rows: 3,
           ),
@@ -288,9 +301,21 @@ class _OrderSummaryPhone extends StatelessWidget {
             height: spaceBetweenWidgets,
           ),
           Selection(
-            elements: order.offer.activities!
-                .map((e) => SelectionElement(name: e.activity, selected: true))
-                .toList(),
+            elements: order.offer.activities!.map((Activity activity) {
+              String? name;
+
+              for (Map<String, String> a in defaultActivities(context)) {
+                if (a['value']! == activity.activity) {
+                  name = a['name']!;
+                  break;
+                }
+              }
+
+              return SelectionElement(
+                name: name ?? activity.activity,
+                selected: true,
+              );
+            }).toList(),
             title: S.of(context).activities,
           ),
           const SizedBox(

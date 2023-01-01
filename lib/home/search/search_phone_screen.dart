@@ -24,8 +24,8 @@ class SearchPhoneScreen extends StatefulWidget {
   }) : super(key: key);
 
   final LatLng? position;
-  final List<SelectionElement> activities;
-  final Function(SelectionElement) addOtherActivity;
+  final List<SelectionElement<String>> activities;
+  final Function(SelectionElement<String>) addOtherActivity;
   final Function(int change) onChangeActivity;
   final double priceValue;
   final double distanceValue;
@@ -67,11 +67,6 @@ class _SearchPhoneScreenState extends State<SearchPhoneScreen> {
               )
             : _SearchPhoneScreen(
                 position: widget.position,
-                addOtherActivity: widget.addOtherActivity,
-                activities: widget.activities,
-                onChangeActivity: widget.onChangeActivity,
-                priceValue: widget.priceValue,
-                onChangePriceValue: widget.onChangePriceValue,
                 offers: widget.offers,
                 onChangeView: onChangeView,
               ),
@@ -84,21 +79,11 @@ class _SearchPhoneScreen extends StatelessWidget {
   const _SearchPhoneScreen({
     Key? key,
     required this.position,
-    required this.addOtherActivity,
-    required this.activities,
-    required this.onChangeActivity,
-    required this.priceValue,
-    required this.onChangePriceValue,
     required this.offers,
     required this.onChangeView,
   }) : super(key: key);
 
   final LatLng? position;
-  final List<SelectionElement> activities;
-  final Function(SelectionElement) addOtherActivity;
-  final Function(int change) onChangeActivity;
-  final double priceValue;
-  final Function(double) onChangePriceValue;
   final List<Offer> offers;
   final Function() onChangeView;
 

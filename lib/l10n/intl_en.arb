@@ -78,5 +78,8 @@
     "pickALocation":"Pick a location",
     "deleteOrder":"Delete order",
     "asOfferor":"As offeror",
-    "asClient":"As client"
+    "asClient":"As client",
+    "run":"Run",
+    "swim":"Swim",
+    "park":"Park"
 }

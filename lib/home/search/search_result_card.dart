@@ -174,37 +174,48 @@ class _SearchResultCardState extends State<SearchResultCard> {
                     isShowActivities
                         ? Column(
                             children: widget.offer.activities!
-                                .map<Widget>((e) => Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom:
-                                              widget.offer.activities!.last == e
-                                                  ? 0
-                                                  : spaceBetweenWidgets / 2),
-                                      child: Row(
-                                        children: [
-                                          const Text(
-                                            '\u2022',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black54,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: spaceBetweenWidgets,
-                                          ),
-                                          Text(
-                                            e.activity,
-                                            style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black54,
-                                            ),
-                                          ),
-                                        ],
+                                .map<Widget>((Activity activity) {
+                              String? name;
+
+                              for (Map<String, String> a
+                                  in defaultActivities(context)) {
+                                if (a['value']! == activity.activity) {
+                                  name = a['name']!;
+                                  break;
+                                }
+                              }
+
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: widget.offer.activities!.last ==
+                                            activity
+                                        ? 0
+                                        : spaceBetweenWidgets / 2),
+                                child: Row(
+                                  children: [
+                                    const Text(
+                                      '\u2022',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black54,
                                       ),
-                                    ))
-                                .toList(),
+                                    ),
+                                    const SizedBox(
+                                      width: spaceBetweenWidgets,
+                                    ),
+                                    Text(
+                                      name ?? activity.activity,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
                           )
                         : Row(
                             children: [

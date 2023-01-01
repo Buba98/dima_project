@@ -23,7 +23,7 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
   DateTime? startDate;
   Duration? duration;
   double? price;
-  List<SelectionElement>? activities;
+  List<SelectionElement<String>>? activities;
   LatLng? position;
 
   @override
@@ -51,11 +51,13 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
             : index == 1
                 ? ActivitiesPicker(
                     activities: activities,
-                    onNext: (List<SelectionElement> activities) => setState(() {
+                    onNext: (List<SelectionElement<String>> activities) =>
+                        setState(() {
                       this.activities = activities;
                       index++;
                     }),
-                    onBack: (List<SelectionElement> activities) => setState(() {
+                    onBack: (List<SelectionElement<String>> activities) =>
+                        setState(() {
                       this.activities = activities;
                       index--;
                     }),
@@ -77,7 +79,7 @@ class _CreateOfferPageState extends State<CreateOfferPage> {
                               price: price!,
                               activities: activities!
                                   .where((element) => element.selected)
-                                  .map<String>((e) => e.name)
+                                  .map<String>((e) => e.element!)
                                   .toList(),
                               position: this.position!,
                             ),

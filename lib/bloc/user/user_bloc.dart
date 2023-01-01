@@ -11,10 +11,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 abstract class UserEvent {}
 
 class _ReloadEvent extends UserEvent {
-  final DocumentSnapshot<Map<String, dynamic>> event;
+  final DocumentSnapshot<Map> userDocument;
 
   _ReloadEvent({
-    required this.event,
+    required this.userDocument,
   });
 }
 
@@ -93,7 +93,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .snapshots()
           .listen((DocumentSnapshot<Map<String, dynamic>> event) {
-        add(_ReloadEvent(event: event));
+        add(_ReloadEvent(userDocument: event));
       });
     });
   }
@@ -160,7 +160,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   _onReloadEvent(_ReloadEvent event, Emitter<UserState> emit) async {
-    if (!event.event.exists || event.event.data()!['name'] == null) {
+    if (!event.userDocument.exists || event.userDocument['name'] == null) {
       emit(
         NotInitializedState(
           internalUser: InternalUser(
@@ -172,36 +172,35 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       return;
     }
 
-    Map<String, dynamic> data = event.event.data()!;
-
     InternalUser internalUser = InternalUser(
       uid: FirebaseAuth.instance.currentUser!.uid,
-      name: data['name'],
-      bio: data['bio'],
+      name: event.userDocument['name'],
+      bio: event.userDocument['bio'],
       dogs: [],
       fetched: true,
     );
 
-    if (data.containsKey('dogs')) {
-      for (var doc in data['dogs']) {
-        await FirebaseFirestore.instance
-            .collection('dogs')
-            .doc(doc.id)
-            .get()
-            .then((DocumentSnapshot dogDocument) {
-          Map<String, dynamic> dogData =
-              (dogDocument.data() as Map<String, dynamic>?) ?? {};
-          internalUser.dogs!.add(
-            Dog(
-              uid: dogDocument.id,
-              fetched: true,
-              name: dogData['name'],
-              sex: dogData['sex'],
-              owner: internalUser,
-            ),
-          );
-        });
+    DocumentSnapshot<Map> dogDocument;
+
+    for (DocumentReference dogReference in event.userDocument['dogs'] ?? []) {
+      dogDocument = await FirebaseFirestore.instance
+          .collection('dogs')
+          .doc(dogReference.id)
+          .get();
+
+      if (!dogDocument.exists) {
+        continue;
       }
+
+      internalUser.dogs!.add(
+        Dog(
+          uid: dogDocument.id,
+          fetched: true,
+          name: dogDocument['name'],
+          sex: dogDocument['sex'],
+          owner: internalUser,
+        ),
+      );
     }
 
     emit(CompleteState(internalUser: internalUser));

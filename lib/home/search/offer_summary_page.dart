@@ -182,7 +182,7 @@ class _OfferSummaryTablet extends StatelessWidget {
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return ProfilePicture(
-                    radius: constraints.maxWidth / 6,
+                    radius: constraints.maxWidth / 8,
                     image: snapshot.connectionState == ConnectionState.done &&
                             snapshot.hasData
                         ? NetworkImage(snapshot.data!)
@@ -250,9 +250,21 @@ class _OfferSummaryTablet extends StatelessWidget {
             height: spaceBetweenWidgets,
           ),
           Selection(
-            elements: offer.activities!
-                .map((e) => SelectionElement(name: e.activity, selected: true))
-                .toList(),
+            elements: offer.activities!.map((Activity activity) {
+              String? name;
+
+              for (Map<String, String> a in defaultActivities(context)) {
+                if (a['value']! == activity.activity) {
+                  name = a['name']!;
+                  break;
+                }
+              }
+
+              return SelectionElement(
+                name: name ?? activity.activity,
+                selected: true,
+              );
+            }).toList(),
             title: S.of(context).activities,
             rows: 3,
           ),
@@ -391,9 +403,21 @@ class _OfferSummaryPhone extends StatelessWidget {
             height: spaceBetweenWidgets,
           ),
           Selection(
-            elements: offer.activities!
-                .map((e) => SelectionElement(name: e.activity, selected: true))
-                .toList(),
+            elements: offer.activities!.map((Activity activity) {
+              String? name;
+
+              for (Map<String, String> a in defaultActivities(context)) {
+                if (a['value']! == activity.activity) {
+                  name = a['name']!;
+                  break;
+                }
+              }
+
+              return SelectionElement(
+                name: name ?? activity.activity,
+                selected: true,
+              );
+            }).toList(),
             title: S.of(context).activities,
           ),
           const SizedBox(

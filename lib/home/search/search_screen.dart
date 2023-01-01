@@ -21,9 +21,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   LatLng? position;
-  List<SelectionElement> activities = defaultActivities
-      .map((e) => SelectionElement(name: e, selected: false))
-      .toList();
+  List<SelectionElement<String>>? activities;
 
   double priceValue = 100;
   double distanceValue = 2000;
@@ -55,14 +53,14 @@ class _SearchScreenState extends State<SearchScreen> {
 
   onChangeActivity(int change) {
     setState(() {
-      activities[change].selected = !activities[change].selected;
+      activities![change].selected = !activities![change].selected;
     });
   }
 
-  addOtherActivity(SelectionElement selectionElement) {
+  addOtherActivity(SelectionElement<String> selectionElement) {
     setState(() {
       activities = [
-        ...activities,
+        ...activities!,
         selectionElement,
       ];
     });
@@ -82,13 +80,25 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    activities ??= defaultActivities(context)
+        .map((e) => SelectionElement<String>(
+              name: e['name']!,
+              selected: false,
+              element: e['value']!,
+            ))
+        .toList();
+
     return BlocBuilder<OfferBloc, OfferState>(
       builder: (BuildContext context, OfferState state) {
         List<Offer> offers = state.offers.where((offer) {
-          for (String activity in activities
-              .where((element) => element.selected)
-              .map((e) => e.name)) {
-            if (!offer.activities!.map((e) => e.activity).contains(activity)) {
+          for (String activity in activities!
+              .where((SelectionElement<String> selectionElement) =>
+                  selectionElement.selected)
+              .map((SelectionElement<String> selectionElement) =>
+                  selectionElement.element!)) {
+            if (!offer.activities!
+                .map((Activity activity) => activity.activity)
+                .contains(activity)) {
               return false;
             }
           }
@@ -117,7 +127,7 @@ class _SearchScreenState extends State<SearchScreen> {
         if (isTablet()) {
           return SearchTabletScreen(
             position: position,
-            activities: activities,
+            activities: activities!,
             addOtherActivity: addOtherActivity,
             onChangeActivity: onChangeActivity,
             priceValue: priceValue,
@@ -129,7 +139,7 @@ class _SearchScreenState extends State<SearchScreen> {
         } else {
           return SearchPhoneScreen(
             position: position,
-            activities: activities,
+            activities: activities!,
             addOtherActivity: addOtherActivity,
             onChangeActivity: onChangeActivity,
             priceValue: priceValue,

@@ -15,16 +15,16 @@ class ActivitiesPicker extends StatefulWidget {
     required this.onBack,
   });
 
-  final List<SelectionElement>? activities;
-  final Function(List<SelectionElement>) onNext;
-  final Function(List<SelectionElement>) onBack;
+  final List<SelectionElement<String>>? activities;
+  final Function(List<SelectionElement<String>>) onNext;
+  final Function(List<SelectionElement<String>>) onBack;
 
   @override
   State<ActivitiesPicker> createState() => _ActivitiesPickerState();
 }
 
 class _ActivitiesPickerState extends State<ActivitiesPicker> {
-  late List<SelectionElement> activities;
+  late List<SelectionElement<String>> activities;
   final TextEditingController otherOption = TextEditingController();
   bool error = false;
 
@@ -32,12 +32,43 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
   void initState() {
     activities = widget.activities ??
         List.from(
-          defaultActivities.map(
-            (e) => SelectionElement(name: e, selected: false),
+          defaultActivities(context).map(
+            (Map<String, String> e) => SelectionElement<String>(
+              name: e['name']!,
+              selected: false,
+              element: e['value']!,
+            ),
           ),
         );
 
     super.initState();
+  }
+
+  void onAddActivity() {
+    if (otherOption.text.isEmpty) {
+      return;
+    }
+
+    for (SelectionElement activity in activities) {
+      if (activity.name == otherOption.text) {
+        otherOption.clear();
+        return;
+      }
+    }
+
+    setState(() {
+      activities = [
+        ...activities,
+        SelectionElement<String>(
+          name: otherOption.text,
+          selected: true,
+          element: otherOption.text,
+        )
+      ];
+      error = false;
+    });
+
+    otherOption.clear();
   }
 
   @override
@@ -67,28 +98,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
           errorText: error ? S.of(context).selectAtLeastOneActivity : null,
           textIcon: Icons.add,
           textEditingController: otherOption,
-          onTap: () {
-            if (otherOption.text.isEmpty) {
-              return;
-            }
-
-            for (SelectionElement activity in activities) {
-              if (activity.name == otherOption.text) {
-                otherOption.clear();
-                return;
-              }
-            }
-
-            setState(() {
-              activities = [
-                ...activities,
-                SelectionElement(name: otherOption.text, selected: true)
-              ];
-              error = false;
-            });
-
-            otherOption.clear();
-          },
+          onTap: onAddActivity,
           hintText: S.of(context).addActivity,
           iconButton: Icons.add,
         ),

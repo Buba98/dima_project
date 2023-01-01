@@ -77,5 +77,8 @@
     "cantShareLocationYet":"还不能分享位置",
     "pickALocation":"选择一个位置",
     "deleteOrder":"删除订单",
-    "asOfferor":"作为客户"
+    "asOfferor":"作为客户",
+    "run":"跑步",
+    "swim":"游泳",
+    "park":"公园"
 }
