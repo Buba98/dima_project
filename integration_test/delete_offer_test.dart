@@ -25,15 +25,21 @@ void main() {
 
           await tester.pumpAndSettle();
 
+          await waitForNSeconds(tester);
+
+          await tester.pumpAndSettle();
+
           await tester.tap(find.byKey(const Key('orders_menu')));
 
           await tester.tap(find.text('\$${price.toStringAsFixed(2)}'));
 
           await tester.pumpAndSettle();
 
-          await tester.dragUntilVisible(find.text("Delete offer"),
-              find.byType(ListView), const Offset(0, 500) // delta to move
-              );
+          await tester.scrollUntilVisible(
+            find.text("Delete offer"),
+            500,
+            scrollable: find.byType(Scrollable),
+          );
 
           await tester.pumpAndSettle();
 

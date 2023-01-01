@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dima_project/main.dart' as app;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,7 +14,7 @@ void main() {
     'dog test',
     () {
       testWidgets(
-        'offer creation test',
+        'dog creation test',
         (WidgetTester tester) async {
           await app.main();
           await tester.pumpAndSettle();

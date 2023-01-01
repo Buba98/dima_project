@@ -9,10 +9,10 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group(
-    'dog test',
+    'chat test',
     () {
       testWidgets(
-        'offer creation test',
+        'send message test',
         (WidgetTester tester) async {
           await app.main();
           await tester.pumpAndSettle();
@@ -25,11 +25,15 @@ void main() {
 
           await tester.pumpAndSettle();
 
+          await waitForNSeconds(tester);
+
+          await tester.pumpAndSettle();
+
           await tester.tap(find.byKey(const Key('orders_menu')));
 
           await tester.pumpAndSettle();
 
-          await tester.tap(find.text('Accepted offers'));
+          await tester.tap(find.text('As client'));
 
           await pumpUntilFound(tester, find.text(name));
           
@@ -50,12 +54,12 @@ void main() {
           await tester.tap(find.byIcon(Icons.send));
 
           await tester.pumpAndSettle();
-          
-          pumpUntilFound(tester, find.byIcon(Icons.downloading));
 
-          pumpUntilFound(tester, find.byIcon(Icons.send));
+          await waitForNSeconds(tester);
 
-          pumpUntilFound(tester, find.text(message));
+          await tester.pumpAndSettle();
+
+          await pumpUntilFound(tester, find.text(message));
 
           expect(find.text(message), findsAtLeastNWidgets(1));
 

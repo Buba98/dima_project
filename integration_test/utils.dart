@@ -40,6 +40,18 @@ Future<void> pumpUntilNotFound(
   timer.cancel();
 }
 
+Future<void> waitForNSeconds(
+  WidgetTester tester, {
+  Duration timeout = const Duration(seconds: 3),
+}) async {
+  bool timerDone = false;
+  final timer = Timer(timeout, () => timerDone = true);
+  while (timerDone != true) {
+    await tester.pump();
+  }
+  timer.cancel();
+}
+
 const Map<String, String> testingAccount = {
   'email': 'nv.fg.dima@gmail.com',
   'password': 'dan1el!!'
@@ -217,7 +229,6 @@ Future<int> createOfferSteps(WidgetTester tester) async {
 }
 
 Future<String> createOrderSteps(WidgetTester tester) async {
-
   const String name = 'Beautiful Guy';
 
   await tester.pumpAndSettle();
@@ -230,8 +241,10 @@ Future<String> createOrderSteps(WidgetTester tester) async {
 
   await tester.pumpAndSettle();
 
-  await tester.dragUntilVisible(find.text("Confirm"),
-      find.byType(ListView), const Offset(0, 500) // delta to move
+  await tester.scrollUntilVisible(
+    find.text("Confirm"),
+    500,
+    scrollable: find.byType(Scrollable),
   );
 
   await tester.pumpAndSettle();

@@ -179,9 +179,6 @@ class _OrderSummaryTablet extends StatelessWidget {
           ),
           if (isClientMe) ...[
             Button(
-              disabled: DateTime.now().isBefore(order.offer.startDate!)
-                  ? S.of(context).cantShareLocationYet
-                  : null,
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -311,9 +308,6 @@ class _OrderSummaryPhone extends StatelessWidget {
           ),
           if (isClientMe) ...[
             Button(
-              disabled: DateTime.now().isBefore(order.offer.startDate!)
-                  ? S.of(context).cantShareLocationYet
-                  : null,
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(

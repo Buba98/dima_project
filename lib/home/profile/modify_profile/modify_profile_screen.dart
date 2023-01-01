@@ -89,6 +89,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
               height: 20,
             ),
             TextInput(
+              key: const Key('enter_your_name'),
               hintText: S.of(context).enterYourName,
               errorText: emptyName ? S.of(context).nameIsRequired : null,
               textEditingController: name,

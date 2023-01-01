@@ -17,6 +17,7 @@ void main() {
         'Sign up test',
         (WidgetTester tester) async {
           await app.main();
+
           await tester.pumpAndSettle();
 
           final signUpButton = find.byKey(const Key('sign_up_button'));
@@ -30,8 +31,6 @@ void main() {
           final emailTextInput = find.byKey(const Key('email_text_input'));
           final passwordTextInput =
               find.byKey(const Key('password_text_input'));
-
-          expect(emailTextInput, findsOneWidget);
 
           await tester.enterText(
               emailTextInput, 'test${Random().nextDouble()}@gmail.com');
@@ -57,7 +56,7 @@ void main() {
             find.text('Finalize'),
           );
 
-          expect(tester.tap(find.text('Finalize')), findsAtLeastNWidgets(1));
+          expect(find.text('Finalize'), findsAtLeastNWidgets(1));
         },
       );
     },
