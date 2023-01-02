@@ -1,7 +1,7 @@
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
-import 'package:dima_project/home/order/live_location/live_location_bloc.dart';
+import 'package:dima_project/bloc/live_location_bloc.dart';
 import 'package:dima_project/model/order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';

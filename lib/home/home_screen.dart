@@ -5,7 +5,7 @@ import 'package:dima_project/home/order/orders_page.dart';
 import 'package:dima_project/home/search/search_screen.dart';
 import 'package:dima_project/home/profile/modify_profile/modify_profile_page.dart';
 import 'package:dima_project/home/profile/setting_page.dart';
-import 'package:dima_project/loading/loading_screen.dart';
+import 'package:dima_project/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Widget home = const LoadingScreen();
+  Widget home = const LoadingPage();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       listener: (BuildContext context, UserState state) {
         Navigator.popUntil(context, (route) => route.isFirst);
 
-        Widget home = const LoadingScreen();
+        Widget home = const LoadingPage();
 
         if (state is NotInitializedState) {
           home = const ModifyProfilePage();

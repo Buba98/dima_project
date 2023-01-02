@@ -50,16 +50,25 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     on<ShareLocationEvent>(_onShareLocationEvent);
   }
 
-  _onShareLocationEvent(ShareLocationEvent event, Emitter<LocationState> emit) {
+  _onShareLocationEvent(
+      ShareLocationEvent event, Emitter<LocationState> emit) async {
     DocumentReference documentReference = FirebaseFirestore.instance
         .collection('live_location')
         .doc(event.offer.id);
 
     timer?.cancel();
+
+    LocationData locationData = await Location.instance.getLocation();
+
+    await documentReference.set({
+      'latitude': locationData.latitude,
+      'longitude': locationData.longitude,
+    });
+
     timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
       LocationData locationData = await Location.instance.getLocation();
 
-      documentReference.set({
+      await documentReference.set({
         'latitude': locationData.latitude,
         'longitude': locationData.longitude,
       });

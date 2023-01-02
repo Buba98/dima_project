@@ -8,7 +8,7 @@ import 'package:dima_project/constants.dart';
 import 'package:dima_project/firebase_options.dart';
 import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/home_screen.dart';
-import 'package:dima_project/loading/loading_screen.dart';
+import 'package:dima_project/loading_screen.dart';
 import 'package:dima_project/utils/scroll_behavior.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -56,7 +56,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Widget home = const LoadingScreen();
+  Widget home = const LoadingPage();
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) {
         return ScrollConfiguration(
           behavior: NoGlowScrollBehavior(),
-          child: child ?? const LoadingScreen(),
+          child: child ?? const LoadingPage(),
         );
       },
       title: 'Walk the dog',
@@ -100,10 +100,10 @@ class _MyAppState extends State<MyApp> {
       home: BlocListener<AuthenticationBloc, AuthenticationState>(
         listener: (BuildContext context, AuthenticationState state) {
           Navigator.popUntil(context, (route) => route.isFirst);
-          Widget home = const LoadingScreen();
+          Widget home = const LoadingPage();
 
           if (state is InitializationState) {
-            home = const LoadingScreen();
+            home = const LoadingPage();
           } else if (state is UnauthenticatedState) {
             home = const AuthenticationScreen();
           } else if (state is AuthenticatedState) {

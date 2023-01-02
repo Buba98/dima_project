@@ -2,6 +2,7 @@ import 'package:dima_project/bloc/order_bloc.dart';
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
+import 'package:dima_project/home/order/live_location_page.dart';
 import 'package:dima_project/home/profile/profile_picture.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/selection/selection.dart';
@@ -13,8 +14,6 @@ import 'package:dima_project/model/dog.dart';
 import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'live_location/live_location_page.dart';
 
 class OrderSummaryPage extends StatefulWidget {
   const OrderSummaryPage({

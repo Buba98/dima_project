@@ -1,4 +1,44 @@
+import 'package:dima_project/generated/l10n.dart';
 import 'package:flutter/material.dart';
+
+class LoadingPage extends StatelessWidget {
+  const LoadingPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: SizedBox(
+          width: 300,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Spacer(),
+              const Expanded(
+                flex: 2,
+                child: LoadingWidget(),
+              ),
+              Expanded(
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    S.of(context).loading,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 110,
+                      fontFamily: 'Pacifico',
+                    ),
+                  ),
+                ),
+              ),
+              const Spacer(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class LoadingWidget extends StatefulWidget {
   const LoadingWidget({super.key});
@@ -13,15 +53,14 @@ class _LoadingWidgetState extends State<LoadingWidget>
   late AnimationController controller;
   int counter = 0;
 
-  late List<Image> images = [];
+  late List<Image> images = [
+    for (int i = 0; i < 6; i++)
+      Image.asset('assets/animations/running_dog/$i.png')
+  ];
 
   @override
   void initState() {
     super.initState();
-
-    for (int i = 0; i < 6; i++) {
-      images.add(Image.asset('assets/animations/running_dog/$i.png'));
-    }
 
     controller =
         AnimationController(duration: const Duration(seconds: 1), vsync: this);
