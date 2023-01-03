@@ -46,9 +46,11 @@ class _SearchScreenState extends State<SearchScreen> {
 
     LatLng position = locationDataToLatLng(await location.getLocation());
 
-    setState(() {
-      this.position = position;
-    });
+    if (mounted) {
+      setState(() {
+        this.position = position;
+      });
+    }
   }
 
   onChangeActivity(int change) {
