@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dima_project/bloc/user/user_bloc.dart';
+import 'package:dima_project/constants.dart';
 import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/home/profile/profile_picture.dart';
 import 'package:dima_project/input/button.dart';
@@ -46,7 +47,9 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(
+          horizontal: spaceBetweenWidgets,
+        ),
         child: ListView(
           children: [
             LayoutBuilder(

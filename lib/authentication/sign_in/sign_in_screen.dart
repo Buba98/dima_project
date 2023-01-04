@@ -57,9 +57,10 @@ class SignInScreen extends StatelessWidget {
                             Text(
                               S.of(context).genericError,
                               style: TextStyle(
-                                  color: Theme.of(context).errorColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
+                                color: Theme.of(context).errorColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                             ),
                           const Spacer(),
                           TextInput.email(

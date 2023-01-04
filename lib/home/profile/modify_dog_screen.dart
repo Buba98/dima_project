@@ -1,4 +1,5 @@
 import 'package:dima_project/bloc/user/user_bloc.dart';
+import 'package:dima_project/constants.dart';
 import 'package:dima_project/generated/l10n.dart';
 import 'package:dima_project/input/button.dart';
 import 'package:dima_project/input/inline_selection.dart';
@@ -39,7 +40,9 @@ class _ModifyDogScreenState extends State<ModifyDogScreen> {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(
+          horizontal: spaceBetweenWidgets,
+        ),
         child: ListView(
           children: [
             Image.asset(
@@ -72,7 +75,9 @@ class _ModifyDogScreenState extends State<ModifyDogScreen> {
             ),
             if (widget.dog != null)
               Padding(
-                padding: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(
+                  bottom: spaceBetweenWidgets,
+                ),
                 child: Button(
                   onPressed: () {
                     context.read<UserBloc>().add(

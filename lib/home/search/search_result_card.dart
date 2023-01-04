@@ -168,73 +168,79 @@ class _SearchResultCardState extends State<SearchResultCard> {
               child: Container(
                 decoration: const BoxDecoration(color: Colors.transparent),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    isShowActivities
-                        ? Column(
-                            children: widget.offer.activities!
-                                .map<Widget>((Activity activity) {
-                              String? name;
-
-                              for (Map<String, String> a
-                                  in defaultActivities(context)) {
-                                if (a['value']! == activity.activity) {
-                                  name = a['name']!;
-                                  break;
-                                }
-                              }
-
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: widget.offer.activities!.last ==
-                                            activity
-                                        ? 0
-                                        : spaceBetweenWidgets / 2),
-                                child: Row(
-                                  children: [
-                                    const Text(
-                                      '\u2022',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: spaceBetweenWidgets,
-                                    ),
-                                    Text(
-                                      name ?? activity.activity,
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          )
-                        : Row(
-                            children: [
-                              const Icon(Icons.local_activity_outlined),
-                              const SizedBox(
-                                width: spaceBetweenWidgets / 2,
-                              ),
-                              Text(
-                                isShowActivities
-                                    ? S.of(context).hideActivities
-                                    : S.of(context).showActivities,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                            ],
+                    Icon(
+                      isShowActivities
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                    ),
+                    const SizedBox(
+                      width: spaceBetweenWidgets / 2,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          isShowActivities
+                              ? S.of(context).hideActivities
+                              : S.of(context).showActivities,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black54,
                           ),
+                        ),
+                        if (isShowActivities)
+                          const SizedBox(
+                            height: spaceBetweenWidgets / 2,
+                          ),
+                        if (isShowActivities)
+                          ...widget.offer.activities!
+                              .map<Widget>((Activity activity) {
+                            String? name;
+
+                            for (Map<String, String> a
+                                in defaultActivities(context)) {
+                              if (a['value']! == activity.activity) {
+                                name = a['name']!;
+                                break;
+                              }
+                            }
+
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      widget.offer.activities!.last == activity
+                                          ? 0
+                                          : spaceBetweenWidgets / 2),
+                              child: Row(
+                                children: [
+                                  const Text(
+                                    '\u2022',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: spaceBetweenWidgets / 2,
+                                  ),
+                                  Text(
+                                    name ?? activity.activity,
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                      ],
+                    ),
+                    const Spacer(),
                     Icon(isShowActivities
                         ? Icons.arrow_drop_up
                         : Icons.arrow_drop_down),

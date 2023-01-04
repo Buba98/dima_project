@@ -24,32 +24,16 @@ class ActivitiesPicker extends StatefulWidget {
 }
 
 class _ActivitiesPickerState extends State<ActivitiesPicker> {
-  late List<SelectionElement<String>> activities;
+  List<SelectionElement<String>>? activities;
   final TextEditingController otherOption = TextEditingController();
   bool error = false;
-
-  @override
-  void initState() {
-    activities = widget.activities ??
-        List.from(
-          defaultActivities(context).map(
-            (Map<String, String> e) => SelectionElement<String>(
-              name: e['name']!,
-              selected: false,
-              element: e['value']!,
-            ),
-          ),
-        );
-
-    super.initState();
-  }
 
   void onAddActivity() {
     if (otherOption.text.isEmpty) {
       return;
     }
 
-    for (SelectionElement activity in activities) {
+    for (SelectionElement activity in activities!) {
       if (activity.name == otherOption.text) {
         otherOption.clear();
         return;
@@ -58,7 +42,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
 
     setState(() {
       activities = [
-        ...activities,
+        ...activities!,
         SelectionElement<String>(
           name: otherOption.text,
           selected: true,
@@ -73,6 +57,17 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
 
   @override
   Widget build(BuildContext context) {
+    activities ??= widget.activities ??
+        List.from(
+          defaultActivities(context).map(
+            (Map<String, String> e) => SelectionElement<String>(
+              name: e['name']!,
+              selected: false,
+              element: e['value']!,
+            ),
+          ),
+        );
+
     return Column(
       children: [
         Expanded(
@@ -81,11 +76,11 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
               spacing: spaceBetweenWidgets,
               direction: Axis.horizontal,
               rows: isTablet() ? 4 : 2,
-              elements: activities,
+              elements: activities!,
               onChanged: (int change) {
                 setState(() {
                   error = false;
-                  activities[change].selected = !activities[change].selected;
+                  activities![change].selected = !activities![change].selected;
                 });
               },
             ),
@@ -111,7 +106,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
               child: Button(
                 primary: false,
                 onPressed: () {
-                  if (activities
+                  if (activities!
                       .every((element) => element.selected == false)) {
                     setState(() {
                       error = true;
@@ -119,7 +114,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
                     return;
                   }
 
-                  widget.onBack(activities);
+                  widget.onBack(activities!);
                 },
                 text: S.of(context).back,
               ),
@@ -130,7 +125,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
             Expanded(
               child: Button(
                 onPressed: () {
-                  if (activities
+                  if (activities!
                       .every((element) => element.selected == false)) {
                     setState(() {
                       error = true;
@@ -138,7 +133,7 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
                     return;
                   }
 
-                  widget.onNext(activities);
+                  widget.onNext(activities!);
                 },
                 text: S.of(context).next,
               ),
