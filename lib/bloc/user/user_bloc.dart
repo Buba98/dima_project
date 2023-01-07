@@ -182,7 +182,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     DocumentSnapshot<Map> dogDocument;
 
-    for (DocumentReference dogReference in event.userDocument['dogs'] ?? []) {
+    for (DocumentReference dogReference
+        in event.userDocument.data()!['dogs'] ?? []) {
       dogDocument = await FirebaseFirestore.instance
           .collection('dogs')
           .doc(dogReference.id)
