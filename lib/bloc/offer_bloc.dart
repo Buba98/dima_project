@@ -79,10 +79,6 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
       streamSubscription?.cancel();
       streamSubscription = FirebaseFirestore.instance
           .collection('offers')
-          .where(
-            'start_date',
-            isGreaterThan: Timestamp.now(),
-          )
           .orderBy('start_date')
           .snapshots()
           .listen((event) {
@@ -166,7 +162,8 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
 
   _onAddOfferEvent(AddOfferEvent event, Emitter<OfferState> emit) async {
     try {
-      Address address = await GeoCode().reverseGeocoding(
+      Address address =
+          await GeoCode(apiKey: "224889226817057361997x17190").reverseGeocoding(
         latitude: event.firestoreModel['position'][0],
         longitude: event.firestoreModel['position'][1],
       );
