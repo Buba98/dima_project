@@ -75,7 +75,6 @@ class _ActivitiesPickerState extends State<ActivitiesPicker> {
             child: Selection(
               spacing: spaceBetweenWidgets,
               direction: Axis.horizontal,
-              rows: isTablet() ? 4 : 2,
               elements: activities!,
               onChanged: (int change) {
                 setState(() {

@@ -51,7 +51,7 @@ class _HomeState extends State<_Home> {
   List<Widget> bodyList = [
     const SearchScreen(),
     const CreateOfferPage(),
-    const MessagingPage(),
+    const OrdersPage(),
     const SettingPage(),
   ];
   int currentIndex = 0;

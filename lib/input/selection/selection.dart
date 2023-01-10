@@ -1,6 +1,7 @@
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/input/selection/selection_element.dart';
 import 'package:dima_project/input/show_text.dart';
+import 'package:dima_project/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class Selection extends StatelessWidget {
@@ -10,7 +11,6 @@ class Selection extends StatelessWidget {
     this.onChanged,
     this.direction = Axis.horizontal,
     this.spacing = spaceBetweenWidgets,
-    this.rows = 2,
     this.title,
     this.errorTitle,
     this.error = false,
@@ -20,7 +20,6 @@ class Selection extends StatelessWidget {
   final Function(int)? onChanged;
   final Axis direction;
   final double spacing;
-  final int rows;
   final String? title;
   final bool error;
   final String? errorTitle;
@@ -50,7 +49,9 @@ class Selection extends StatelessWidget {
             children: elements.map(
               (element) {
                 return ShowText(
-                  wight: (constraints.maxWidth - spacing * (rows - 1)) / rows,
+                  wight: (constraints.maxWidth -
+                          spacing * ((isWide(constraints) ? 4 : 2) - 1)) /
+                      (isWide(constraints) ? 4 : 2),
                   onPressed: () {
                     if (onChanged == null) return;
                     onChanged!(elements.indexOf(element));
@@ -60,7 +61,7 @@ class Selection extends StatelessWidget {
                           ? Theme.of(context).errorColor
                           : Theme.of(context).primaryColor)
                       .withOpacity(element.selected ? .26 : .12),
-                  trailerIcon: element.icon,
+                  leadingIcon: element.icon,
                   text: element.name,
                 );
               },

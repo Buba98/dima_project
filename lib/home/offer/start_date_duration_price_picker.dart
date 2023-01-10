@@ -98,7 +98,8 @@ class _StartDateDurationPricePickerState
                 return;
               }
 
-              if (duration == null) {
+              if (duration == null ||
+                  duration!.compareTo(const Duration(seconds: 0)) < 0) {
                 setState(() {
                   durationError = true;
                 });

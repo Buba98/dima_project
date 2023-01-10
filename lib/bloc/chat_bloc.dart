@@ -25,8 +25,12 @@ class SendMessageEvent extends ChatEvent {
 
 class ChatState {
   final Chat chat;
+  final bool exists;
 
-  ChatState(this.chat);
+  ChatState(
+    this.chat, {
+    this.exists = true,
+  });
 }
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
@@ -68,6 +72,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   _onLoadChat(_LoadChat event, Emitter<ChatState> emit) {
     if (!event.event.exists) {
+      emit(ChatState(
+        Chat(
+          order: order,
+          messages: [],
+        ),
+        exists: false,
+      ));
       return;
     }
 

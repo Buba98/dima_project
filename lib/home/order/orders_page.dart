@@ -12,8 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../search/offer_summary_page.dart';
 
-class MessagingPage extends StatelessWidget {
-  const MessagingPage({Key? key}) : super(key: key);
+class OrdersPage extends StatelessWidget {
+  const OrdersPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,21 +21,19 @@ class MessagingPage extends StatelessWidget {
       appBar: KAppBar(
         text: S.of(context).orders,
       ),
-      body: isTablet()
-          ? const MessagingPageTablet()
-          : const _MessagingPagePhone(),
+      body: isTablet(context) ? const _OrdersPageTablet() : const _OrdersPagePhone(),
     );
   }
 }
 
-class MessagingPageTablet extends StatefulWidget {
-  const MessagingPageTablet({Key? key}) : super(key: key);
+class _OrdersPageTablet extends StatefulWidget {
+  const _OrdersPageTablet({Key? key}) : super(key: key);
 
   @override
-  State<MessagingPageTablet> createState() => _MessagingPageTabletState();
+  State<_OrdersPageTablet> createState() => _OrdersPageTabletState();
 }
 
-class _MessagingPageTabletState extends State<MessagingPageTablet> {
+class _OrdersPageTabletState extends State<_OrdersPageTablet> {
   Widget? focus;
 
   @override
@@ -85,18 +83,23 @@ class _MessagingPageTabletState extends State<MessagingPageTablet> {
                       ),
                     ),
                     const Divider(),
-                    ...state.offers
-                        .where((element) =>
-                            element.user!.uid ==
-                            FirebaseAuth.instance.currentUser!.uid)
-                        .map<MyOfferCard>(
-                          (e) => MyOfferCard(
-                            offer: e,
-                            onTap: () => setState(
-                              () => focus = OfferSummaryWidget(offer: e),
-                            ),
-                          ),
-                        )
+                    Expanded(
+                      child: ListView(
+                        children: state.offers
+                            .where((element) =>
+                                element.user!.uid ==
+                                FirebaseAuth.instance.currentUser!.uid)
+                            .map<MyOfferCard>(
+                              (e) => MyOfferCard(
+                                offer: e,
+                                onTap: () => setState(
+                                  () => focus = OfferSummaryWidget(offer: e),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
                   ],
                 );
               },
@@ -115,8 +118,8 @@ class _MessagingPageTabletState extends State<MessagingPageTablet> {
   }
 }
 
-class _MessagingPagePhone extends StatelessWidget {
-  const _MessagingPagePhone({Key? key}) : super(key: key);
+class _OrdersPagePhone extends StatelessWidget {
+  const _OrdersPagePhone({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -175,23 +178,28 @@ class _MessagingPagePhone extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              ...state.offers
-                  .where((element) =>
-                      element.user!.uid ==
-                      FirebaseAuth.instance.currentUser!.uid)
-                  .map<MyOfferCard>(
-                    (e) => MyOfferCard(
-                      offer: e,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => OfferSummaryPage(
-                            offer: e,
+              Expanded(
+                child: ListView(
+                  children: state.offers
+                      .where((element) =>
+                          element.user!.uid ==
+                          FirebaseAuth.instance.currentUser!.uid)
+                      .map<MyOfferCard>(
+                        (e) => MyOfferCard(
+                          offer: e,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => OfferSummaryPage(
+                                offer: e,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  )
+                      )
+                      .toList(),
+                ),
+              ),
             ],
           );
         },

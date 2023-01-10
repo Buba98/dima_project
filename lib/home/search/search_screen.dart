@@ -93,6 +93,10 @@ class _SearchScreenState extends State<SearchScreen> {
     return BlocBuilder<OfferBloc, OfferState>(
       builder: (BuildContext context, OfferState state) {
         List<Offer> offers = state.offers.where((offer) {
+          if (offer.startDate!.isBefore(DateTime.now())) {
+            return false;
+          }
+
           for (String activity in activities!
               .where((SelectionElement<String> selectionElement) =>
                   selectionElement.selected)
@@ -126,7 +130,7 @@ class _SearchScreenState extends State<SearchScreen> {
           return true;
         }).toList();
 
-        if (isTablet()) {
+        if (isTablet(context)) {
           return SearchTabletScreen(
             position: position,
             activities: activities!,

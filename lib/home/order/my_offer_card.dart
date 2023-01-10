@@ -27,6 +27,14 @@ class _MyOfferCardState extends State<MyOfferCard> {
       elevation: 8,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(spaceBetweenWidgets / 2),
+        side: widget.offer.startDate!
+                .add(widget.offer.duration!)
+                .isBefore(DateTime.now())
+            ? BorderSide(
+                color: Theme.of(context).errorColor,
+                width: 2,
+              )
+            : BorderSide.none,
       ),
       child: Padding(
         padding: const EdgeInsets.all(spaceBetweenWidgets / 2),
@@ -171,7 +179,7 @@ class _MyOfferCardState extends State<MyOfferCard> {
                             String? name;
 
                             for (Map<String, String> a
-                            in defaultActivities(context)) {
+                                in defaultActivities(context)) {
                               if (a['value']! == activity.activity) {
                                 name = a['name']!;
                                 break;
@@ -181,9 +189,9 @@ class _MyOfferCardState extends State<MyOfferCard> {
                             return Padding(
                               padding: EdgeInsets.only(
                                   bottom:
-                                  widget.offer.activities!.last == activity
-                                      ? 0
-                                      : spaceBetweenWidgets / 2),
+                                      widget.offer.activities!.last == activity
+                                          ? 0
+                                          : spaceBetweenWidgets / 2),
                               child: Row(
                                 children: [
                                   const Text(

@@ -47,13 +47,10 @@ String printDuration(Duration duration) =>
 String printTime(DateTime dateTime) =>
     '${dateTime.hour > 9 ? dateTime.hour : '0${dateTime.hour}'} : ${dateTime.minute > 9 ? dateTime.minute : '0${dateTime.minute}'}';
 
-bool isTablet() =>
-    WidgetsBinding.instance.window.physicalSize.width /
-        WidgetsBinding.instance.window.devicePixelRatio >
-    600;
+bool isTablet(BuildContext context) =>
+    MediaQuery.of(context).size.shortestSide > 600;
 
-bool isWide(BoxConstraints constraints) =>
-    constraints.maxWidth > 600;
+bool isWide(BoxConstraints constraints) => constraints.maxWidth > 600;
 
 LatLng locationDataToLatLng(LocationData locationData) =>
     LatLng(locationData.latitude!, locationData.longitude!);

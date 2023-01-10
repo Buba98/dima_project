@@ -69,7 +69,16 @@ class _ChatPageState extends State<ChatPage> {
       body: BlocBuilder<ChatBloc, ChatState>(
         bloc: bloc,
         builder: (BuildContext context, ChatState state) {
-          WidgetsBinding.instance.addPostFrameCallback((_) => _scrollDown());
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (state.exists) {
+              _scrollDown();
+            } else {
+              while (!(ModalRoute.of(context)?.isCurrent ?? false)) {
+                Navigator.pop(context);
+              }
+              Navigator.pop(context);
+            }
+          });
           return Padding(
             padding: const EdgeInsets.all(spaceBetweenWidgets),
             child: Column(

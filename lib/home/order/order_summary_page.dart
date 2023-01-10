@@ -34,7 +34,6 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
 
   void deleteOrder() {
     context.read<OrderBloc>().add(DeleteOrderEvent(order: widget.order));
-    Navigator.pop(context);
   }
 
   @override
@@ -43,7 +42,7 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
       appBar: KAppBar(
         text: S.of(context).orderSummary,
       ),
-      body: isTablet()
+      body: isTablet(context)
           ? _OrderSummaryTablet(
               order: widget.order,
               isClientMe: widget.isClientMe,
@@ -72,6 +71,7 @@ class _OrderSummaryTablet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: spaceBetweenWidgets,
@@ -173,7 +173,6 @@ class _OrderSummaryTablet extends StatelessWidget {
               );
             }).toList(),
             title: S.of(context).activities,
-            rows: 3,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,
@@ -181,10 +180,13 @@ class _OrderSummaryTablet extends StatelessWidget {
           Selection(
             elements: [
               for (Dog dog in order.dogs)
-                SelectionElement(name: dog.name!, selected: true)
+                SelectionElement(
+                  name: dog.name!,
+                  selected: true,
+                  icon: dog.sex! ? Icons.male : Icons.female,
+                )
             ],
             title: S.of(context).selectedDogs,
-            rows: 3,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,
@@ -200,7 +202,7 @@ class _OrderSummaryTablet extends StatelessWidget {
                 ),
               ),
               text: S.of(context).viewLiveLocation,
-              attention: true,
+              primary: false,
             ),
             const SizedBox(
               height: spaceBetweenWidgets,
@@ -323,7 +325,11 @@ class _OrderSummaryPhone extends StatelessWidget {
           Selection(
             elements: [
               for (Dog dog in order.dogs)
-                SelectionElement(name: dog.name!, selected: true)
+                SelectionElement(
+                  name: dog.name!,
+                  selected: true,
+                  icon: dog.sex! ? Icons.male : Icons.female,
+                )
             ],
             title: S.of(context).selectedDogs,
           ),
@@ -341,7 +347,7 @@ class _OrderSummaryPhone extends StatelessWidget {
                 ),
               ),
               text: S.of(context).viewLiveLocation,
-              attention: true,
+              primary: false,
             ),
             const SizedBox(
               height: spaceBetweenWidgets,

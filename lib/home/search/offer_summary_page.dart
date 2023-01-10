@@ -67,6 +67,7 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
         .map(
           (e) => SelectionElement<Dog>(
             name: e.name!,
+            icon: e.sex! ? Icons.male : Icons.female,
             selected: false,
             element: e,
           ),
@@ -266,38 +267,41 @@ class _OfferSummaryTablet extends StatelessWidget {
               );
             }).toList(),
             title: S.of(context).activities,
-            rows: 3,
           ),
           const SizedBox(
             height: spaceBetweenWidgets,
           ),
+          if (!isMyOffer) ...[
+            Selection(
+              elements: dogs,
+              onChanged: onSelectDog,
+              title: S.of(context).selectDogs,
+              error: error,
+              errorTitle: S.of(context).selectAtLeastADog,
+            ),
+            const SizedBox(
+              height: spaceBetweenWidgets,
+            ),
+          ],
           Row(
             children: [
-              Expanded(
-                child: isMyOffer
-                    ? Button(
-                        disabled: DateTime.now().isBefore(offer.startDate!) ||
-                                DateTime.now().isAfter(
-                                    offer.startDate!.add(offer.duration!))
-                            ? S.of(context).cantShareLocationYet
-                            : null,
-                        onPressed: shareLiveLocation,
-                        text: S.of(context).shareLiveLocation,
-                        attention: true,
-                        primary: false,
-                      )
-                    : Selection(
-                        elements: dogs,
-                        onChanged: onSelectDog,
-                        title: S.of(context).selectDogs,
-                        error: error,
-                        errorTitle: S.of(context).selectAtLeastADog,
-                        rows: 3,
-                      ),
-              ),
-              const SizedBox(
-                width: spaceBetweenWidgets,
-              ),
+              if (isMyOffer) ...[
+                Expanded(
+                  child: Button(
+                    disabled: DateTime.now().isBefore(offer.startDate!) ||
+                            DateTime.now()
+                                .isAfter(offer.startDate!.add(offer.duration!))
+                        ? S.of(context).cantShareLocationYet
+                        : null,
+                    onPressed: shareLiveLocation,
+                    text: S.of(context).shareLiveLocation,
+                    primary: false,
+                  ),
+                ),
+                const SizedBox(
+                  width: spaceBetweenWidgets,
+                ),
+              ],
               Expanded(
                 child: Button(
                   onPressed: onComplete,
@@ -432,7 +436,6 @@ class _OfferSummaryPhone extends StatelessWidget {
                       : null,
                   onPressed: shareLiveLocation,
                   text: S.of(context).shareLiveLocation,
-                  attention: true,
                   primary: false,
                 )
               : Selection(
@@ -441,7 +444,6 @@ class _OfferSummaryPhone extends StatelessWidget {
                   title: S.of(context).selectDogs,
                   error: error,
                   errorTitle: S.of(context).selectAtLeastADog,
-                  rows: 3,
                 ),
           const SizedBox(
             height: spaceBetweenWidgets,

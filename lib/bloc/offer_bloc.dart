@@ -113,6 +113,15 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
   }
 
   _onOrderEvent(OrderEvent event, Emitter<OfferState> emit) async {
+    if (!(await FirebaseFirestore.instance
+            .collection('offers')
+            .doc(event.offer.id)
+            .get())
+        .exists) {
+      event.completer?.complete();
+      return;
+    }
+
     QuerySnapshot<Map> querySnapshot = await FirebaseFirestore.instance
         .collection('orders')
         .where(
@@ -188,15 +197,6 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
 
     for (QueryDocumentSnapshot<Map> offerDocument in event.querySnapshot.docs) {
       if (!offerDocument.exists) {
-        continue;
-      }
-      if (DateTime.now()
-          .isAfter((offerDocument['end_date'] as Timestamp).toDate())) {
-        add(DeleteOfferEvent(
-            offer: Offer(
-          id: offerDocument.id,
-          fetched: false,
-        )));
         continue;
       }
 
