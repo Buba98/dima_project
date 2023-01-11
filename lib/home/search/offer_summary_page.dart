@@ -43,11 +43,11 @@ class OfferSummaryWidget extends StatefulWidget {
   const OfferSummaryWidget({
     super.key,
     required this.offer,
-    this.onComplete,
+    this.onPop,
   });
 
   final Offer offer;
-  final Function()? onComplete;
+  final Function()? onPop;
 
   @override
   State<OfferSummaryWidget> createState() => _OfferSummaryWidgetState();
@@ -86,7 +86,7 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
       return isWide(constraints)
           ? _OfferSummaryTablet(
               offer: widget.offer,
-              onComplete: widget.onComplete ?? onComplete,
+              onComplete: onComplete,
               onSelectDog: onSelectDog,
               dogs: dogs,
               error: error,
@@ -95,7 +95,7 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
             )
           : _OfferSummaryPhone(
               offer: widget.offer,
-              onComplete: widget.onComplete ?? onComplete,
+              onComplete: onComplete,
               onSelectDog: onSelectDog,
               dogs: dogs,
               error: error,
@@ -107,7 +107,11 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
 
   void shareLiveLocation() {
     context.read<LocationBloc>().add(ShareLocationEvent(offer: widget.offer));
-    Navigator.pop(context);
+    if (widget.onPop != null) {
+      widget.onPop!();
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   void onComplete() {
@@ -117,8 +121,11 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
       context
           .read<OfferBloc>()
           .add(DeleteOfferEvent(offer: widget.offer, completer: completer));
-      Navigator.pop(context);
-
+      if (widget.onPop != null) {
+        widget.onPop!();
+      } else {
+        Navigator.pop(context);
+      }
       return;
     }
 
@@ -140,7 +147,11 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
             completer: completer,
           ),
         );
-    Navigator.pop(context);
+    if (widget.onPop != null) {
+      widget.onPop!();
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   void onSelectDog(int index) {

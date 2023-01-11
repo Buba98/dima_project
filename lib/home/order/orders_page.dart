@@ -97,7 +97,7 @@ class _OrdersPageTabletState extends State<_OrdersPageTablet> {
                                 onTap: () => setState(
                                   () => focus = OfferSummaryWidget(
                                     offer: e,
-                                    onComplete: () =>
+                                    onPop: () =>
                                         setState(() => focus = null),
                                   ),
                                 ),
