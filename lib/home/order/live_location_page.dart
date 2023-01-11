@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dima_project/constants.dart';
 import 'package:dima_project/custom_widgets/app_bar.dart';
 import 'package:dima_project/generated/l10n.dart';
@@ -23,12 +25,13 @@ class _LiveLocationPageState extends State<LiveLocationPage> {
   final MapController mapController = MapController();
   LatLng? location;
   late final LiveLocationBloc liveLocationBloc;
+  StreamSubscription? streamSubscription;
 
   @override
   void initState() {
     liveLocationBloc = LiveLocationBloc(widget.order.offer);
     super.initState();
-    liveLocationBloc.state.latLng.listen((LatLng? event) {
+    streamSubscription = liveLocationBloc.state.latLng.listen((LatLng? event) {
       setState(() {
         location = event;
       });
@@ -36,6 +39,12 @@ class _LiveLocationPageState extends State<LiveLocationPage> {
         mapController.move(event, mapController.zoom);
       }
     });
+  }
+
+  @override
+  void dispose() {
+    streamSubscription?.cancel();
+    super.dispose();
   }
 
   @override
