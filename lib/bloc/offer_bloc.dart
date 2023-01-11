@@ -125,6 +125,12 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
     QuerySnapshot<Map> querySnapshot = await FirebaseFirestore.instance
         .collection('orders')
         .where(
+          'offer',
+          isEqualTo: FirebaseFirestore.instance
+              .collection('offers')
+              .doc(event.offer.id),
+        )
+        .where(
           'client',
           isEqualTo: FirebaseFirestore.instance
               .collection('users')

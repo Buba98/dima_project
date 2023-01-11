@@ -28,7 +28,6 @@ Future<void> main() async {
         BlocProvider(
           lazy: false,
           create: (BuildContext context) => AuthenticationBloc(),
-          child: const MyApp(),
         ),
         BlocProvider(
           create: (BuildContext context) => user_bloc.UserBloc(),
