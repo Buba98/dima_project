@@ -43,9 +43,11 @@ class OfferSummaryWidget extends StatefulWidget {
   const OfferSummaryWidget({
     super.key,
     required this.offer,
+    this.onComplete,
   });
 
   final Offer offer;
+  final Function()? onComplete;
 
   @override
   State<OfferSummaryWidget> createState() => _OfferSummaryWidgetState();
@@ -84,7 +86,7 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
       return isWide(constraints)
           ? _OfferSummaryTablet(
               offer: widget.offer,
-              onComplete: onComplete,
+              onComplete: widget.onComplete ?? onComplete,
               onSelectDog: onSelectDog,
               dogs: dogs,
               error: error,
@@ -93,7 +95,7 @@ class _OfferSummaryWidgetState extends State<OfferSummaryWidget> {
             )
           : _OfferSummaryPhone(
               offer: widget.offer,
-              onComplete: onComplete,
+              onComplete: widget.onComplete ?? onComplete,
               onSelectDog: onSelectDog,
               dogs: dogs,
               error: error,

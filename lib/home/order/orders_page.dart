@@ -21,7 +21,9 @@ class OrdersPage extends StatelessWidget {
       appBar: KAppBar(
         text: S.of(context).orders,
       ),
-      body: isTablet(context) ? const _OrdersPageTablet() : const _OrdersPagePhone(),
+      body: isTablet(context)
+          ? const _OrdersPageTablet()
+          : const _OrdersPagePhone(),
     );
   }
 }
@@ -93,7 +95,11 @@ class _OrdersPageTabletState extends State<_OrdersPageTablet> {
                               (e) => MyOfferCard(
                                 offer: e,
                                 onTap: () => setState(
-                                  () => focus = OfferSummaryWidget(offer: e),
+                                  () => focus = OfferSummaryWidget(
+                                    offer: e,
+                                    onComplete: () =>
+                                        setState(() => focus = null),
+                                  ),
                                 ),
                               ),
                             )
