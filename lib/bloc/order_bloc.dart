@@ -107,11 +107,18 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       return;
     }
 
+
+    Map? userData = userDocument.data();
+
+    if (userData == null) {
+      return;
+    }
+
     InternalUser user = InternalUser(
       uid: userDocument.id,
       name: userDocument['name'],
       bio: userDocument['bio'],
-      dogs: ((userDocument['dogs'] ?? []) as List)
+      dogs: ((userData['dogs'] ?? []) as List)
           .map((e) => Dog(uid: e.id, fetched: false))
           .toList(),
       fetched: true,
