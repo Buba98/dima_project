@@ -102,7 +102,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     DocumentReference documentReference =
         FirebaseFirestore.instance.collection('dogs').doc(event.uid);
 
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({

@@ -212,11 +212,17 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
         continue;
       }
 
+      Map? userData = userDocument.data();
+
+      if (userData == null) {
+        continue;
+      }
+
       InternalUser user = InternalUser(
         uid: userDocument.id,
         name: userDocument['name'],
         bio: userDocument['bio'],
-        dogs: ((userDocument['dogs'] ?? []) as List)
+        dogs: ((userData['dogs'] ?? []) as List)
             .map((e) => Dog(uid: e.id, fetched: false))
             .toList(),
         fetched: true,
